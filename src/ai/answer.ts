@@ -1,6 +1,6 @@
 import type { Chunk } from "@/knowledge/chunks";
 import { chunkById } from "@/knowledge/chunks";
-import { unknowns } from "@/knowledge/faq";
+import { faqs, unknowns } from "@/knowledge/faq";
 import { person } from "@/knowledge/profile";
 import { flagship, projectById, type Project } from "@/knowledge/projects";
 import {
@@ -21,6 +21,7 @@ import {
   uniqueChips,
 } from "./compose";
 import { findEntities, type Entity } from "./entities";
+import { correct } from "./spell";
 import { search, type Scored } from "./retrieve";
 import {
   aspectKinds,
@@ -37,7 +38,7 @@ import {
   offTopics,
   wantsLinks,
 } from "./rules";
-import { hasPhrase, normalize, terms } from "./text";
+import { hasPhrase, normalize, stem, terms } from "./text";
 import { emptyContext, type Action, type Answer, type Block, type Context, type Explanation, type Intent } from "./types";
 
 // The whole assistant: a question and what was said so far go in; an answer and
@@ -71,7 +72,7 @@ interface Draft {
 
 export function ask(question: string, previous: Context = emptyContext()): Result {
   const raw = question.slice(0, MAX_QUESTION);
-  const norm = normalize(raw);
+  const norm = correct(normalize(raw));
   const entities = findEntities(norm);
   const draft = decide(raw, norm, entities, previous);
   return finish(draft, norm, entities, previous);
@@ -133,6 +134,13 @@ function decide(raw: string, norm: string, entities: Entity[], ctx: Context): Dr
 
   if (isMore(norm)) return more(ctx);
 
+  // A question that is, nearly word for word, one of the prepared ones gets the prepared answer,
+  // unless it names a project, which a project's own answer would serve better.
+  const prepared = closestPrepared(norm);
+  if (prepared && prepared.score >= (entities.some((e) => e.kind === "project") ? 0.9 : 0.7)) {
+    return { ...faq(`faq:${prepared.id}`, "is one of the questions Uzair prepared an answer for"), coverage: prepared.score };
+  }
+
   // Which topic is the visitor on? A named one, or the last one if they said "it".
   const named = entities.filter((e) => e.kind === "project");
   const contentTerms = terms(norm);
@@ -172,7 +180,7 @@ function decide(raw: string, norm: string, entities: Entity[], ctx: Context): Dr
 
   const org = entities.find((e) => e.kind === "org");
   if (org) {
-    const d = aboutOrg(org);
+    const d = aboutOrg(org, norm);
     if (d) return d;
   }
 
@@ -188,7 +196,13 @@ function decide(raw: string, norm: string, entities: Entity[], ctx: Context): Dr
     };
   }
 
-  const hits = search(norm, { boostTopics: followsOn && ctx.topic ? [ctx.topic] : undefined, limit: 6 });
+  // "Cloud experience" is a question about cloud: the word "experience" says what kind of thing is wanted, not what.
+  const withoutGeneric = norm
+    .split(" ")
+    .filter((t) => !GENERIC_ASK.has(stem(t)))
+    .join(" ");
+  const searched = terms(withoutGeneric).length > 0 ? withoutGeneric : norm;
+  const hits = search(searched, { boostTopics: followsOn && ctx.topic ? [ctx.topic] : undefined, limit: 6 });
   const top = hits[0];
   // The more words a question has, the more of them the best passage must cover.
   const needed = contentTerms.length >= 3 ? MIN_COVERAGE_LONG : contentTerms.length === 2 ? MIN_COVERAGE_TWO : MIN_COVERAGE;
@@ -197,14 +211,35 @@ function decide(raw: string, norm: string, entities: Entity[], ctx: Context): Dr
     return unsure(hits);
   }
 
+  // "What projects has he built?" lists them; "what did he build for fun?" is a question about which.
+  const topicTerms = contentTerms.filter((t) => !LIST_WORDS.has(t));
+  if (isProjectsList(norm) && topicTerms.length === 0) return projectsList();
   // A curated answer wins when the question is close to one of its questions.
   if (top.chunk.kind === "faq" && top.coverage >= 0.55) {
     return { ...faq(top.chunk.id, "matches a prepared answer"), hits, coverage: top.coverage };
   }
-  if (isProjectsList(norm) && top.chunk.topic !== "research" && top.chunk.topic !== "education") return projectsList();
 
   return fromHits(norm, hits);
 }
+
+const PREPARED = faqs.flatMap((f) => f.questions.map((q) => ({ id: f.id, tokens: new Set(normalize(q).split(" ").filter(Boolean)) })));
+
+/** The prepared question that shares the largest part of its words with this one. */
+function closestPrepared(norm: string): { id: string; score: number } | null {
+  const words = new Set(norm.split(" ").filter(Boolean));
+  if (words.size < 3) return null;
+  let best: { id: string; score: number } | null = null;
+  for (const p of PREPARED) {
+    let shared = 0;
+    for (const w of words) if (p.tokens.has(w)) shared += 1;
+    const score = shared / (words.size + p.tokens.size - shared);
+    if (!best || score > best.score) best = { id: p.id, score };
+  }
+  return best;
+}
+
+/** Words that say "list them" without saying which, so they do not count as a topic. */
+const LIST_WORDS = new Set(["project", "build", "built", "made", "make", "create", "app", "portfolio", "work", "repo", "list", "show", "see", "name", "all", "everyth", "applic", "done", "have", "has"].map(stem));
 
 function faq(id: string, reason: string): Draft {
   const c = chunkById.get(id);
@@ -214,7 +249,12 @@ function faq(id: string, reason: string): Draft {
     grounded: true,
     blocks: [para(chunkText(c))],
     used: c ? [c] : [],
-    actions: c?.app && !c.app.startsWith("project:") ? [{ kind: "open", label: `Open ${c.app === "settings" ? "Settings" : c.app[0].toUpperCase() + c.app.slice(1)}`, target: c.app }] : undefined,
+    actions:
+      c?.app === "contact"
+        ? contactActions()
+        : c?.app && !c.app.startsWith("project:")
+          ? [{ kind: "open", label: `Open ${c.app === "settings" ? "Settings" : c.app[0].toUpperCase() + c.app.slice(1)}`, target: c.app }]
+          : undefined,
     topic: c?.topic ?? null,
   };
 }
@@ -226,10 +266,16 @@ function projectsList(): Draft {
     grounded: true,
     blocks: projectsListBlocks(),
     used: findChunks(flagship.map((p) => `${p.id}:overview`)),
-    actions: [{ kind: "open", label: "Open Projects", target: "projects" }],
+    actions: [{ kind: "open", label: "Open Projects", target: "projects" }, ...flagship.slice(0, 3).map((p) => ({ kind: "open" as const, label: `Open ${p.name}`, target: `project:${p.id}` }))],
     topic: "projects",
   };
 }
+
+/** Words that say "tell me what he has" without saying about what, so they do not count as a topic. */
+const GENERIC_ASK = new Set(["experience", "know", "knowledge", "skill", "expertise", "background", "proficient"].map(stem));
+
+/** Asked about the time before university, or before a university already named. */
+const asksBefore = (norm: string): boolean => /\b(before|previous|previously|earlier|prior|used to)\b/.test(norm);
 
 function compare(ps: Project[]): Draft {
   const list = ps.slice(0, 3);
@@ -293,22 +339,54 @@ function aboutProject(p: Project, norm: string, fromContext: boolean): Draft {
     ];
     reason += ", asks for a link";
   } else {
-    if (overview) used.push(overview);
-    const facts = p.facts.slice(0, 3);
-    for (let i = 0; i < facts.length; i++) {
-      const c = chunkById.get(`${p.id}:fact:${i}`);
-      if (c) used.push(c);
+    const specific = specificHits(p, norm);
+    if (specific.length > 0) {
+      // A question about something particular in the project: say that, not the whole overview.
+      used.push(...specific.map((h) => h.chunk));
+      blocks = specific.length === 1 ? [para(specific[0].chunk.text)] : [{ type: "list", items: specific.map((h) => h.chunk.text) }];
+      reason += ", asks about something particular in it";
+    } else {
+      if (overview) used.push(overview);
+      const facts = p.facts.slice(0, 3);
+      for (let i = 0; i < facts.length; i++) {
+        const c = chunkById.get(`${p.id}:fact:${i}`);
+        if (c) used.push(c);
+      }
+      blocks = [para(`${p.name}: ${p.tagline} ${p.pitch}`), { type: "list", items: facts }];
     }
-    blocks = [para(`${p.name}: ${p.tagline} ${p.pitch}`), { type: "list", items: facts }];
   }
   const note = asOfNote(used);
   if (note) blocks.push(note);
   return { intent: "project", reason, grounded: true, blocks, used, actions, topic: p.id };
 }
 
-function aboutOrg(org: Entity): Draft | null {
+/**
+ * What, inside one project, the question is really about. The project's own
+ * name is taken out of the question first, since it matches every passage of
+ * the project equally; what is left must be found well in the project's facts
+ * and decisions, or the whole overview is the better answer.
+ */
+function specificHits(p: Project, norm: string): Scored[] {
+  const own = new Set(normalize([p.name, ...p.aliases].join(" ")).split(" "));
+  const rest = norm
+    .split(" ")
+    .filter((t) => t && !own.has(t))
+    .join(" ");
+  if (terms(rest).filter((t) => !LIST_WORDS.has(t)).length === 0) return [];
+  const hits = search(rest, { onlyTopics: [p.id], limit: 4 }).filter((h) => h.chunk.kind !== "stack");
+  const top = hits[0];
+  if (!top || top.coverage < 0.5 || top.score < MIN_SCORE) return [];
+  return hits.filter((h, i) => i === 0 || (h.score >= top.score * 0.7 && h.coverage >= 0.5)).slice(0, 2);
+}
+
+function schoolDraft(): Draft {
+  return { intent: "education", reason: "asks about the time before university", grounded: true, blocks: [para(chunkText(chunkById.get("education:school")))], used: findChunks(["education:school"]), actions: [{ kind: "open", label: "Open Resume", target: "resume" }], topic: "education" };
+}
+
+function aboutOrg(org: Entity, norm: string): Draft | null {
   switch (org.id) {
     case "bits":
+      if (asksBefore(norm)) return schoolDraft();
       return { intent: "education", reason: "names the university", grounded: true, blocks: educationBlocks(), used: findChunks(["education:university", "education:coursework"]), actions: [{ kind: "open", label: "Open Resume", target: "resume" }], topic: "education" };
     case "amaani":
       return { intent: "experience", reason: "names his internship", grounded: true, blocks: experienceBlocks(), used: findChunks(["experience:amaani"]), actions: [{ kind: "open", label: "Open Resume", target: "resume" }], topic: "experience" };
@@ -352,6 +430,7 @@ function fromHits(norm: string, hits: Scored[]): Draft {
       return { ...base, intent: "retrieval", reason: "about the person", blocks: [para(chunkText(c))], used: [c], actions: [{ kind: "open", label: "Open About", target: "about" }], topic: "person" };
     }
     case "education":
+      if (asksBefore(norm) && hits.some((h) => h.chunk.id === "education:school")) return { ...base, ...schoolDraft() };
       if (c.id === "education:university" || c.id === "education:coursework") {
         return { ...base, intent: "education", reason: "about his studies", blocks: educationBlocks(), used: findChunks(["education:university", "education:coursework"]), actions: [{ kind: "open", label: "Open Resume", target: "resume" }], topic: "education" };
       }
@@ -392,7 +471,9 @@ function fromHits(norm: string, hits: Scored[]): Draft {
       if (distinct.length <= 1) {
         const p = projectById(c.topic);
         if (!p) return { ...base, intent: "retrieval", reason: "best matching passage", blocks: [para(chunkText(c))], used: [c], topic: c.topic };
-        return { ...aboutProject(p, norm, false), hits, coverage: top.coverage, reason: `best matching passage is about ${p.name}` };
+        // The project was not named, so "testing" in the question is not a request for its tests:
+        // answer with the passage that matched, and offer the project.
+        return { ...base, intent: "retrieval", reason: `best matching passage is about ${p.name}`, blocks: [para(c.kind === "overview" ? `${p.name}: ${p.tagline} ${p.pitch}` : chunkText(c))], used: [c], actions: projectActions(p), topic: p.id };
       }
       const names = distinct.map((d) => projectById(d.chunk.topic)?.name ?? d.chunk.title);
       return {
