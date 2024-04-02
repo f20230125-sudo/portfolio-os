@@ -112,7 +112,7 @@ export const projects: Project[] = [
       "Rules read requests with no key. Measured on sentences written before tuning, 36 of 50 read correctly, then 24 of 30, then 20 of 25: 76% of 105 on first reading.",
       "A model is optional, through the visitor's own free key, called from the browser. The model may choose a layout but never a number.",
       "Voice input uses the browser's own speech recognition.",
-      "369 unit tests and 59 end-to-end tests, with axe scans in both themes, as of 7 October 2026.",
+      "370 unit tests and 59 end-to-end tests, with axe scans in both themes, as of 7 October 2026.",
     ],
     decisions: [
       "One schema, four uses: each component's Zod schema checks a plan, describes the component to a model, documents it on the gallery page and types the React component.",

@@ -104,7 +104,7 @@ export const faqs: Faq[] = [
     id: "testing-habit",
     questions: ["Does he write tests?", "How does he test his code?", "Does he care about testing?", "Does he use CI?"],
     answer:
-      "Yes, and it shows in the numbers. As of 7 October 2026: Agent Desk has 469 pytest tests, Flowboard 319 unit and 37 end-to-end tests, Sayso 369 unit and 59 end-to-end tests, Hindsight 289 unit and 98 end-to-end tests. The front-end projects add axe accessibility scans in light and dark themes, and CI runs everything on each push, including a Docker build and a Kubernetes manifest applied to a test cluster.",
+      "Yes, and it shows in the numbers. As of 7 October 2026: Agent Desk has 469 pytest tests, Flowboard 319 unit and 37 end-to-end tests, Sayso 370 unit and 59 end-to-end tests, Hindsight 289 unit and 98 end-to-end tests. The front-end projects add axe accessibility scans in light and dark themes, and CI runs everything on each push, including a Docker build and a Kubernetes manifest applied to a test cluster.",
     app: "projects",
     sources: ["cv", "readme"],
   },
