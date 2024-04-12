@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   title: { default: TITLE, template: `%s · ${person.short} Khan` },
   description: DESCRIPTION,
   authors: [{ name: person.name, url: person.github }],
+  alternates: { canonical: "/" },
   openGraph: { title: TITLE, description: DESCRIPTION, type: "website", siteName: person.name },
   twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
 };

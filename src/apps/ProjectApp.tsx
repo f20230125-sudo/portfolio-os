@@ -63,8 +63,9 @@ function Media({ p }: { p: Project }) {
   const item = items[Math.min(i, items.length - 1)];
   return (
     <div>
-      <div className="overflow-hidden rounded-lg border border-line bg-surface-2">
-        <img key={item.src} src={item.src} alt={item.alt} className="rise-in block max-h-[340px] w-full object-contain" loading="lazy" decoding="async" />
+      {/* The box has its shape before the picture arrives, so nothing below it jumps when it does. */}
+      <div className="aspect-[16/10] max-h-[380px] w-full overflow-hidden rounded-lg border border-line bg-surface-2">
+        <img key={item.src} src={item.src} alt={item.alt} className="rise-in block h-full w-full object-contain" decoding="async" />
       </div>
       {items.length > 1 && (
         <div className="mt-2 flex gap-2" role="group" aria-label="Pictures">

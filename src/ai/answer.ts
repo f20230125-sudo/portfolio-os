@@ -8,6 +8,7 @@ import {
   bioBlocks,
   chunkText,
   contactActions,
+  cvActions,
   educationBlocks,
   experienceBlocks,
   findChunks,
@@ -27,6 +28,7 @@ import {
   aspectKinds,
   hasAnaphora,
   isAboutAssistant,
+  isCvRequest,
   isGoodbye,
   isGreeting,
   isHowSiteBuilt,
@@ -129,6 +131,7 @@ function decide(raw: string, norm: string, entities: Entity[], ctx: Context): Dr
     }
   }
 
+  if (isCvRequest(norm)) return faq("faq:cv", "asks for his CV as a file or a page");
   if (isAboutAssistant(norm)) return faq("faq:assistant-nature", "asks about the assistant itself");
   if (isHowSiteBuilt(norm)) return faq("faq:how-built", "asks how the site was built");
 
@@ -201,7 +204,12 @@ function decide(raw: string, norm: string, entities: Entity[], ctx: Context): Dr
     .split(" ")
     .filter((t) => !GENERIC_ASK.has(stem(t)))
     .join(" ");
-  const searched = terms(withoutGeneric).length > 0 ? withoutGeneric : norm;
+  // The words "CV" and "resume" are rare enough to pull any question to the CV answer. A real request for
+  // the file was handled above, so here they only say where something is written ("skills on his resume"):
+  // search for the rest of the question, and keep the CV answer for when nothing else is left.
+  const mentionsCv = /\b(cv|resume|curriculum vitae)\b/.test(norm);
+  const withoutCv = norm.replace(/\b(cv|resume|curriculum vitae)\b/g, " ").replace(/\s+/g, " ").trim();
+  const searched = mentionsCv ? (terms(withoutCv).length > 0 ? withoutCv : norm) : terms(withoutGeneric).length > 0 ? withoutGeneric : norm;
   const hits = search(searched, { boostTopics: followsOn && ctx.topic ? [ctx.topic] : undefined, limit: 6 });
   const top = hits[0];
   // The more words a question has, the more of them the best passage must cover.
@@ -244,17 +252,19 @@ const LIST_WORDS = new Set(["project", "build", "built", "made", "make", "create
 function faq(id: string, reason: string): Draft {
   const c = chunkById.get(id);
   return {
-    intent: id === "faq:assistant-nature" || id === "faq:how-built" ? "about_assistant" : "retrieval",
+    intent: id === "faq:assistant-nature" || id === "faq:how-built" ? "about_assistant" : id === "faq:cv" ? "resume" : "retrieval",
     reason,
     grounded: true,
     blocks: [para(chunkText(c))],
     used: c ? [c] : [],
     actions:
-      c?.app === "contact"
-        ? contactActions()
-        : c?.app && !c.app.startsWith("project:")
-          ? [{ kind: "open", label: `Open ${c.app === "settings" ? "Settings" : c.app[0].toUpperCase() + c.app.slice(1)}`, target: c.app }]
-          : undefined,
+      id === "faq:cv"
+        ? cvActions()
+        : c?.app === "contact"
+          ? contactActions()
+          : c?.app && !c.app.startsWith("project:")
+            ? [{ kind: "open", label: `Open ${c.app === "settings" ? "Settings" : c.app[0].toUpperCase() + c.app.slice(1)}`, target: c.app }]
+            : undefined,
     topic: c?.topic ?? null,
   };
 }
