@@ -50,6 +50,25 @@ describe("the projects", () => {
     expect(a.sources.some((s) => s.app === `project:${id}`)).toBe(true);
   });
 
+  it("the project list also names the data projects and points at their folder", () => {
+    const a = one("What projects has he built?");
+    for (const name of ["Rx Market Pulse", "Payer Access Intelligence", "Field Force Planner", "Drug Price Watch"]) expect(text(a)).toContain(name);
+  });
+
+  it("answers a data analyst's questions from the data projects", () => {
+    const data = one("What data analytics projects has he done?");
+    expect(text(data)).toContain("Rx Market Pulse");
+    expect(text(data)).toContain("Payer Access Intelligence");
+    const bi = one("Where did he use Power BI?");
+    expect(bi.sources.map((s) => s.app)).toEqual(expect.arrayContaining(["project:rx-market-pulse"]));
+    expect(text(one("Does he know Excel?"))).toMatch(/Rx Market Pulse|Payer Access|Field Force|Drug Price Watch|Trial Pipeline/);
+    expect(one("tell me about the medicaid one").sources[0].app).toBe("project:rx-market-pulse");
+  });
+
+  it("reports SignalDesk's evaluation as it came out, including that the baseline won", () => {
+    expect(text(one("How did SignalDesk do against its baseline?"))).toMatch(/17 of 40|19 of 40/);
+  });
+
   it("knows a project by the way people describe it", () => {
     expect(one("what is the airline one about").sources[0].app).toBe("project:sayso");
     expect(one("tell me about patch").sources[0].app).toBe("project:agent-desk");

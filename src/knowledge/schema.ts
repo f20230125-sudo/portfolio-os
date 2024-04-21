@@ -9,7 +9,7 @@ import { z } from "zod";
 export const sourceKind = z.enum(["cv", "readme", "linkedin", "github", "told"]);
 export type SourceKind = z.infer<typeof sourceKind>;
 
-export const projectKind = z.enum(["flagship", "llm", "quant", "data", "play"]);
+export const projectKind = z.enum(["flagship", "analytics", "llm", "quant", "data", "play"]);
 export type ProjectKind = z.infer<typeof projectKind>;
 
 /** The picture on a project's icon tile: a lucide icon name and two colours. */

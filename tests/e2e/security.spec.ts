@@ -32,6 +32,11 @@ test.describe("security headers", () => {
         "https://github-bot-wine.vercel.app",
         "https://hindsight-sand.vercel.app",
         "https://sayso-sigma.vercel.app",
+        "https://rx-market-pulse.vercel.app",
+        "https://trial-pipeline-benchmark.vercel.app",
+        "https://drug-price-watch.vercel.app",
+        "https://field-force-planner.vercel.app",
+        "https://footnote-ten.vercel.app",
       ].sort(),
     );
   });
