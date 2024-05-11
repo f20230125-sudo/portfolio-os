@@ -12,10 +12,10 @@ test.describe("the desktop", () => {
     expect(errors).toEqual([]);
   });
 
-  test("shows his four apps first, as the first column of icons", async ({ page }) => {
+  test("shows his flagship projects first, as the first column of icons", async ({ page }) => {
     await gotoDesktop(page);
     const names = await page.getByRole("option").evaluateAll((els) => els.map((e) => e.getAttribute("aria-label")));
-    expect(names.slice(0, 4)).toEqual(["Agent Desk, project", "Flowboard, project", "Sayso, project", "Hindsight, project"]);
+    expect(names.slice(0, 7)).toEqual(["Rx Market Pulse", "Payer Access Intelligence", "Field Force Planner", "Drug Price Watch", "Trial Pipeline Benchmark", "PharmaEvidence", "SignalDesk AI"].map((n) => `${n}, project`));
   });
 
   for (const name of DESKTOP_ICONS) {
@@ -216,17 +216,17 @@ test.describe("windows", () => {
 test.describe("by keyboard", () => {
   test("arrow keys move between icons, Enter opens one", async ({ page }) => {
     await gotoDesktop(page);
-    await icon(page, "Agent Desk").focus();
+    await icon(page, "Rx Market Pulse").focus();
     await page.keyboard.press("ArrowDown");
-    await expect(icon(page, "Flowboard")).toBeFocused();
+    await expect(icon(page, "Payer Access Intelligence")).toBeFocused();
     await page.keyboard.press("ArrowDown");
-    await expect(icon(page, "Sayso")).toBeFocused();
+    await expect(icon(page, "Field Force Planner")).toBeFocused();
     await page.keyboard.press("ArrowRight");
-    await expect(icon(page, "Resume")).toBeFocused();
+    await expect(icon(page, "About")).toBeFocused();
     await page.keyboard.press("ArrowLeft");
-    await expect(icon(page, "Sayso")).toBeFocused();
+    await expect(icon(page, "Field Force Planner")).toBeFocused();
     await page.keyboard.press("Enter");
-    await expect(win(page, "Sayso")).toBeVisible();
+    await expect(win(page, "Field Force Planner")).toBeVisible();
   });
 
   test("Alt and the arrow keys move the window that has focus, and Alt+Shift resizes it", async ({ page }) => {
@@ -262,12 +262,12 @@ test.describe("by keyboard", () => {
 test.describe("right-click menus", () => {
   test("an icon offers open, live site, code and ask", async ({ page }) => {
     await gotoDesktop(page);
-    await icon(page, "Sayso").click({ button: "right" });
+    await icon(page, "Rx Market Pulse").click({ button: "right" });
     const menu = page.getByRole("menu");
-    await expect(menu.getByRole("menuitem")).toHaveText([/Open$/, /Open live site in a new tab/, /View code on GitHub/, /Ask about Sayso/]);
-    await menu.getByRole("menuitem", { name: /^Ask about Sayso/ }).click();
+    await expect(menu.getByRole("menuitem")).toHaveText([/Open$/, /Open live site in a new tab/, /View code on GitHub/, /Ask about Rx Market Pulse/]);
+    await menu.getByRole("menuitem", { name: /^Ask about Rx Market Pulse/ }).click();
     await expect(win(page, "Ask Uzair")).toBeVisible();
-    await expect(page.getByText("Tell me about Sayso").first()).toBeVisible();
+    await expect(page.getByText("Tell me about Rx Market Pulse").first()).toBeVisible();
   });
 
   test("the desktop offers its own menu, and Escape closes it", async ({ page }) => {
@@ -280,7 +280,7 @@ test.describe("right-click menus", () => {
 
   test("arrow keys move through a menu", async ({ page }) => {
     await gotoDesktop(page);
-    await icon(page, "Sayso").click({ button: "right" });
+    await icon(page, "Rx Market Pulse").click({ button: "right" });
     const items = page.getByRole("menuitem");
     await expect(items.first()).toBeFocused();
     await page.keyboard.press("ArrowDown");
@@ -288,7 +288,7 @@ test.describe("right-click menus", () => {
     await page.keyboard.press("ArrowUp");
     await expect(items.first()).toBeFocused();
     await page.keyboard.press("Enter");
-    await expect(win(page, "Sayso")).toBeVisible();
+    await expect(win(page, "Rx Market Pulse")).toBeVisible();
   });
 });
 
@@ -298,7 +298,7 @@ test.describe("Start and search", () => {
     await page.getByRole("button", { name: "Start" }).click();
     const start = page.getByRole("dialog", { name: "Start menu" });
     await expect(start).toBeVisible();
-    await expect(start.getByRole("button", { name: "Flowboard" }).first()).toBeVisible();
+    await expect(start.getByRole("button", { name: "Rx Market Pulse" }).first()).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(start).toHaveCount(0);
   });
@@ -360,7 +360,7 @@ test.describe("the simple view", () => {
   test("lists exactly the projects the desktop can open", async ({ page, browser }) => {
     await page.goto("/simple");
     const simple = await page.getByRole("heading", { level: 3 }).allTextContents();
-    const fromSimple = simple.filter((t) => !["Earlier builds", "Data and analytics", "Certifications"].includes(t) && !/^(Lightweight|Backend Developer|BITS)/.test(t));
+    const fromSimple = simple.filter((t) => !["Earlier builds", "AI apps", "Certifications"].includes(t) && !/^(Lightweight|Backend Developer|BITS)/.test(t));
     const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
     const desk = await ctx.newPage();
     await gotoDesktop(desk);

@@ -151,7 +151,7 @@ export const faqs: Faq[] = [
       "Which language is he strongest in?",
     ],
     answer:
-      "He hasn't ranked his skills, so I can't name one as his strongest; this is only what his work shows. TypeScript, React and Next.js are behind all four flagship apps, and Flowboard, Sayso and Hindsight add Redux Toolkit, with unit tests, end-to-end tests and accessibility scans. For data work, Python, SQL (DuckDB), Excel and Power BI are behind the data science and analytics projects, such as Rx Market Pulse and Payer Access Intelligence, and Python is behind most of the older builds too. His machine learning is the IEEE paper, PharmaEvidence's evaluation and a signal model in AI Trading Copilot. For data, start with Rx Market Pulse; for the front end, Sayso; for agents, Agent Desk.",
+      "He hasn't ranked his skills, so I can't name one as his strongest; this is only what his work shows. TypeScript, React and Next.js are behind the four AI apps, and Flowboard, Sayso and Hindsight add Redux Toolkit, with unit tests, end-to-end tests and accessibility scans. For data work, Python, SQL (DuckDB), Excel and Power BI are behind the data science and analytics projects, such as Rx Market Pulse and Payer Access Intelligence, and Python is behind most of the older builds too. His machine learning is the IEEE paper, PharmaEvidence's evaluation and a signal model in AI Trading Copilot. For data, start with Rx Market Pulse; for the front end, Sayso; for agents, Agent Desk.",
     app: "projects",
     sources: ["cv", "readme"],
   },
@@ -167,8 +167,8 @@ export const faqs: Faq[] = [
       "What is his data analytics experience?",
     ],
     answer:
-      "Eight projects in the Data work folder work on large public datasets. Rx Market Pulse cleans 36.1 million US Medicaid rows into a web report, a Power BI project and an Excel model. Payer Access Intelligence compares Medicare plan coverage from 2.24 million formulary records in Excel and Power BI. Field Force Planner sizes a sales force from the 9.9 million-record NPI registry and balances territories. Drug Price Watch builds a price index from 17.3 million weekly prices. Trial Pipeline Benchmark compares 12 companies' clinical trials. PharmaEvidence, SignalDesk AI and Footnote evaluate retrieval and AI systems against held-out tests and baselines. These are independent projects on public data, not paid work.",
-    app: "data-projects",
+      "Eight projects work on large public datasets; the seven related to MSD's business are the flagship projects on the desktop. Rx Market Pulse cleans 36.1 million US Medicaid rows into a web report, a Power BI project and an Excel model. Payer Access Intelligence compares Medicare plan coverage from 2.24 million formulary records in Excel and Power BI. Field Force Planner sizes a sales force from the 9.9 million-record NPI registry and balances territories. Drug Price Watch builds a price index from 17.3 million weekly prices. Trial Pipeline Benchmark compares 12 companies' clinical trials. PharmaEvidence, SignalDesk AI and Footnote evaluate retrieval and AI systems against held-out tests and baselines. These are independent projects on public data, not paid work.",
+    app: "projects",
     sources: ["readme", "cv"],
   },
   {
@@ -207,7 +207,7 @@ export const faqs: Faq[] = [
     id: "portfolio-site",
     questions: ["Does he have a portfolio?", "Where is his portfolio?", "Can I see his portfolio?", "Is there a portfolio website?"],
     answer:
-      "You are looking at it. This desktop is his portfolio: the icons are his projects, the Data work folder holds his data science and analytics work, the Projects folder holds everything, and the flagship apps and most data projects run live inside their windows.",
+      "You are looking at it. This desktop is his portfolio: the icons are his flagship projects (data work on public pharmaceutical data related to MSD's business), the Projects folder holds everything, and most of his live sites run inside their windows.",
     app: "projects",
     sources: ["readme"],
   },

@@ -30,8 +30,6 @@ export function AppView({ id, props, focusNonce }: { id: string; props: WinProps
       return <AskApp focusNonce={focusNonce} />;
     case "projects":
       return <ExplorerApp />;
-    case "data-projects":
-      return <ExplorerApp initialFilter="analytics" />;
     case "about":
       return <AboutApp />;
     case "resume":

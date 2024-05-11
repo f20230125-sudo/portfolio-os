@@ -57,7 +57,7 @@ for (const theme of ["light", "dark"] as const) {
       await page.getByLabel("Search apps and projects, or ask a question").fill("fl");
       await scan(page, "start search");
       await page.keyboard.press("Escape");
-      await page.getByRole("option", { name: /^Sayso/ }).click({ button: "right" });
+      await page.getByRole("option", { name: /^Rx Market Pulse/ }).click({ button: "right" });
       await scan(page, "context menu");
       await page.keyboard.press("Escape");
       await page.goto("/?open=settings");
@@ -78,8 +78,8 @@ test.describe("on a phone", () => {
   test("the desktop and an open window", async ({ page }) => {
     await gotoDesktop(page);
     await scan(page, "phone desktop");
-    await page.getByRole("option", { name: /^Sayso/ }).tap();
-    await expect(page.getByRole("dialog", { name: "Sayso", exact: true })).toBeVisible();
+    await page.getByRole("option", { name: /^Rx Market Pulse/ }).tap();
+    await expect(page.getByRole("dialog", { name: "Rx Market Pulse", exact: true })).toBeVisible();
     await scan(page, "phone window");
   });
 
