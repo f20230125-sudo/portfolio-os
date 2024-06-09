@@ -54,6 +54,7 @@ export function SimpleView() {
           <a className="link" href={person.github} rel="noopener noreferrer">GitHub</a>
           <a className="link no-print" href={person.cv.url} download>{person.cv.label}</a>
           <a className="link no-print" href={person.cvAnalyst.url} download>{person.cvAnalyst.label}</a>
+          <a className="link no-print" href={person.cvDigital.url} download>{person.cvDigital.label}</a>
         </p>
         <p className="mt-3 text-[14px] text-muted">{person.status}.</p>
       </header>

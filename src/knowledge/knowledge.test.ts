@@ -90,6 +90,7 @@ describe("pictures", () => {
 describe.each([
   ["the CV file", person.cv.url, "Mohammad-Uzair-Khan-CV.tex"],
   ["the data analyst CV file", person.cvAnalyst.url, "Mohammad-Uzair-Khan-CV-Data-Analyst.tex"],
+  ["the digital data CV file", person.cvDigital.url, "Mohammad-Uzair-Khan-CV-Digital-Data-Solutions.tex"],
 ])("%s", (_name, url, tex) => {
   const file = join(publicDir, url);
   const source = join(__dirname, "..", "..", "docs", "cv", tex);

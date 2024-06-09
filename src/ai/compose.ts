@@ -102,6 +102,7 @@ export function cvActions(): Action[] {
   return [
     { kind: "download", label: person.cv.label, target: person.cv.url },
     { kind: "download", label: person.cvAnalyst.label, target: person.cvAnalyst.url },
+    { kind: "download", label: person.cvDigital.label, target: person.cvDigital.url },
     { kind: "open", label: "Open Resume", target: "resume" },
     { kind: "mail", label: "Email Uzair", target: `mailto:${person.email}` },
   ];
