@@ -21,10 +21,14 @@ const APPS = [
   { id: "sayso", title: "Sayso", expect: /Sayso|Juno|Say what you need/i },
   { id: "hindsight", title: "Hindsight", expect: /Hindsight|run|agent/i },
   { id: "rx-market-pulse", title: "Rx Market Pulse", expect: /Medicaid|prescription/i },
-  { id: "field-force-planner", title: "Field Force Planner", expect: /reps|territor/i },
+  { id: "field-force-planner", title: "Field Force Planner", expect: /Field Force Planner|reps|territor/i },
   { id: "drug-price-watch", title: "Drug Price Watch", expect: /price|NADAC/i },
   { id: "trial-pipeline-benchmark", title: "Trial Pipeline Benchmark", expect: /trial|pipeline/i },
   { id: "footnote", title: "Footnote", expect: /Footnote|filing/i },
+  { id: "brand-forecast-studio", title: "Brand Forecast Studio", expect: /Brand Forecast Studio|forecast/i },
+  { id: "gcc-market-report", title: "GCC Market Report", expect: /GCC Market Report|Saudi|Bahrain/i },
+  { id: "digital-demand-pulse", title: "Digital Demand Pulse", expect: /Digital Demand Pulse|attention/i },
+  { id: "site-health-monitor", title: "Site Health Monitor", expect: /Site Health Monitor|Lighthouse/i },
 
 ];
 
