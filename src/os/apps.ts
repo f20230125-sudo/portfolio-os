@@ -41,6 +41,15 @@ const APPS: AppDef[] = [
     blurb: "Every project, in one folder",
   },
   {
+    id: "data-projects",
+    title: "Data and analytics",
+    icon: { glyph: "FolderOpen", from: "#a16207", to: "#facc15" },
+    size: { w: 980, h: 560 },
+    kind: "app",
+    keywords: ["data", "analytics", "folder", "pharma", "reports", "power bi"],
+    blurb: "Independent data science and analytics projects",
+  },
+  {
     id: "about",
     title: "About",
     icon: { glyph: "UserRound", from: "#0369a1", to: "#38bdf8" },
@@ -106,10 +115,10 @@ export function appDef(id: string): AppDef | undefined {
 }
 
 /** The icons on the desktop, top to bottom, left column first: his projects, then the rest. */
-export const DESKTOP_ORDER: string[] = [...flagship.map((p) => `project:${p.id}`), "projects", "ask", "about", "resume", "research", "contact"];
+export const DESKTOP_ORDER: string[] = [...flagship.map((p) => `project:${p.id}`), "data-projects", "projects", "ask", "about", "resume", "research", "contact"];
 
 /** What Start pins, in order. */
-export const PINNED: string[] = ["ask", "projects", "about", "resume", "research", "contact", ...flagship.map((p) => `project:${p.id}`), "settings"];
+export const PINNED: string[] = ["ask", "projects", "data-projects", "about", "resume", "research", "contact", ...flagship.map((p) => `project:${p.id}`), "settings"];
 
 /** The buttons that stay on the taskbar even when nothing is open. */
 export const TASKBAR_PINNED: string[] = ["ask", "projects", "about", "resume", "contact"];

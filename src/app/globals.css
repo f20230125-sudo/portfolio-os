@@ -176,7 +176,7 @@ button {
   padding: 12px 8px;
   display: grid;
   grid-auto-flow: column;
-  /* Seven to a column puts all eighteen icons in three columns, beside the profile card. */
+  /* Seven to a column puts all seventeen icons in three columns, beside the profile card. */
   grid-template-rows: repeat(7, 96px);
   grid-auto-columns: 92px;
   align-content: start;
@@ -837,7 +837,7 @@ a.chip:hover {
   .os .desktop {
     grid-auto-flow: row;
     grid-template-rows: none;
-    /* Five to a row on a 375px phone keeps eighteen icons in four rows, clear of the card. */
+    /* Five to a row on a 375px phone keeps seventeen icons in four rows, clear of the card. */
     grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
     grid-auto-rows: 96px;
     justify-content: stretch;
@@ -891,6 +891,10 @@ a.chip:hover {
 
 /* A short phone: the card drops its second paragraph, and on a very short one (under 600px) it goes. */
 @media (max-width: 767px) and (max-height: 700px) {
+  .os .desktop {
+    /* Four rows stay clear of the card when its role wraps on a 375px phone. */
+    grid-auto-rows: 92px;
+  }
   .os .profile-about {
     display: none;
   }

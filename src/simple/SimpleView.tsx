@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ASOF_LABEL, dayLabel } from "@/ai/compose";
+import { dayLabel } from "@/ai/compose";
 import { certifications, education, experience, person, research, skillGroups } from "@/knowledge/profile";
 import { flagship, kindLabels, olderProjects, type Project } from "@/knowledge/projects";
 
@@ -53,8 +53,6 @@ export function SimpleView() {
           <a className="link" href={person.linkedin} rel="noopener noreferrer">LinkedIn</a>
           <a className="link" href={person.github} rel="noopener noreferrer">GitHub</a>
           <a className="link no-print" href={person.cv.url} download>{person.cv.label}</a>
-          <a className="link no-print" href={person.cvAnalyst.url} download>{person.cvAnalyst.label}</a>
-          <a className="link no-print" href={person.cvDigital.url} download>{person.cvDigital.label}</a>
         </p>
         <p className="mt-3 text-[14px] text-muted">{person.status}.</p>
       </header>
@@ -62,7 +60,7 @@ export function SimpleView() {
       <main>
         <section aria-labelledby="s-projects" className="py-6">
           <h2 id="s-projects" className="mb-1 text-[22px] font-semibold">Projects</h2>
-          <p className="text-[14px] text-muted">The flagship projects are data science and analytics work related to MSD&rsquo;s business, on public pharmaceutical data (CampaignOps on labelled synthetic campaign data): independent projects, not work for MSD. Most are live on the web. Flagship figures are as of {dayLabel(flagship.map((p) => p.asOf).sort().at(-1) ?? "2026-10-18")}; other figures as of {ASOF_LABEL}.</p>
+          <p className="text-[14px] text-muted">The flagship projects lead with AI agents and automation. Data and analytics includes twelve independent pharmaceutical studies, not work for MSD, alongside a data warehouse. Figures carry their own dates; the latest flagship update is {dayLabel(flagship.map((p) => p.asOf).sort().at(-1) ?? "2026-10-28")}.</p>
           {flagship.map((p) => (
             <ProjectBlock key={p.id} p={p} />
           ))}
@@ -70,8 +68,12 @@ export function SimpleView() {
           {olderProjects.filter((p) => p.kind === "apps").map((p) => (
             <ProjectBlock key={p.id} p={p} />
           ))}
+          <h3 className="mt-4 text-[17px] font-semibold text-muted">Data and analytics</h3>
+          {olderProjects.filter((p) => p.kind === "data").map((p) => (
+            <ProjectBlock key={p.id} p={p} />
+          ))}
           <h3 className="mt-4 text-[17px] font-semibold text-muted">Earlier builds</h3>
-          {olderProjects.filter((p) => p.kind !== "apps").map((p) => (
+          {olderProjects.filter((p) => p.kind !== "apps" && p.kind !== "data").map((p) => (
             <ProjectBlock key={p.id} p={p} />
           ))}
         </section>

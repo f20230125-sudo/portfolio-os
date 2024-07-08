@@ -34,6 +34,7 @@ import {
   isGreeting,
   isHowSiteBuilt,
   isIdentity,
+  isLiveProjects,
   isInjection,
   isMore,
   isProjectsList,
@@ -199,6 +200,8 @@ function decide(raw: string, norm: string, entities: Entity[], ctx: Context): Dr
       topic: "person",
     };
   }
+
+  if (isLiveProjects(norm)) return projectsList();
 
   // "Cloud experience" is a question about cloud: the word "experience" says what kind of thing is wanted, not what.
   const withoutGeneric = norm

@@ -50,6 +50,8 @@ export function appLabel(app: string): string {
       return "Contact";
     case "projects":
       return "Projects";
+    case "data-projects":
+      return "Data and analytics";
     case "settings":
       return "Settings";
     case "ask":
@@ -101,8 +103,6 @@ export function contactActions(): Action[] {
 export function cvActions(): Action[] {
   return [
     { kind: "download", label: person.cv.label, target: person.cv.url },
-    { kind: "download", label: person.cvAnalyst.label, target: person.cvAnalyst.url },
-    { kind: "download", label: person.cvDigital.label, target: person.cvDigital.url },
     { kind: "open", label: "Open Resume", target: "resume" },
     { kind: "mail", label: "Email Uzair", target: `mailto:${person.email}` },
   ];
@@ -111,11 +111,12 @@ export function cvActions(): Action[] {
 export function projectsListBlocks(): Block[] {
   const apps = projects.filter((p) => p.kind === "apps");
   return [
-    para(`His ${flagship.length} flagship projects are data science and analytics work related to MSD's business, on public pharmaceutical data (CampaignOps on labelled synthetic campaign data). They are independent projects, not work for MSD. Each opens in its own window with the numbers and the decisions behind it:`),
+    para(`His ${flagship.length} flagship projects lead with AI agents and automation. Each opens in its own window with the numbers and the decisions behind it:`),
     { type: "list", items: flagship.map((p) => `${p.name}: ${p.tagline}`) },
-    para(`Four earlier AI apps are in the Projects folder too: ${apps.map((p) => p.name).join(", ")}, each live on the web.`),
+    para(`Three earlier AI apps are in the Projects folder too: ${apps.map((p) => p.name).join(", ")}, each live on the web.`),
     { type: "list", items: apps.map((p) => `${p.name}: ${p.tagline}`) },
-    para(`And ${olderProjects.length - apps.length} more builds, from Footnote's FinanceBench measurement and RAG services to a trading research desk, a data warehouse, a chatbot and a game.`),
+    para(`The Data and analytics folder includes twelve independent pharmaceutical studies, not work for MSD: ${projects.filter((p) => p.kind === "data" && p.id !== "property-data-warehouse").map((p) => p.name).join(", ")}.`),
+    para(`And ${olderProjects.length - apps.length} builds beyond the AI apps, from Footnote's FinanceBench measurement and RAG services to a trading research desk, a data warehouse, a chatbot and a game.`),
   ];
 }
 
@@ -199,7 +200,7 @@ export function followupsFor(topic: string | null, seen: ReadonlySet<string>): s
     case "contact":
       return ["What projects has he built?", "Tell me about his research", "Which project should I look at first?"];
     case "projects":
-      return ["Which project should I look at first?", "Tell me about Sayso", "What did he build for fun?"];
+      return ["Which project should I look at first?", "Tell me about Inbound", "What did he build for fun?"];
     case "person":
       return ["What projects has he built?", "What makes his projects different?", "What is he looking for?"];
     default:

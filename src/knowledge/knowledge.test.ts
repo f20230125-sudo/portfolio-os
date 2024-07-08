@@ -53,6 +53,18 @@ describe("ids", () => {
 });
 
 describe("what is on the desktop", () => {
+  it("leads with the ten agent and automation projects in the agreed order", () => {
+    expect(flagship.map((p) => p.id)).toEqual(["inbound", "backroom", "agent-desk", "order-desk", "loopdesk", "followdesk", "scopedesk", "invoice-ready", "quote-desk", "content-desk"]);
+    expect(projects.filter((p) => p.kind === "apps").map((p) => p.id)).toEqual(["flowboard", "sayso", "hindsight"]);
+  });
+
+  it("keeps the data projects behind one desktop folder", () => {
+    expect(DESKTOP_ORDER[flagship.length]).toBe("data-projects");
+    expect(appDef("data-projects")?.title).toBe("Data and analytics");
+    const data = projects.filter((p) => p.kind === "data");
+    expect(data.map((p) => p.id)).toEqual(["rx-market-pulse", "payer-access-intelligence", "field-force-planner", "drug-price-watch", "trial-pipeline-benchmark", "pharma-evidence", "signaldesk-ai", "campaignops-digital-solutions", "brand-forecast-studio", "gcc-market-report", "digital-demand-pulse", "site-health-monitor", "property-data-warehouse"]);
+    for (const p of data) expect(DESKTOP_ORDER).not.toContain(`project:${p.id}`);
+  });
   it("shows every flagship project, then the folder and the apps", () => {
     for (const p of flagship) expect(DESKTOP_ORDER).toContain(`project:${p.id}`);
     expect(DESKTOP_ORDER.slice(0, flagship.length)).toEqual(flagship.map((p) => `project:${p.id}`));
@@ -89,8 +101,6 @@ describe("pictures", () => {
 
 describe.each([
   ["the CV file", person.cv.url, "Mohammad-Uzair-Khan-CV.tex"],
-  ["the data analyst CV file", person.cvAnalyst.url, "Mohammad-Uzair-Khan-CV-Data-Analyst.tex"],
-  ["the digital data CV file", person.cvDigital.url, "Mohammad-Uzair-Khan-CV-Digital-Data-Solutions.tex"],
 ])("%s", (_name, url, tex) => {
   const file = join(publicDir, url);
   const source = join(__dirname, "..", "..", "docs", "cv", tex);
@@ -152,6 +162,12 @@ describe("what must never be public", () => {
 });
 
 describe("live sites", () => {
+  it("the nine new sites link out, and their demos say what data they use", () => {
+    for (const p of flagship.filter((p) => p.id !== "agent-desk")) {
+      expect(p.live?.frameable, p.id).toBe(false);
+      expect(p.limits.join(" "), p.id).toMatch(/synthetic|fictional/i);
+    }
+  });
   it("are on https", () => {
     for (const p of projects) if (p.live) expect(p.live.url.startsWith("https://"), p.id).toBe(true);
   });

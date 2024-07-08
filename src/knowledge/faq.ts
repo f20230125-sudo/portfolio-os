@@ -37,7 +37,7 @@ export const faqs: Faq[] = [
       "What is his favourite project?",
     ],
     answer:
-      "It depends what you are hiring for. For front-end and agent interfaces, start with Sayso. For data visualisation and accessibility, Hindsight. For state management and an engine with real tests, Flowboard. For agents that are careful about cost and safety, Agent Desk. For statistics, Quant Copilot. Each one opens in a window here, with its demo, its numbers and the decisions behind it.",
+      "For AI agents and automation, start with Inbound (Scout), the inbox agent Uzair built for himself, or Backroom, a restaurant back-office agent measured against rules. For front-end and agent interfaces, start with Sayso. For data visualisation and accessibility, Hindsight. For state management and an engine with real tests, Flowboard. For agents that are careful about cost and safety, Agent Desk. For statistics, Quant Copilot. Each one opens in a window here, with its demo, its numbers and the decisions behind it.",
     app: "projects",
     sources: ["readme", "cv"],
   },
@@ -97,7 +97,7 @@ export const faqs: Faq[] = [
     id: "learning",
     questions: ["What is he learning now?", "What is he working on?", "What are his next steps?", "What does he want to learn?"],
     answer:
-      "He is going deeper on LLM agent architectures and on Google Cloud, including Vertex AI, and working through the AWS Cloud Technical Essentials course. His newest builds are Sayso, Hindsight and this desktop.",
+      "He is going deeper on LLM agent architectures and on Google Cloud, including Vertex AI, and working through the AWS Cloud Technical Essentials course. His agent and automation work now leads with Inbound and Backroom.",
     sources: ["linkedin", "cv", "told"],
   },
   {
@@ -112,7 +112,7 @@ export const faqs: Faq[] = [
     id: "front-end-skills",
     questions: ["Is he a front-end developer?", "Does he know React?", "Can he do front-end work?", "What front-end experience does he have?"],
     answer:
-      "Yes. His four newest projects are front-end heavy: React 19, Next.js, TypeScript, Redux Toolkit, Zod, Tailwind and React Flow, with accessibility tested by axe and a hand-written SVG timeline in Hindsight that uses no chart library. This desktop, with its own window manager, is another example.",
+      "Yes. Agent Desk, Flowboard, Sayso and Hindsight use React 19, Next.js, TypeScript, Redux Toolkit, Zod, Tailwind and React Flow, with accessibility tested by axe and a hand-written SVG timeline in Hindsight that uses no chart library. This desktop, with its own window manager, is another example.",
     app: "project:sayso",
     sources: ["cv", "readme"],
   },
@@ -135,7 +135,7 @@ export const faqs: Faq[] = [
       "Send me his CV",
     ],
     answer:
-      "Yes. His CV is a one-page PDF: the Download CV button on the desktop card, in the Resume window and in Contact all give you the same file. It leaves out his phone number and grades, so email him if you need those.",
+      "Yes. His CV is a one-page PDF: the CV (PDF) button on the desktop card, in the Resume window and in Contact all give you the same file. It leaves out his phone number and grades, so email him if you need those.",
     app: "resume",
     sources: ["cv"],
   },
@@ -151,7 +151,7 @@ export const faqs: Faq[] = [
       "Which language is he strongest in?",
     ],
     answer:
-      "He hasn't ranked his skills, so I can't name one as his strongest; this is only what his work shows. TypeScript, React and Next.js are behind the four AI apps, and Flowboard, Sayso and Hindsight add Redux Toolkit, with unit tests, end-to-end tests and accessibility scans. For data work, Python, SQL (DuckDB), Excel and Power BI are behind the data science and analytics projects, such as Rx Market Pulse and Payer Access Intelligence, and Python is behind most of the older builds too. His machine learning is the IEEE paper, PharmaEvidence's evaluation and a signal model in AI Trading Copilot. For data, start with Rx Market Pulse; for the front end, Sayso; for agents, Agent Desk.",
+      "He hasn't ranked his skills, so I can't name one as his strongest; this is only what his work shows. TypeScript, React and Next.js are behind Agent Desk and the three AI apps, and Flowboard, Sayso and Hindsight add Redux Toolkit, with unit tests, end-to-end tests and accessibility scans. For data work, Python, SQL (DuckDB), Excel and Power BI are behind the data science and analytics projects, such as Rx Market Pulse and Payer Access Intelligence, and Python is behind most of the older builds too. His machine learning is the IEEE paper, PharmaEvidence's evaluation and a signal model in AI Trading Copilot. For data, start with Rx Market Pulse; for the front end, Sayso; for agents, Inbound and Backroom, then Agent Desk.",
     app: "projects",
     sources: ["cv", "readme"],
   },
@@ -167,8 +167,8 @@ export const faqs: Faq[] = [
       "What is his data analytics experience?",
     ],
     answer:
-      "Twelve projects related to MSD's business are the flagship projects on the desktop; all use public data except CampaignOps, which uses clearly labelled synthetic campaign data. Rx Market Pulse cleans 36.1 million US Medicaid rows into a web report, a Power BI project and an Excel model. Brand Forecast Studio forecasts 19 MSD brands with a machine-learning model tested against baselines. GCC Market Report validates the Saudi and Bahraini medicine price lists into one database, with Excel and Power BI. Payer Access Intelligence compares Medicare plan coverage from 2.24 million formulary records. Field Force Planner sizes a sales force from the 9.9 million-record NPI registry and balances territories. Drug Price Watch builds a price index from 17.3 million weekly prices. Trial Pipeline Benchmark compares 12 companies' clinical trials. Digital Demand Pulse reports weekly public attention to MSD's medicines in English and Arabic, and Site Health Monitor audits msd.com and nine peers' websites every week. CampaignOps traces a campaign drop from its tracking data to a fixed sign-up path in WordPress. PharmaEvidence, SignalDesk AI and Footnote evaluate retrieval and AI systems against held-out tests and baselines. These are independent projects, not paid work.",
-    app: "projects",
+      "The Data and analytics folder includes twelve independent projects related to MSD's business; all use public data except CampaignOps, which uses clearly labelled synthetic campaign data. Rx Market Pulse cleans 36.1 million US Medicaid rows into a web report, a Power BI project and an Excel model. Brand Forecast Studio forecasts 19 MSD brands with a machine-learning model tested against baselines. GCC Market Report validates the Saudi and Bahraini medicine price lists into one database, with Excel and Power BI. Payer Access Intelligence compares Medicare plan coverage from 2.24 million formulary records. Field Force Planner sizes a sales force from the 9.9 million-record NPI registry and balances territories. Drug Price Watch builds a price index from 17.3 million weekly prices. Trial Pipeline Benchmark compares 12 companies' clinical trials. Digital Demand Pulse reports weekly public attention to MSD's medicines in English and Arabic, and Site Health Monitor audits msd.com and nine peers' websites every week. CampaignOps traces a campaign drop from its tracking data to a fixed sign-up path in WordPress. PharmaEvidence, SignalDesk AI and Footnote evaluate retrieval and AI systems against held-out tests and baselines. These are independent projects, not paid work.",
+    app: "data-projects",
     sources: ["readme", "cv"],
   },
   {
@@ -207,7 +207,7 @@ export const faqs: Faq[] = [
     id: "portfolio-site",
     questions: ["Does he have a portfolio?", "Where is his portfolio?", "Can I see his portfolio?", "Is there a portfolio website?"],
     answer:
-      "You are looking at it. This desktop is his portfolio: the icons are his flagship projects (data work related to MSD's business), the Projects folder holds everything, and most of his live sites run inside their windows.",
+      "You are looking at it. This desktop is his portfolio: the icons are his flagship AI agent and automation projects, the Data and analytics folder keeps his independent data work one click away, and the Projects folder holds everything. Live sites either run in their windows or open in a new tab.",
     app: "projects",
     sources: ["readme"],
   },
@@ -269,7 +269,7 @@ export const unknowns: UnknownTopic[] = [
   {
     id: "grades",
     triggers: ["cgpa", "gpa", "grades", "his marks", "school marks", "transcript", "academic performance", "class rank"],
-    answer: "Grades aren't published on this site. He shares them on his CV when he applies, so email him and ask: uk4320930@gmail.com.",
+    answer: "Grades aren't published on this site. For anything beyond his public work and studies, email him: uk4320930@gmail.com.",
   },
   {
     id: "personal",

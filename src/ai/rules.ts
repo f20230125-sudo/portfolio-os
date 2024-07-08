@@ -147,6 +147,11 @@ export const isProjectsList = (n: string): boolean =>
     /^(projects|portfolio|his work|his projects)$/,
   ]);
 
+/** A visitor looking for runnable work should get project links, not a biography. */
+export const isLiveProjects = (n: string): boolean =>
+  /\b(projects|apps|work|builds|demos)\b/.test(n) &&
+  /\b(live|deployed|running|try|demos|browser)\b/.test(n);
+
 export const isIdentity = (n: string): boolean =>
   any(n, [
     /\bwho is (he|uzair|mohammad|mohammad uzair khan|this guy|this person)\b/,

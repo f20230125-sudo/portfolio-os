@@ -47,3 +47,6 @@ next-env.d.ts
 
 # pictures taken while building
 /.look/
+
+# Local working files (Codex prompts, reports)
+.local/

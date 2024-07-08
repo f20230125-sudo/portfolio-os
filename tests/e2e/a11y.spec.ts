@@ -36,7 +36,7 @@ for (const theme of ["light", "dark"] as const) {
 
     test("each app window", async ({ page }) => {
       await gotoDesktop(page);
-      for (const name of ["Sayso", "Projects", "About", "Resume", "Research", "Contact"]) {
+      for (const name of ["Inbound", "Sayso", "Data and analytics", "Projects", "About", "Resume", "Research", "Contact"]) {
         await openIcon(page, name);
         await scan(page, name);
         await page.getByRole("button", { name: `Close ${name}` }).click();
@@ -60,7 +60,7 @@ for (const theme of ["light", "dark"] as const) {
       await page.getByLabel("Search apps and projects, or ask a question").fill("fl");
       await scan(page, "start search");
       await page.keyboard.press("Escape");
-      await page.getByRole("option", { name: /^Rx Market Pulse/ }).click({ button: "right" });
+      await page.getByRole("option", { name: /^Inbound/ }).click({ button: "right" });
       await scan(page, "context menu");
       await page.keyboard.press("Escape");
       await page.goto("/?open=settings");
@@ -81,8 +81,8 @@ test.describe("on a phone", () => {
   test("the desktop and an open window", async ({ page }) => {
     await gotoDesktop(page);
     await scan(page, "phone desktop");
-    await page.getByRole("option", { name: /^Rx Market Pulse/ }).tap();
-    await expect(page.getByRole("dialog", { name: "Rx Market Pulse", exact: true })).toBeVisible();
+    await page.getByRole("option", { name: /^Inbound/ }).tap();
+    await expect(page.getByRole("dialog", { name: "Inbound", exact: true })).toBeVisible();
     await scan(page, "phone window");
   });
 
