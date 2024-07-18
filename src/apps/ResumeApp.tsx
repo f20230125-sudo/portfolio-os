@@ -79,7 +79,7 @@ export default function ResumeApp() {
       </Section>
 
       <Section title="Experience">
-        <Row title={`${e.role}, ${e.org} (travel-tech startup)`} right={e.place} sub={e.program} subRight={e.when} />
+        <Row title={`${e.role}, ${e.org} (travel-tech startup)`} right={`${e.place} · ${e.when}`} />
         <ul className="mt-1.5 list-disc space-y-1 pl-5 text-[13.5px] leading-relaxed marker:text-faint">
           {e.bullets.map((b) => (
             <li key={b}>{b}</li>

@@ -194,7 +194,7 @@ function personChunks(): Chunk[] {
       kind: "experience",
       topic: "experience",
       title: `${e.role} at ${e.org}`,
-      text: `Uzair was a ${e.role} at ${e.org}, ${e.orgNote}, from ${e.when}, through ${e.program}.`,
+      text: `Uzair was a ${e.role} at ${e.org}, ${e.orgNote}, from ${e.when}.`,
       keywords: ["experience", "work", "job", "jobs", "intern", "internship", "employment", "worked", "career", "company", "amaani", "professional", "travel", "startup"],
       app: "resume",
       sources: [...e.sources],
