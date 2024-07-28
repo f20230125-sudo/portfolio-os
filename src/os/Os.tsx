@@ -1,20 +1,19 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { openApp } from "./actions";
 import { resolveAppId } from "./apps";
 import { ContextMenuProvider } from "./ContextMenu";
 import { Desktop } from "./Desktop";
-import { ProfileCard } from "./ProfileCard";
 import { StartMenu } from "./StartMenu";
 import { Taskbar } from "./Taskbar";
 import { PHONE_WIDTH, useViewport } from "./useViewport";
 import { Window } from "./Window";
 
 /**
- * The assistant opens by itself only where it fits beside the profile card (the
- * card is 420px wide from 216px in; the assistant is 460px at the right edge).
+ * The assistant opens by itself only where it fits beside the desktop intro
+ * (420px wide from 308px in; the assistant is 460px at the right edge).
  * On a narrower screen the card is what a visitor should see first.
  */
 const ASK_OPENS_FROM = 1180;
@@ -26,7 +25,7 @@ function SnapPreview() {
 }
 
 /** The whole screen: wallpaper, icons, windows, taskbar and menus. */
-export function Os() {
+export function Os({ children }: { children: ReactNode }) {
   const dispatch = useAppDispatch();
   const order = useAppSelector((s) => s.windows.order);
   const announce = useAppSelector((s) => s.windows.announce);
@@ -58,8 +57,10 @@ export function Os() {
     <ContextMenuProvider>
       <div className="os" data-mobile={mobile}>
         <div className="wallpaper" aria-hidden="true" />
-        <Desktop />
-        <ProfileCard />
+        <div className="desktop-content">
+          <div className="desktop-intro">{children}</div>
+          <Desktop />
+        </div>
         {order.map((id) => (
           <Window key={id} id={id} />
         ))}

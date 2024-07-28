@@ -40,6 +40,7 @@ export function ProfileCard() {
           </a>
         </div>
       </div>
+      <a className="profile-page-link" href="/simple">Read as a page</a>
     </section>
   );
 }
