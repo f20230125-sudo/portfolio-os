@@ -8,7 +8,7 @@ import { distance, normalize, STOPWORDS } from "./text";
 
 // Words the patterns in rules.ts look for, which a passage may never use.
 const RULE_WORDS =
-  "projects project portfolio built build made created experience education contact research available availability internship instructions instruction previous prompt pretend reveal ignore disregard forget override bypass weather salary birthday nationality citizenship hobbies religion address references transcript compensation expectation".split(
+  "projects project portfolio built build made created experience education contact research available availability internship instructions instruction previous prompt pretend reveal ignore disregard forget override bypass weather salary birthday nationality citizenship hobbies religion address references transcript compensation expectation stop stops prevent protect".split(
     " ",
   );
 

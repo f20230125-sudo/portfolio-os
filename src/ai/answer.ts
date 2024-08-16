@@ -2,7 +2,7 @@ import type { Chunk } from "@/knowledge/chunks";
 import { chunkById } from "@/knowledge/chunks";
 import { faqs, unknowns } from "@/knowledge/faq";
 import { person } from "@/knowledge/profile";
-import { flagship, projectById, type Project } from "@/knowledge/projects";
+import { featured, projectById, type Project } from "@/knowledge/projects";
 import {
   appLabel,
   asOfNote,
@@ -24,6 +24,7 @@ import {
 } from "./compose";
 import { findEntities, type Entity } from "./entities";
 import { correct } from "./spell";
+import { synonymsOf } from "./synonyms";
 import { search, type Scored } from "./retrieve";
 import {
   aspectKinds,
@@ -159,8 +160,14 @@ function decide(raw: string, norm: string, entities: Entity[], ctx: Context): Dr
   if (topicIds.length >= 2) return compare(topicIds.map((id) => projectById(id)).filter((p): p is Project => Boolean(p)));
   if (topicIds.length === 1) {
     const p = projectById(topicIds[0]);
-    if (p) return aboutProject(p, norm, named.length === 0);
+    if (p) return aboutProject(p, norm, named.length === 0, raw);
   }
+
+  // A technology may name the research hardware, but an attribute question is
+  // about the paper's evidence, not whether the skill appears on his CV.
+  const researchSubject = /\b(research|paper|model|raspberry|mobilenetv2|mobilenet|plantvillage|ieee)\b/.test(norm);
+  const skillQuestion = /\b(know|skill|used|use|experience|familiar)\b/.test(norm) && !/\b(his|the) (research|paper|model)\b/.test(norm);
+  if (researchSubject && !skillQuestion) return aboutResearch(norm, raw);
 
   const skillEntities = entities.filter((e) => e.kind === "skill").slice(0, 3);
   if (skillEntities.length > 0) {
@@ -259,10 +266,12 @@ function faq(id: string, reason: string): Draft {
     intent: id === "faq:assistant-nature" || id === "faq:how-built" ? "about_assistant" : id === "faq:cv" ? "resume" : "retrieval",
     reason,
     grounded: true,
-    blocks: [para(chunkText(c))],
+    blocks: chunkText(c).split("\n").map(para),
     used: c ? [c] : [],
     actions:
-      id === "faq:cv"
+      id === "faq:best-project"
+        ? featured.map((p) => ({ kind: "open" as const, label: `Open ${p.name}`, target: `project:${p.id}` }))
+        : id === "faq:cv"
         ? cvActions()
         : c?.app === "contact"
           ? contactActions()
@@ -279,8 +288,8 @@ function projectsList(): Draft {
     reason: "asks which projects he has built",
     grounded: true,
     blocks: projectsListBlocks(),
-    used: findChunks(flagship.map((p) => `${p.id}:overview`)),
-    actions: [{ kind: "open", label: "Open Projects", target: "projects" }, ...flagship.slice(0, 3).map((p) => ({ kind: "open" as const, label: `Open ${p.name}`, target: `project:${p.id}` }))],
+    used: findChunks(featured.map((p) => `${p.id}:overview`)),
+    actions: [...featured.map((p) => ({ kind: "open" as const, label: `Open ${p.name}`, target: `project:${p.id}` })), { kind: "open", label: "All projects", target: "projects" }],
     topic: "projects",
   };
 }
@@ -307,13 +316,32 @@ function compare(ps: Project[]): Draft {
   };
 }
 
-function aboutProject(p: Project, norm: string, fromContext: boolean): Draft {
+function aboutProject(p: Project, norm: string, fromContext: boolean, raw: string): Draft {
   const aspect = aspectKinds.find((a) => a.test.test(norm));
   const overview = chunkById.get(`${p.id}:overview`);
   const used: Chunk[] = [];
   let blocks: Block[] = [];
   let reason = fromContext ? `follows on from ${p.name}` : `names ${p.name}`;
   const actions = projectActions(p);
+
+  const detail = projectDetail(p, norm);
+  const broad = detail.replace(/\b(project|app|built|build|work|works|stack|tech|technology|technologies|programming|language|languages|framework|frameworks|library|libraries|written|made|limit|limits|limitation|limitations|weakness|weaknesses|cannot|missing|problem|problems|caveat|caveats|downside|drawback|decision|decisions|design|architecture|approach|tradeoff|reason|test|tests|testing|tested|coverage|qa|ci|well|biggest|number|numbers|result|results|accuracy|metric|metrics|statistics|performance|score|benchmark|have|has|use|uses|like|know|return)\b/g, " ");
+  const measurementAsked = MEASUREMENTS.some((m) => m.ask.test(detail));
+  const attributeAsked = /\b(supports?|integrates?|connects?|exports?)\b/.test(detail) || measurementAsked;
+  const linkRequest = wantsLinks(norm) && !attributeAsked;
+  if ((terms(broad).filter((t) => !LIST_WORDS.has(t)).length > 0 || measurementAsked) && !linkRequest) {
+    const specific = specificHits(p, norm, raw);
+    // A metric needs a covering measurement passage; topic-wide word overlap
+    // alone must not turn speech accuracy into text-parser accuracy, for example.
+    if (specific.length === 0 && (missingAttribute(detail, p.id, raw) || measurementAsked)) return notOnRecord(p.name, p.id, [overview].filter((c): c is Chunk => Boolean(c)), actions);
+    if (specific.length > 0) {
+      const used = specific.map((h) => h.chunk);
+      const blocks: Block[] = used.map((c) => para(c.text));
+      const note = asOfNote(used);
+      if (note) blocks.push(note);
+      return { intent: "project", reason: `${reason}, asks for a particular attribute`, grounded: true, blocks, used, actions, topic: p.id, hits: specific, coverage: specific[0].coverage };
+    }
+  }
 
   if (aspect?.label === "stack") {
     const c = chunkById.get(`${p.id}:stack`);
@@ -353,7 +381,7 @@ function aboutProject(p: Project, norm: string, fromContext: boolean): Draft {
     ];
     reason += ", asks for a link";
   } else {
-    const specific = specificHits(p, norm);
+    const specific = specificHits(p, norm, raw);
     if (specific.length > 0) {
       // A question about something particular in the project: say that, not the whole overview.
       used.push(...specific.map((h) => h.chunk));
@@ -378,19 +406,100 @@ function aboutProject(p: Project, norm: string, fromContext: boolean): Draft {
  * What, inside one project, the question is really about. The project's own
  * name is taken out of the question first, since it matches every passage of
  * the project equally; what is left must be found well in the project's facts
- * and decisions, or the whole overview is the better answer.
+ * and decisions. An unanswered attribute must be declined, rather than being
+ * replaced by a grounded overview.
  */
-function specificHits(p: Project, norm: string): Scored[] {
-  const own = new Set(normalize([p.name, ...p.aliases].join(" ")).split(" "));
-  const rest = norm
-    .split(" ")
-    .filter((t) => t && !own.has(t))
-    .join(" ");
+function projectDetail(p: Project, norm: string): string {
+  // Remove whole names, not every word from every alias: "LinkedIn" in a
+  // posting question is still useful even if "LinkedIn agent" is an alias.
+  let detail = ` ${norm} `;
+  for (const name of [p.name, ...p.aliases].map(normalize).sort((a, b) => b.length - a.length)) {
+    detail = detail.replaceAll(` ${name} `, " ");
+  }
+  return detail.trim();
+}
+
+// These words frame a question without naming a product, format or metric.
+// Missing one of them is not evidence that the requested attribute is unknown.
+const ATTRIBUTE_FILLER = new Set(terms("support integrate connect offer use need keep without itself automatically automatic autonomous autonomously allow enable handle work project app built build stack tech technology programming written made limit limitation weakness missing problem caveat downside drawback decision design architecture approach tradeoff reason test testing coverage qa ci well biggest number result metric statistic performance benchmark have like know return live site first audit take read see check"));
+
+function attributeDetail(detail: string): string {
+  // Keep original words: feeding already stemmed words into search would stem
+  // them twice (for example, "erase" -> "eras" -> "era").
+  return detail.split(" ").filter((t) => terms(t).length > 0 && !ATTRIBUTE_FILLER.has(stem(t)) && !LIST_WORDS.has(stem(t))).join(" ");
+}
+
+/** Only an absent content attribute warrants "not on record"; use no fuzzy
+ * spelling here, since a nearby product name is not evidence of an integration.
+ * Evidence can be anywhere in this entity, and can use a synonym.
+ */
+function missingAttribute(detail: string, topic: string, raw: string): boolean {
+  const vocabulary = new Set(chunksOf(topic).flatMap((id) => {
+    const c = chunkById.get(id);
+    return c ? terms(normalize(`${c.text} ${c.keywords.join(" ")}`)) : [];
+  }));
+  const missing = terms(attributeDetail(detail)).filter((t) => !vocabulary.has(t) && !synonymsOf(t).some((s) => vocabulary.has(s)));
+  if (missing.length === 0) return false;
+  // A yes/no question or an unfamiliar descriptive word is not, by itself,
+  // an unknown attribute. Require an explicit capability/metric request or
+  // a named product/format. Check the target after the capability verb so
+  // incidental wording before it does not cause a decline.
+  const capability = detail.match(/\b(?:supports?|integrates?|connects?|exports?|imports?|uses?|formats?|protocols?|providers?|versions?)\b(.*)/)?.[1];
+  const destination = detail.match(/\b(?:to|with|via|through|using|as)\b(.*)/)?.[1];
+  const metric = MEASUREMENTS.some((m) => m.ask.test(detail)) || /\b(battery|capacity)\b/.test(detail);
+  const named = terms(normalize((raw.match(/\b[A-Z][A-Za-z0-9]+\b/g) ?? []).join(" ")));
+  const targets = new Set([...terms(capability ?? ""), ...terms(destination ?? ""), ...named]);
+  return missing.some((t) => metric || targets.has(t));
+}
+
+function specificHits(p: Project, norm: string, raw: string): Scored[] {
+  let rest = projectDetail(p, norm).replace(/\b(support|supports|integrate|integrates|connect|connects|offer|offers|use|uses|need|needs|keep|down|without)\b/g, " ");
+  // Indirect requests for write safeguards and adapter compatibility still
+  // need the relevant evidence, rather than a tour of the whole project.
+  if (/\b(stop|stops|prevent|protect)\b.*\b(break|breaking|harm|damage)\b/.test(rest)) rest = "safety writes";
+  else rest = rest.replace(/\bworks? with (my|our|other|custom) (own )?(agents?|apps?|tools?)\b/, "adapter format");
   if (terms(rest).filter((t) => !LIST_WORDS.has(t)).length === 0) return [];
-  const hits = search(rest, { onlyTopics: [p.id], limit: 4 }).filter((h) => h.chunk.kind !== "stack");
+  if (missingAttribute(projectDetail(p, norm), p.id, raw)) return [];
+  const focused = attributeDetail(rest);
+  const hits = search(focused || rest, { onlyTopics: [p.id], limit: 12 }).filter((h) => h.coverage >= 0.4 && h.score >= MIN_SCORE && attributeSupported(rest, h.chunk));
   const top = hits[0];
-  if (!top || top.coverage < 0.5 || top.score < MIN_SCORE) return [];
+  if (!top) return [];
   return hits.filter((h, i) => i === 0 || (h.score >= top.score * 0.7 && h.coverage >= 0.5)).slice(0, 2);
+}
+
+const MEASUREMENTS = [
+  { ask: /\b(latency|fast|quick|speed|fps|inference time)\b/, evidence: /\b(ms|fps|frames per second|latency|seconds?)\b/i },
+  { ask: /\b(power|watts?)\b/, evidence: /\b(w|watts?|power)\b/i },
+  { ask: /\b(size|big|small|parameters?)\b/, evidence: /\b(mb|kb|parameters?|size)\b/i },
+  { ask: /\b(accuracy|accurate|precision|precise)\b/, evidence: /%|\b(accuracy|precision|correctly)\b/i },
+];
+
+/** Numbers must match the requested measurement, not merely the same subject. */
+function attributeSupported(query: string, chunk: Chunk): boolean {
+  return MEASUREMENTS.every((m) => !m.ask.test(query) || m.evidence.test(chunk.text));
+}
+
+function notOnRecord(name: string, topic: string, known: Chunk[], actions: Action[]): Draft {
+  return {
+    intent: "unknown_topic", reason: `the requested attribute of ${name} is not on record`, grounded: false,
+    blocks: [para(`That detail about ${name} is not on record.`), ...(known[0] ? [para(`What is documented: ${known[0].text.split(". ")[0]}.`)] : [])],
+    used: known, actions, topic,
+  };
+}
+
+function aboutResearch(norm: string, raw: string): Draft {
+  const detail = norm.replace(/\b(research|paper|model|raspberry pi(?: 4b)?|raspberry|mobilenetv2|mobilenet|plantvillage|ieee(?: msn)?(?: 2026)?)\b/g, " ").replace(/\b(checks?|see|read)\b/g, " ");
+  const actions: Action[] = [{ kind: "open", label: "Open Research", target: "research" }];
+  if (terms(detail).length === 0) return { intent: "research", reason: "asks about his research", grounded: true, blocks: researchBlocks(), used: findChunks(["research:overview", "research:accuracy"]), actions, topic: "research" };
+  if (missingAttribute(detail, "research", raw)) return notOnRecord("his research", "research", findChunks(["research:overview"]), actions);
+  // Subject descriptions ("tomato leaf") belong to the overview, but need not
+  // recur in a results passage. Rank the requested attribute on its own.
+  const subject = new Set(terms(normalize(chunkById.get("research:overview")?.text ?? "")));
+  const focused = attributeDetail(detail).split(" ").filter((t) => !subject.has(stem(t))).join(" ");
+  const hits = search(focused || detail, { onlyTopics: ["research"], limit: 12 }).filter((h) => attributeSupported(detail, h.chunk));
+  const top = hits[0];
+  if (!top || top.coverage < 0.4 || top.score < MIN_SCORE) return notOnRecord("his research", "research", findChunks(["research:overview"]), actions);
+  return { intent: "research", reason: "asks for a research attribute", grounded: true, blocks: [para(top.chunk.text)], used: [top.chunk], actions, topic: "research", hits, coverage: top.coverage };
 }
 
 function schoolDraft(): Draft {

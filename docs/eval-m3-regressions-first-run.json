@@ -1,0 +1,92 @@
+{
+  "generated": "by src/ai/eval/eval.test.ts",
+  "setA": {
+    "total": 166,
+    "passed": 165,
+    "percent": 99.4,
+    "failures": [
+      {
+        "q": "udemy courses?",
+        "why": "declined, but should have answered",
+        "intent": "unsure",
+        "said": "I don't have that. It isn't something Uzair has told me, and I'd rather say so than guess. The closest things I do know about: Certification"
+      }
+    ]
+  },
+  "setB": {
+    "total": 40,
+    "passed": 39,
+    "percent": 97.5,
+    "failures": [
+      {
+        "q": "which of his projects work offline",
+        "why": "none of \"Noodle\", \"no API key\", \"no key\"",
+        "intent": "retrieval",
+        "said": "Everything is plain JavaScript in the browser, so it works offline after the first visit. Claude is an optional upgrade that never replaces "
+      }
+    ]
+  },
+  "setC": {
+    "total": 8,
+    "passed": 8,
+    "percent": 100,
+    "failures": [],
+    "independent": false
+  },
+  "setD": {
+    "total": 6,
+    "passed": 0,
+    "percent": 0,
+    "failures": [
+      {
+        "q": "How accurate is his tomato leaf model?",
+        "why": "declined, but should have answered",
+        "intent": "unknown_topic",
+        "said": "That detail about his research is not on record. What is documented: First author on a paper: \"Lightweight Deep Learning for Tomato Leaf Dis"
+      },
+      {
+        "q": "Can Agent Desk post to LinkedIn by itself?",
+        "why": "declined, but should have answered",
+        "intent": "unknown_topic",
+        "said": "That detail about Agent Desk is not on record. What is documented: Agent Desk: Two AI agents on one site: Patch looks after a GitHub account"
+      },
+      {
+        "q": "Can Backroom dispatch emails automatically?",
+        "why": "declined, but should have answered",
+        "intent": "unknown_topic",
+        "said": "That detail about Backroom is not on record. What is documented: Backroom: An AI back-office agent for a fictional restaurant group: read do"
+      },
+      {
+        "q": "Can Inbound erase messages?",
+        "why": "declined, but should have answered",
+        "intent": "unknown_topic",
+        "said": "That detail about Inbound is not on record. What is documented: Inbound: Scout, the inbox agent Uzair built for himself: read-only Gmail, a "
+      },
+      {
+        "q": "Does Flowboard support cycles?",
+        "why": "declined, but should have answered",
+        "intent": "unknown_topic",
+        "said": "That detail about Flowboard is not on record. What is documented: Flowboard: A visual workflow builder, a small n8n: connect blocks, press R"
+      },
+      {
+        "q": "Does Hindsight compress the pauses for a human?",
+        "why": "declined, but should have answered",
+        "intent": "unknown_topic",
+        "said": "That detail about Hindsight is not on record. What is documented: Hindsight: What your agents did, after the fact: one timeline for every ru"
+      }
+    ],
+    "independent": false
+  },
+  "broad": [
+    {
+      "q": "What projects has he built?",
+      "words": 94,
+      "text": "His 36 projects lead with AI agents and automation. Start with these three: Inbound: Scout, the inbox agent Uzair built for himself: read-only Gmail, a live journal, memory and a daily briefing. Backroom: An AI back-office agent for a fictional restaurant group: read documents, reconcile payouts and cite every number. Agent Desk: Two AI agents on one site: Patch looks after a GitHub account, Pitch drafts LinkedIn posts. 33 others: 7 Flagship, 3 AI apps (Flowboard, Sayso, Hindsight), 5 LLM and agents, 3 Quant and markets, 13 Data and analytics, 2 Games and play."
+    },
+    {
+      "q": "Which project should I look at first?",
+      "words": 68,
+      "text": "Start with Inbound. Rules classify and extract locally, keeping source quotes and found, inferred, unknown or conflicting status for each field. Alternatively, Backroom: An AI back-office agent for a fictional restaurant group: read documents, reconcile payouts and cite every number. Alternatively, Agent Desk: Two AI agents on one site: Patch looks after a GitHub account, Pitch drafts LinkedIn posts. For front-end work, the Projects folder also includes Sayso."
+    }
+  ]
+}

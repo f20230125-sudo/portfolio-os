@@ -1,4 +1,5 @@
 import type { Faq, UnknownTopic } from "./schema";
+import { featured } from "./projects";
 
 // Answers Uzair's facts do not spell out on their own, written once here so the
 // assistant never has to improvise. They describe what can be seen in his work;
@@ -36,8 +37,11 @@ export const faqs: Faq[] = [
       "Where should I start?",
       "What is his favourite project?",
     ],
-    answer:
-      "For AI agents and automation, start with Inbound (Scout), the inbox agent Uzair built for himself, or Backroom, a restaurant back-office agent measured against rules. For front-end and agent interfaces, start with Sayso. For data visualisation and accessibility, Hindsight. For state management and an engine with real tests, Flowboard. For agents that are careful about cost and safety, Agent Desk. For statistics, Quant Copilot. Each one opens in a window here, with its demo, its numbers and the decisions behind it.",
+    answer: [
+      `Start with ${featured[0].name}: ${featured[0].tagline}`,
+      ...featured.slice(1).map((p) => `Alternatively, ${p.name}: ${p.tagline}`),
+      "For front-end work, the Projects folder also includes Sayso.",
+    ].join("\n"),
     app: "projects",
     sources: ["readme", "cv"],
   },
