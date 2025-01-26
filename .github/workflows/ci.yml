@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      # Generates Next's route types first, then runs tsc.
+      - name: Type check
+        run: npm run typecheck
+
+      # The window maths, the windows reducer, the knowledge data and the
+      # assistant. None of it touches the network or a browser.
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Install the browser for end-to-end tests
+        run: npx playwright install --with-deps chromium
+
+      # Drives the production build in a real browser: windows, keyboard,
+      # the assistant, the phone layout, the security headers and axe scans.
+      - name: End-to-end tests
+        run: npm run e2e
+
+      - name: Keep the traces of failed end-to-end tests
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces
+          path: test-results/
+          retention-days: 7
