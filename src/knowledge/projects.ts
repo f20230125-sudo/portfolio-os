@@ -422,11 +422,6 @@ export const projects: Project[] = [
     stack: ["JavaScript", "Node", "Claude API (optional)"],
     tags: ["chatbot", "games", "fun", "offline", "javascript", "mood", "personality", "safety", "fuzzing"],
     code: `${GH}/Chatbot-random-fun`,
-    live: {
-      url: "https://f20230125-sudo.github.io/Chatbot-random-fun/",
-      frameable: true,
-    },
-    demoUrl: "https://f20230125-sudo.github.io/Chatbot-random-fun/",
     shots: [
       { src: "/media/noodle/light.webp", alt: "Noodle in light mode answering how many r's are in strawberry, then playing hard-mode tic-tac-toe." },
       { src: "/media/noodle/dark.webp", alt: "Noodle in dark mode responding to exam stress with care and a guided breathing circle." },
