@@ -24,7 +24,7 @@ const GROUPS: string[][] = [
   ["agent", "agentic", "bot", "assistant", "copilot"],
   ["game", "gaming", "play", "fun", "playful"],
   ["free", "cost", "money", "price", "paid", "cheap"],
-  ["edge", "embedded", "device", "raspberry", "mobilenetv2", "tflite"],
+  ["edge", "embedded", "device", "hardware", "raspberry", "mobilenetv2", "tflite"],
   ["trading", "quant", "finance", "market", "stock", "backtest"],
   ["strength", "skilled", "talented", "excellent"],
   ["weakness", "limit", "limitation", "flaw", "drawback", "caveat", "shortcoming"],
@@ -38,6 +38,9 @@ const GROUPS: string[][] = [
   ["rag", "retrieval", "embedding", "faiss", "vector"],
   ["state", "redux", "store", "rtk"],
   ["name", "called", "named"],
+  ["require", "need", "must", "optional", "necessary", "mandatory"],
+  ["find", "found", "discover", "discovered", "uncover", "reveal", "revealed"],
+  ["receive", "arrive", "send", "sent", "accept", "import", "hand over"],
   ["accuracy", "accurate", "precision", "correct", "result", "score"],
   ["impressive", "best", "favourite", "favorite", "proud", "highlight", "flagship", "showcase", "standout"],
 ];

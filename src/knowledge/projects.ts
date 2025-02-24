@@ -16,7 +16,7 @@ export const projects: Project[] = [
     kind: "flagship",
     tagline: "Two AI agents on one site: Patch looks after a GitHub account, Pitch drafts LinkedIn posts.",
     pitch:
-      "Patch audits every GitHub repository, scores each one out of 100 and drafts fixes. Pitch turns Patch's notes into LinkedIn post drafts. Nothing is sent anywhere without a click, and the agents run on Uzair's own Claude plan with no API key.",
+      "Patch audits every GitHub repository, scores each one out of 100 and drafts fixes. Pitch turns Patch's notes into LinkedIn post drafts. Nothing is sent anywhere without a click, and the agents run on Uzair's own Claude plan with no API key. A hosted, view-only half called GitHub Bot runs Patch's checks every six hours as a GitHub Actions job.",
     facts: [
       "Patch scores every repository out of 100. The first audit of 12 repositories took 30 GitHub requests and 0 model calls.",
       "Rules come before the model: skip what has not changed, then rules, then at most one Claude call. A check that finds nothing changed costs one request.",
@@ -36,7 +36,7 @@ export const projects: Project[] = [
       "A public copy must not use his subscription for other people, so it never calls Claude.",
     ],
     stack: ["Next.js", "FastAPI", "SQLite", "Claude Code", "GitHub Actions", "Python", "TypeScript"],
-    tags: ["agent", "agents", "automation", "github", "linkedin", "audit", "claude", "llm", "pytest", "fastapi", "vercel", "dry-run", "safety"],
+    tags: ["deployed", "hosted", "live", "online", "agent", "agents", "automation", "github", "linkedin", "audit", "claude", "llm", "pytest", "fastapi", "vercel", "dry-run", "safety"],
     code: `${GH}/github-bot`,
     live: {
       url: "https://github-bot-wine.vercel.app",
@@ -81,7 +81,7 @@ export const projects: Project[] = [
       "The Docker image and manifest run in CI on a test cluster, not on a production one.",
     ],
     stack: ["TypeScript", "Next.js", "React", "Redux Toolkit", "React Flow", "Zod", "Docker", "Kubernetes", "Playwright", "Vitest"],
-    tags: ["n8n", "workflow", "automation", "canvas", "engine", "rest", "api", "ssrf", "security", "docker", "kubernetes", "k8s", "undo", "redux", "zod", "react flow"],
+    tags: ["deployed", "hosted", "live", "online", "n8n", "workflow", "automation", "canvas", "engine", "rest", "api", "ssrf", "security", "docker", "kubernetes", "k8s", "undo", "redux", "zod", "react flow"],
     code: `${GH}/flowboard`,
     live: {
       url: "https://flowboard-flax-seven.vercel.app",
@@ -126,7 +126,7 @@ export const projects: Project[] = [
       "The model path is tested against a stand-in provider, and voice input only with a stand-in for the browser's recognition.",
     ],
     stack: ["TypeScript", "Next.js", "React", "Redux Toolkit", "Zod", "Tailwind CSS", "Playwright"],
-    tags: ["agent", "agentic", "front-end", "frontend", "interface", "generative ui", "airline", "seat map", "voice", "speech", "components", "state machine", "redux", "tailwind", "nlu", "intent"],
+    tags: ["deployed", "hosted", "live", "online", "agent", "agentic", "front-end", "frontend", "interface", "generative ui", "airline", "seat map", "voice", "speech", "components", "state machine", "redux", "tailwind", "nlu", "intent"],
     code: `${GH}/sayso`,
     live: {
       url: "https://sayso-sigma.vercel.app",
@@ -172,7 +172,7 @@ export const projects: Project[] = [
       "The Content-Security-Policy allows inline scripts because Next.js writes them; a run's text is only ever drawn as text.",
     ],
     stack: ["TypeScript", "Next.js", "React", "Redux Toolkit", "RTK Query", "Zod", "SVG", "Tailwind CSS", "Playwright"],
-    tags: ["observability", "tracing", "trace", "data visualisation", "data visualization", "dataviz", "charts", "timeline", "accessibility", "a11y", "csp", "security", "postmessage", "agents"],
+    tags: ["deployed", "hosted", "live", "online", "observability", "tracing", "trace", "data visualisation", "data visualization", "dataviz", "charts", "timeline", "accessibility", "a11y", "csp", "security", "postmessage", "agents"],
     code: `${GH}/hindsight`,
     live: {
       url: "https://hindsight-sand.vercel.app",

@@ -1,0 +1,59 @@
+{
+  "note": "The first score of set A, before the engine was tuned to it. Kept so the gap to the later score stays visible.",
+  "setA": {
+    "total": 166,
+    "passed": 138,
+    "percent": 83.1,
+    "failures": [
+      "can pitch post to LinkedIn on its own",
+      "what is the github bot",
+      "how does the AI step in flowboard work",
+      "does flowboard run blocks in parallel",
+      "how accurate are sayso's rules without a model",
+      "does sayso support voice",
+      "can the model in sayso change a price",
+      "is a model required for sayso",
+      "what did hindsight find in his own bot",
+      "how does hindsight receive runs securely",
+      "what do the colours mean in hindsight",
+      "what did he build for fun",
+      "has he done any machine learning",
+      "which university does he go to",
+      "what hardware did he deploy the model on",
+      "how big is the compressed model",
+      "how fast is inference on the pi",
+      "who advised his research",
+      "which school did he go to",
+      "what are his main skills",
+      "what languages does he code in",
+      "is he looking for a full time job",
+      "can he start soon",
+      "why should we hire him",
+      "what are his weaknesses",
+      "wat projcts has he made",
+      "hes got any internships?",
+      "udemy courses?"
+    ]
+  },
+  "setB": {
+    "total": 40,
+    "passed": 27,
+    "percent": 67.5,
+    "failures": [
+      "can you summarise his background in a couple of sentences",
+      "what kind of engineer is he",
+      "has he worked on anything related to LLM agents",
+      "what did he do before university",
+      "how do i see his work running without installing anything",
+      "is he comfortable testing front ends",
+      "is any of his work deployed",
+      "what does MOMENTUM50 mean",
+      "what is circular shift null testing",
+      "does he have cloud experience",
+      "how many projects does he have",
+      "does he have a degree yet",
+      "where did he study before BITS"
+    ],
+    "note": "Set B was written after tuning to set A and never used to tune. This is its only scoring before any change made because of it."
+  }
+}

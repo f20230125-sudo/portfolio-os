@@ -51,12 +51,18 @@ const idf = (term: string): number => {
 export interface QueryTerm {
   term: string;
   weight: number;
+  /** Terms that stand in for one word the passages never use: matching any one of them counts once. */
+  group?: string;
 }
 
 /** The words of a question as the index will look for them. */
 export function queryTerms(normalized: string): QueryTerm[] {
   const out = new Map<string, number>();
-  const put = (term: string, weight: number) => out.set(term, Math.max(out.get(term) ?? 0, weight));
+  const groups = new Map<string, string>();
+  const put = (term: string, weight: number, group?: string) => {
+    out.set(term, Math.max(out.get(term) ?? 0, weight));
+    if (group) groups.set(term, group);
+  };
   for (const original of terms(normalized)) {
     let base = original;
     let weight = 1;
@@ -82,18 +88,18 @@ export function queryTerms(normalized: string): QueryTerm[] {
     const synonyms = synonymsOf(base).filter((s) => df.has(s));
     if (known) {
       put(base, weight);
-      for (const syn of synonyms) put(syn, 0.45);
+      for (const syn of synonyms) put(syn, 0.45, base);
     } else if (synonyms.length > 0) {
       // A word the passages never use, but whose meaning they do: it counts as
       // being matched when one of its synonyms is.
-      for (const syn of synonyms) put(syn, 0.8);
+      for (const syn of synonyms) put(syn, 0.8, `via:${base}`);
     } else {
       // Not in any passage and nothing like one: it still counts against how
       // well a passage covers the question, so "how tall is he" is not answered.
       put(base, weight);
     }
   }
-  return [...out].map(([term, weight]) => ({ term, weight }));
+  return [...out].map(([term, weight]) => ({ term, weight, group: groups.get(term) }));
 }
 
 export interface Scored {
@@ -118,24 +124,32 @@ export function search(normalized: string, opts: SearchOptions = {}): Scored[] {
   const q = queryTerms(normalized);
   if (q.length === 0) return [];
   // What a perfect match could earn: used to say how well a passage covers the question.
-  const direct = q.filter((x) => x.weight >= 0.8);
-  const total = direct.reduce((n, x) => n + idf(x.term) * x.weight, 0) || 1;
+  // Each thing asked counts once: a word with several stand-ins is one thing.
+  const worth = new Map<string, number>();
+  for (const x of q) if (x.weight >= 0.8) worth.set(x.group ?? x.term, Math.max(worth.get(x.group ?? x.term) ?? 0, idf(x.term) * x.weight));
+  const total = [...worth.values()].reduce((n, v) => n + v, 0) || 1;
   const scored: Scored[] = [];
   for (const d of docs) {
     if (opts.onlyTopics && !opts.onlyTopics.includes(d.chunk.topic)) continue;
     let score = 0;
-    let matched = 0;
-    for (const { term, weight } of q) {
+    const got = new Map<string, number>();
+    for (const { term, weight, group } of q) {
       const f = d.tf.get(term);
       if (!f) continue;
       const w = idf(term) * ((f * (K1 + 1)) / (f + K1 * (1 - B + (B * d.length) / AVG_LEN))) * weight;
       score += w;
-      if (weight >= 0.8) matched += idf(term) * weight;
+      if (weight >= 0.8) got.set(group ?? term, Math.max(got.get(group ?? term) ?? 0, idf(term) * weight));
+      // A synonym of a word that was asked for counts as most of the way to having it.
+      else if (group) got.set(group, Math.max(got.get(group) ?? 0, idf(group) * 0.7));
     }
     if (score === 0) continue;
+    const matched = [...got.values()].reduce((n, v) => n + v, 0);
+    const coverage = Math.min(1, matched / total);
+    // A passage that answers more of what was asked beats one that answers a part of it very strongly.
+    score *= 0.6 + 0.8 * coverage;
     if (opts.boostTopics?.includes(d.chunk.topic)) score *= opts.boostFactor ?? 1.8;
     if (opts.boostKinds?.includes(d.chunk.kind)) score *= 1.5;
-    scored.push({ chunk: d.chunk, score, coverage: Math.min(1, matched / total) });
+    scored.push({ chunk: d.chunk, score, coverage });
   }
   scored.sort((a, b) => b.score - a.score);
   return scored.slice(0, opts.limit ?? 5);
