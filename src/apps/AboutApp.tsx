@@ -12,7 +12,7 @@ const FACTS: [string, string][] = [
   ["Studying", `${education.university.degree}, ${education.university.name}`],
   ["Graduating", education.university.expected],
   ["Currently learning", person.learning.join(", ")],
-  ["Work status", "Open to work in Dubai (on-site, hybrid or remote), per his LinkedIn"],
+  ["Work status", person.status],
 ];
 
 const TILES: { value: string; label: string }[] = [
@@ -49,7 +49,6 @@ export default function AboutApp() {
         <section aria-labelledby="about-bio">
           <h3 id="about-bio" className="eyebrow mb-2">About</h3>
           <p className="text-[15px] leading-relaxed" data-selectable>{person.summary}</p>
-          <p className="mt-2 text-[15px] leading-relaxed" data-selectable>{person.headline} That is the one habit all of his work shares.</p>
         </section>
 
         <ul className="grid gap-2.5 sm:grid-cols-2" aria-label="Numbers">

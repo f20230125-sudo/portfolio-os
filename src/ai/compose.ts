@@ -88,6 +88,15 @@ export function contactActions(): Action[] {
   ];
 }
 
+/** The CV: the file itself first, then the window that shows the same content. */
+export function cvActions(): Action[] {
+  return [
+    { kind: "download", label: person.cv.label, target: person.cv.url },
+    { kind: "open", label: "Open Resume", target: "resume" },
+    { kind: "mail", label: "Email Uzair", target: `mailto:${person.email}` },
+  ];
+}
+
 export function projectsListBlocks(): Block[] {
   return [
     para("These are the four flagship projects. Each opens in its own window with a demo, the numbers and the decisions behind it:"),

@@ -7,6 +7,7 @@ const personJsonLd = {
   "@type": "Person",
   name: person.name,
   jobTitle: person.role,
+  description: person.summary,
   email: person.email,
   address: { "@type": "PostalAddress", addressLocality: "Dubai", addressCountry: "AE" },
   alumniOf: { "@type": "CollegeOrUniversity", name: "BITS Pilani, Dubai Campus" },
