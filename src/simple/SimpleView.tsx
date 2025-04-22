@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ASOF_LABEL } from "@/ai/compose";
+import { ASOF_LABEL, dayLabel } from "@/ai/compose";
 import { certifications, education, experience, person, research, skillGroups } from "@/knowledge/profile";
-import { flagship, kindLabels, olderProjects, type Project } from "@/knowledge/projects";
+import { dataProjects, flagship, kindLabels, olderProjects, type Project } from "@/knowledge/projects";
 
 // The whole site as one ordinary page, rendered on the server from the same
 // data as the desktop. For anyone who would rather read than click, for screen
@@ -53,6 +53,7 @@ export function SimpleView() {
           <a className="link" href={person.linkedin} rel="noopener noreferrer">LinkedIn</a>
           <a className="link" href={person.github} rel="noopener noreferrer">GitHub</a>
           <a className="link no-print" href={person.cv.url} download>{person.cv.label}</a>
+          <a className="link no-print" href={person.cvAnalyst.url} download>{person.cvAnalyst.label}</a>
         </p>
         <p className="mt-3 text-[14px] text-muted">{person.status}.</p>
       </header>
@@ -60,12 +61,16 @@ export function SimpleView() {
       <main>
         <section aria-labelledby="s-projects" className="py-6">
           <h2 id="s-projects" className="mb-1 text-[22px] font-semibold">Projects</h2>
-          <p className="text-[14px] text-muted">The four flagship apps are live on the web. Figures are as of {ASOF_LABEL}.</p>
+          <p className="text-[14px] text-muted">The four flagship apps and most of the data projects are live on the web. Flagship figures are as of {ASOF_LABEL}; data project figures as of {dayLabel(dataProjects.map((p) => p.asOf).sort().at(-1) ?? "2026-10-18")}.</p>
           {flagship.map((p) => (
             <ProjectBlock key={p.id} p={p} />
           ))}
+          <h3 className="mt-4 text-[17px] font-semibold text-muted">Data and analytics</h3>
+          {dataProjects.map((p) => (
+            <ProjectBlock key={p.id} p={p} />
+          ))}
           <h3 className="mt-4 text-[17px] font-semibold text-muted">Earlier builds</h3>
-          {olderProjects.map((p) => (
+          {olderProjects.filter((p) => !dataProjects.includes(p)).map((p) => (
             <ProjectBlock key={p.id} p={p} />
           ))}
         </section>
