@@ -41,15 +41,6 @@ const APPS: AppDef[] = [
     blurb: "Every project, in one folder",
   },
   {
-    id: "data-projects",
-    title: "Data work",
-    icon: { glyph: "FolderKanban", from: "#047857", to: "#6ee7b7" },
-    size: { w: 980, h: 560 },
-    kind: "app",
-    keywords: ["data", "data science", "data analysis", "data analytics", "analytics", "analyst", "power bi", "excel", "sql", "pharma", "folder"],
-    blurb: "Data science and analytics projects",
-  },
-  {
     id: "about",
     title: "About",
     icon: { glyph: "UserRound", from: "#0369a1", to: "#38bdf8" },
@@ -100,7 +91,7 @@ const PROJECT_APPS: AppDef[] = projects.map((p) => ({
   id: `project:${p.id}`,
   title: p.name,
   icon: p.icon,
-  size: p.kind === "flagship" ? { w: 1080, h: 720 } : { w: 820, h: 600 },
+  size: p.kind === "flagship" || p.kind === "apps" ? { w: 1080, h: 720 } : { w: 820, h: 600 },
   kind: "project",
   keywords: [...p.aliases, ...p.tags, ...p.stack],
   blurb: p.tagline,
@@ -115,10 +106,10 @@ export function appDef(id: string): AppDef | undefined {
 }
 
 /** The icons on the desktop, top to bottom, left column first: his projects, then the rest. */
-export const DESKTOP_ORDER: string[] = [...flagship.map((p) => `project:${p.id}`), "data-projects", "projects", "ask", "about", "resume", "research", "contact"];
+export const DESKTOP_ORDER: string[] = [...flagship.map((p) => `project:${p.id}`), "projects", "ask", "about", "resume", "research", "contact"];
 
 /** What Start pins, in order. */
-export const PINNED: string[] = ["ask", "projects", "data-projects", "about", "resume", "research", "contact", ...flagship.map((p) => `project:${p.id}`), "settings"];
+export const PINNED: string[] = ["ask", "projects", "about", "resume", "research", "contact", ...flagship.map((p) => `project:${p.id}`), "settings"];
 
 /** The buttons that stay on the taskbar even when nothing is open. */
 export const TASKBAR_PINNED: string[] = ["ask", "projects", "about", "resume", "contact"];

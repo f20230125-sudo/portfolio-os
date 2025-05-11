@@ -9,7 +9,7 @@ test.describe("on a phone", () => {
     await gotoDesktop(page);
     await expect(page.getByRole("dialog")).toHaveCount(0);
     const n = await page.getByRole("option").count();
-    expect(n).toBe(11);
+    expect(n).toBe(13);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
     expect(overflow).toBe(false);
     expect(errors).toEqual([]);
@@ -17,8 +17,8 @@ test.describe("on a phone", () => {
 
   test("one tap opens a window that fills the screen above the taskbar", async ({ page }) => {
     await gotoDesktop(page);
-    await page.getByRole("option", { name: /^Sayso/ }).tap();
-    const w = page.getByRole("dialog", { name: "Sayso", exact: true });
+    await page.getByRole("option", { name: /^Rx Market Pulse/ }).tap();
+    const w = page.getByRole("dialog", { name: "Rx Market Pulse", exact: true });
     await expect(w).toBeVisible();
     const b = (await w.boundingBox())!;
     expect(Math.round(b.x)).toBe(0);
