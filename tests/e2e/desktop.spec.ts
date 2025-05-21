@@ -15,7 +15,7 @@ test.describe("the desktop", () => {
   test("shows his flagship projects first, as the first column of icons", async ({ page }) => {
     await gotoDesktop(page);
     const names = await page.getByRole("option").evaluateAll((els) => els.map((e) => e.getAttribute("aria-label")));
-    expect(names.slice(0, 7)).toEqual(["Rx Market Pulse", "Payer Access Intelligence", "Field Force Planner", "Drug Price Watch", "Trial Pipeline Benchmark", "PharmaEvidence", "SignalDesk AI"].map((n) => `${n}, project`));
+    expect(names.slice(0, 8)).toEqual(["Rx Market Pulse", "Payer Access Intelligence", "Field Force Planner", "Drug Price Watch", "Trial Pipeline Benchmark", "PharmaEvidence", "SignalDesk AI", "CampaignOps"].map((n) => `${n}, project`));
   });
 
   for (const name of DESKTOP_ICONS) {
@@ -222,7 +222,7 @@ test.describe("by keyboard", () => {
     await page.keyboard.press("ArrowDown");
     await expect(icon(page, "Field Force Planner")).toBeFocused();
     await page.keyboard.press("ArrowRight");
-    await expect(icon(page, "About")).toBeFocused();
+    await expect(icon(page, "Ask Uzair")).toBeFocused();
     await page.keyboard.press("ArrowLeft");
     await expect(icon(page, "Field Force Planner")).toBeFocused();
     await page.keyboard.press("Enter");
@@ -366,11 +366,11 @@ test.describe("the simple view", () => {
     await gotoDesktop(desk);
     await openIcon(desk, "Projects");
     const projectRows = win(desk, "Projects").getByRole("list", { name: "Projects" }).getByRole("button");
-    await expect(projectRows).toHaveCount(22);
+    await expect(projectRows).toHaveCount(23);
     const rows = await projectRows.evaluateAll((els) => els.map((e) => e.querySelector("span.font-medium")?.textContent ?? ""));
     await ctx.close();
     expect([...rows].sort()).toEqual([...fromSimple].sort());
-    expect(rows).toHaveLength(22);
+    expect(rows).toHaveLength(23);
   });
 
   test("works with scripts off, and the desktop says where to go instead", async ({ browser, request }) => {

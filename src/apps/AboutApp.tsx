@@ -19,7 +19,7 @@ const FACTS: [string, string][] = [
 const TILES: { value: string; label: string }[] = [
   { value: "97.33%", label: "accuracy of the model in his IEEE paper, running on a Raspberry Pi 4B" },
   { value: String(projects.filter((p) => p.live).length), label: "projects live on the web" },
-  { value: String(flagship.length), label: "flagship data projects on public pharmaceutical data" },
+  { value: String(flagship.length), label: "flagship data projects related to MSD's business" },
   { value: "1st", label: "author on a paper submitted to IEEE MSN 2026" },
   { value: "2027", label: "expected graduation, BITS Pilani Dubai" },
 ];

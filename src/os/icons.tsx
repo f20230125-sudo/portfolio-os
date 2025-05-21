@@ -28,6 +28,7 @@ import {
   Radar,
   ShieldCheck,
   Tag,
+  Megaphone,
   type LucideIcon,
 } from "lucide-react";
 import type { IconSpec } from "@/knowledge/schema";
@@ -64,6 +65,7 @@ const GLYPHS: Record<string, LucideIcon> = {
   Radar,
   ShieldCheck,
   Tag,
+  Megaphone,
 };
 
 /** A rounded tile with a gradient and a white glyph: what an app or project looks like. */
