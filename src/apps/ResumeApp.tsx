@@ -51,6 +51,9 @@ export default function ResumeApp() {
           <a className="btn" href={person.cvAnalyst.url} download>
             <Download size={14} aria-hidden="true" /> {person.cvAnalyst.label}
           </a>
+          <a className="btn" href={person.cvDigital.url} download>
+            <Download size={14} aria-hidden="true" /> {person.cvDigital.label}
+          </a>
           <a className="btn" href="/simple">
             <FileText size={14} aria-hidden="true" /> Printable version
           </a>

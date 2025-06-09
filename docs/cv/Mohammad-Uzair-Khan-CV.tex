@@ -117,6 +117,14 @@
 \newcommand{\rxagent}{https://github.com/f20230125-sudo/rx-market-pulse/tree/feat/msd-commercial-agent}
 \newcommand{\adrepo}{https://github.com/f20230125-sudo/github-bot}
 \newcommand{\adlive}{https://github-bot-wine.vercel.app}
+\newcommand{\fsrepo}{https://github.com/f20230125-sudo/brand-forecast-studio}
+\newcommand{\fslive}{https://brand-forecast-studio.vercel.app}
+\newcommand{\gcrepo}{https://github.com/f20230125-sudo/gcc-market-report}
+\newcommand{\gclive}{https://gcc-market-report.vercel.app}
+\newcommand{\dprepo}{https://github.com/f20230125-sudo/digital-demand-pulse}
+\newcommand{\dplive}{https://digital-demand-pulse.vercel.app}
+\newcommand{\shrepo}{https://github.com/f20230125-sudo/site-health-monitor}
+\newcommand{\shlive}{https://pharma-site-health.vercel.app}
 \begin{document}
 
 %----------HEADING----------
@@ -153,6 +161,14 @@
   \resumeSubHeadingListStart
 
     \resumeProjectHeading
+      {\textbf{Brand Forecast Studio: sales forecasting for 19 MSD brands} $|$ \emph{Python, LightGBM, Pydantic, TypeScript}}
+      {\link{\fslive}{Live} $|$ \link{\fsrepo}{Code}}
+      \resumeItemListStart
+        \resumeItem{Trained one global \textbf{LightGBM} model on \textbf{13,336} brand-quarters (535 brands) to forecast \textbf{19 MSD brands in 6 business units}; rolling-origin backtest: WAPE \textbf{17.9\%} vs 19.4\% for the best baseline, best method on 7 of 19 brands}
+        \resumeItem{\textbf{Conformal calibration} raised P10--P90 coverage from 70\% to \textbf{79.6\%} on unseen quarters; one-command monitored pipeline with \textbf{14 health checks} (drift PSI, reconciliation) and a run log; Pydantic what-if and a \textbf{typed-tool assistant} (24/24 held-out questions)}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
       {\textbf{Rx Market Pulse: AI analyst agent and forecasting} $|$ \emph{Python, SQL, TypeScript, LLM tool calling}}
       {\link{\rxlive/ask}{Live} $|$ \link{\rxagent}{Code}}
       \resumeItemListStart
@@ -177,21 +193,7 @@
       \resumeItemListEnd
 
     \resumeProjectHeading
-      {\textbf{Agent Desk: two AI agents for GitHub and LinkedIn} $|$ \emph{Python, FastAPI, Claude, Next.js}}
-      {\link{\adlive}{Live} $|$ \link{\adrepo}{Code}}
-      \resumeItemListStart
-        \resumeItem{Patch audits repositories and drafts fixes, Pitch drafts posts; rules before the model (12 repositories audited with 30 requests, \textbf{0 model calls}), an allow-list of writes and dry-run by default; \textbf{469} tests}
-      \resumeItemListEnd
-
-    \resumeProjectHeading
-      {\textbf{Footnote: question answering over company filings} $|$ \emph{Python, BM25, embeddings, LLM agents}}
-      {\link{\fnlive}{Live} $|$ \link{\fnrepo}{Code}}
-      \resumeItemListStart
-        \resumeItem{Measured retrieval on all \textbf{150} FinanceBench questions (360 filings, 53,399 pages): hit@10 \textbf{44\%} with the right filing, 31\% with a company/year filter; gold-text search hits \textbf{97\%}, so the gap is vocabulary}
-      \resumeItemListEnd
-
-    \resumeProjectHeading
-      {\textbf{Also built:} \link{\fflive}{Field Force Planner} \emph{(territory optimisation)} $\cdot$ \link{\pwlive}{Drug Price Watch} $\cdot$ \link{\parepo}{Payer Access} $\cdot$ \link{\colive}{CampaignOps}}
+      {\textbf{Also built:} \link{\fflive}{Field Force Planner} \emph{(territory optimisation)} $\cdot$ \link{\fnlive}{Footnote} $\cdot$ \link{\adlive}{Agent Desk} \emph{(AI agents)} $\cdot$ \link{\gclive}{GCC Market Report}}
       {\link{https://github.com/f20230125-sudo}{GitHub}}
     \vspace{3pt}
 
