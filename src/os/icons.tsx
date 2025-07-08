@@ -1,4 +1,13 @@
 import {
+  Inbox,
+  Utensils,
+  PackageCheck,
+  Recycle,
+  Send,
+  ClipboardCheck,
+  Receipt,
+  FilePenLine,
+  Newspaper,
   Bot,
   ChartCandlestick,
   ChartGantt,
@@ -40,6 +49,15 @@ import type { IconSpec } from "@/knowledge/schema";
 // The pictures on icon tiles. Only the icons used are imported, so the rest of
 // the library is not shipped.
 const GLYPHS: Record<string, LucideIcon> = {
+  Inbox,
+  Utensils,
+  PackageCheck,
+  Recycle,
+  Send,
+  ClipboardCheck,
+  Receipt,
+  FilePenLine,
+  Newspaper,
   Bot,
   ChartCandlestick,
   ChartGantt,

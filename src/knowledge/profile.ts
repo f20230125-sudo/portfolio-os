@@ -1,22 +1,18 @@
 import type { SkillGroup, SourceKind } from "./schema";
 
-// Facts about Uzair himself. Sources: his CV (numbers checked on 7 October
+// Facts about Uzair himself. Sources: his overall CV (updated on 28 October
 // 2026), his LinkedIn profile, his GitHub profile README and his projects'
-// READMEs. Grades and phone numbers are left out on purpose; see unknowns.ts.
+// READMEs. Grades and phone numbers are left out on purpose; see unknowns in faq.ts.
 
 export const person = {
   name: "Mohammad Uzair Khan",
   short: "Uzair",
-  role: "Data science, analytics & AI",
-  tagline: "Builds AI systems that show their work.",
+  role: "AI agents & automation, data science & analytics",
+  tagline: "Builds AI agents, automations and data systems that show their work.",
   // How the site's own pages say it. The assistant keeps to openToWork below, which names where it comes from.
   status: "Open to work in Dubai: on-site, hybrid or remote",
   // A one-page copy of his CV, without phone numbers or grades (see unknowns in faq.ts).
-  cv: { url: "/cv/Mohammad-Uzair-Khan-CV.pdf", label: "Download CV (PDF)" },
-  // The same CV tailored to data analyst roles: data and BI projects first. Same privacy rules.
-  cvAnalyst: { url: "/cv/Mohammad-Uzair-Khan-CV-Data-Analyst.pdf", label: "Data analyst CV (PDF)" },
-  // Tailored to digital data roles (digital performance, dashboards, WordPress, platforms). Same privacy rules.
-  cvDigital: { url: "/cv/Mohammad-Uzair-Khan-CV-Digital-Data-Solutions.pdf", label: "Digital data CV (PDF)" },
+  cv: { url: "/cv/Mohammad-Uzair-Khan-CV.pdf", label: "CV (PDF)" },
   linkedinHeadline: "Aspiring AI Engineer | CS @ BITS Pilani Dubai | Python · Gemini API · RAG · Claude | 1st Author, IEEE Paper on Edge AI",
   location: "Dubai, UAE",
   timeZone: "Asia/Dubai",
@@ -25,7 +21,7 @@ export const person = {
   githubHandle: "f20230125-sudo",
   linkedin: "https://www.linkedin.com/in/mohammad-uzair-khan-2b24b0355/",
   summary:
-    "Mohammad Uzair Khan, who goes by Uzair, is a Computer Science undergraduate at BITS Pilani, Dubai Campus, based in Dubai. He analyses large public datasets (US Medicaid, Medicare formularies, drug prices, the NPI registry, clinical trials) with Python, SQL, Excel and Power BI, evaluates AI and retrieval systems against held-out baselines, and builds LLM agents, front-end interfaces for AI, quant tools and edge machine learning. His projects share one habit: they show their work, with sources, checks and honest limits.",
+    "Mohammad Uzair Khan, who goes by Uzair, is a Computer Science undergraduate at BITS Pilani, Dubai Campus, based in Dubai. He builds AI agents and automations that read, classify, extract and draft with structured outputs, source citations and human review, including Scout, the inbox agent he runs locally. His data science and analytics work spans Python and SQL pipelines, forecasting, Power BI and React dashboards. REST APIs, webhooks and scheduled jobs connect the pieces. His projects show their work, with baselines, held-out evaluation and honest limits.",
   openToWork:
     "His LinkedIn profile says he is open to work in Dubai, on-site, hybrid or remote.",
   graduating: "Expected 2027",
@@ -105,16 +101,20 @@ export const certifications = [
  */
 export const skillGroups: SkillGroup[] = [
   {
-    id: "languages",
-    label: "Languages",
+    id: "ai",
+    label: "AI agents and automation",
     skills: [
-      { name: "TypeScript", aliases: ["ts"], usedIn: ["flowboard", "sayso", "hindsight", "agent-desk", "ai-market-analyst", "rx-market-pulse", "pharma-evidence", "signaldesk-ai", "footnote"] },
-      { name: "JavaScript", aliases: ["js"], usedIn: ["noodle", "pokemon-aurora"] },
-      { name: "Python", aliases: ["py"], usedIn: ["rx-market-pulse", "payer-access-intelligence", "field-force-planner", "drug-price-watch", "trial-pipeline-benchmark", "pharma-evidence", "signaldesk-ai", "footnote", "agent-desk", "quant-copilot", "ai-trading-copilot", "document-qa-agent", "ticket-triage-agent", "pr-diff-summarizer", "support-triage-pipeline", "property-data-warehouse"], note: "Also at Amaani." },
-      { name: "Java", usedIn: [] },
-      { name: "SQL", usedIn: ["rx-market-pulse", "payer-access-intelligence", "field-force-planner", "drug-price-watch", "trial-pipeline-benchmark", "signaldesk-ai", "property-data-warehouse", "agent-desk"] },
-      { name: "C", usedIn: [] },
-      { name: "LaTeX", aliases: ["latex"], usedIn: [] },
+      { name: "Claude API and Claude Code", aliases: ["claude", "anthropic", "claude code"], usedIn: ["agent-desk", "quant-copilot", "ai-trading-copilot", "noodle"] },
+      { name: "Gemini API", aliases: ["gemini", "google ai"], usedIn: ["backroom", "signaldesk-ai", "footnote", "document-qa-agent", "ticket-triage-agent", "pr-diff-summarizer", "support-triage-pipeline", "ai-market-analyst", "flowboard"] },
+      { name: "Agentic tool-calling", aliases: ["tool calling", "tool use", "function calling", "agents", "agentic"], usedIn: ["backroom", "signaldesk-ai", "rx-market-pulse", "footnote", "ai-market-analyst", "ai-trading-copilot", "quant-copilot", "sayso", "agent-desk"] },
+      { name: "RAG", aliases: ["retrieval", "retrieval augmented generation", "retrieval-augmented generation"], usedIn: ["footnote", "pharma-evidence", "signaldesk-ai", "document-qa-agent", "ai-trading-copilot"] },
+      { name: "BM25", aliases: ["keyword search", "lexical search"], usedIn: ["footnote", "pharma-evidence", "signaldesk-ai"] },
+      { name: "Natural language inference", aliases: ["nli", "deberta", "transformers.js", "onnx", "onnx runtime"], usedIn: ["pharma-evidence"], note: "A pretrained INT8 DeBERTa model run in the browser; not trained or fine-tuned here." },
+      { name: "FAISS", aliases: ["vector search", "vector store"], usedIn: ["document-qa-agent"] },
+      { name: "Structured output", aliases: ["pydantic", "json schema", "typed output"], usedIn: ["backroom", "ticket-triage-agent", "pr-diff-summarizer", "ai-market-analyst", "sayso", "agent-desk"] },
+      { name: "Gmail API", aliases: ["gmail integration"], usedIn: ["inbound"], note: "Read-only mail sync; no send or modify capability." },
+      { name: "Webhooks and scheduled jobs", aliases: ["webhooks", "scheduled jobs"], usedIn: ["backroom", "agent-desk", "drug-price-watch", "digital-demand-pulse"] },
+      { name: "Prompt engineering", aliases: ["prompting", "prompts"], usedIn: [] },
     ],
   },
   {
@@ -126,43 +126,15 @@ export const skillGroups: SkillGroup[] = [
       { name: "Data cleaning and harmonisation", aliases: ["data cleaning", "data harmonisation", "data harmonization", "data transformation", "etl", "data wrangling"], usedIn: ["rx-market-pulse", "trial-pipeline-benchmark", "payer-access-intelligence", "drug-price-watch", "field-force-planner"] },
       { name: "Data-quality checks", aliases: ["data quality", "data validation", "scorecard", "reconciliation"], usedIn: ["rx-market-pulse", "trial-pipeline-benchmark", "drug-price-watch", "field-force-planner", "payer-access-intelligence", "property-data-warehouse"] },
       { name: "Data analysis", aliases: ["data analytics", "analytics", "data analyst", "kpi", "kpis"], usedIn: ["rx-market-pulse", "payer-access-intelligence", "field-force-planner", "drug-price-watch", "trial-pipeline-benchmark"] },
-      { name: "Forecasting and backtesting", aliases: ["forecasting", "forecast", "time series", "backtesting", "wape"], usedIn: ["rx-market-pulse", "quant-copilot"] },
-      { name: "Model evaluation", aliases: ["evaluation", "evals", "held out", "held-out", "baseline", "bootstrap", "statistics"], usedIn: ["pharma-evidence", "signaldesk-ai", "footnote", "quant-copilot"], note: "Held-out splits frozen before inference, same-model baselines and bootstrap intervals." },
-    ],
-  },
-  {
-    id: "frontend",
-    label: "Front-end",
-    skills: [
-      { name: "React", aliases: ["reactjs"], usedIn: ["flowboard", "sayso", "hindsight", "agent-desk", "ai-market-analyst", "quant-copilot"] },
-      { name: "Next.js", aliases: ["nextjs", "next"], usedIn: ["flowboard", "sayso", "hindsight", "agent-desk", "ai-market-analyst", "quant-copilot", "rx-market-pulse", "drug-price-watch", "field-force-planner", "trial-pipeline-benchmark", "pharma-evidence", "footnote"] },
-      { name: "Redux Toolkit", aliases: ["redux", "rtk", "rtk query", "state management"], usedIn: ["flowboard", "sayso", "hindsight"] },
-      { name: "React Flow", aliases: ["xyflow", "reactflow"], usedIn: ["flowboard"] },
-      { name: "Tailwind CSS", aliases: ["tailwind", "css"], usedIn: ["sayso", "hindsight", "flowboard", "ai-market-analyst"] },
-      { name: "Zod", aliases: ["schema validation"], usedIn: ["flowboard", "sayso", "hindsight"] },
-      { name: "Accessibility", aliases: ["a11y", "wcag", "axe"], usedIn: ["flowboard", "sayso", "hindsight"], note: "WCAG checks with axe in both themes." },
-      { name: "SVG charts", aliases: ["svg", "data visualisation", "data visualization", "charts", "dataviz"], usedIn: ["hindsight", "quant-copilot", "rx-market-pulse", "drug-price-watch", "field-force-planner", "trial-pipeline-benchmark"] },
-    ],
-  },
-  {
-    id: "ai",
-    label: "Generative AI and LLMs",
-    skills: [
-      { name: "Claude API and Claude Code", aliases: ["claude", "anthropic", "claude code"], usedIn: ["agent-desk", "quant-copilot", "ai-trading-copilot", "noodle"] },
-      { name: "Gemini API", aliases: ["gemini", "google ai"], usedIn: ["signaldesk-ai", "footnote", "document-qa-agent", "ticket-triage-agent", "pr-diff-summarizer", "support-triage-pipeline", "ai-market-analyst", "flowboard"] },
-      { name: "Agentic tool-calling", aliases: ["tool calling", "tool use", "function calling", "agents", "agentic"], usedIn: ["signaldesk-ai", "rx-market-pulse", "footnote", "ai-market-analyst", "ai-trading-copilot", "quant-copilot", "sayso", "agent-desk"] },
-      { name: "RAG", aliases: ["retrieval", "retrieval augmented generation", "retrieval-augmented generation"], usedIn: ["footnote", "pharma-evidence", "signaldesk-ai", "document-qa-agent", "ai-trading-copilot"] },
-      { name: "BM25", aliases: ["keyword search", "lexical search"], usedIn: ["footnote", "pharma-evidence", "signaldesk-ai"] },
-      { name: "Natural language inference", aliases: ["nli", "deberta", "transformers.js", "onnx", "onnx runtime"], usedIn: ["pharma-evidence"], note: "A pretrained INT8 DeBERTa model run in the browser; not trained or fine-tuned here." },
-      { name: "FAISS", aliases: ["vector search", "vector store"], usedIn: ["document-qa-agent"] },
-      { name: "Structured output", aliases: ["pydantic", "json schema", "typed output"], usedIn: ["ticket-triage-agent", "pr-diff-summarizer", "ai-market-analyst", "sayso", "agent-desk"] },
-      { name: "Prompt engineering", aliases: ["prompting", "prompts"], usedIn: [] },
+      { name: "Forecasting and backtesting", aliases: ["forecasting", "forecast", "time series", "backtesting", "wape"], usedIn: ["brand-forecast-studio", "rx-market-pulse", "quant-copilot"] },
+      { name: "Model evaluation", aliases: ["evaluation", "evals", "held out", "held-out", "baseline", "bootstrap", "statistics"], usedIn: ["inbound", "backroom", "pharma-evidence", "signaldesk-ai", "footnote", "quant-copilot"], note: "Held-out splits frozen before inference, same-model baselines and bootstrap intervals." },
     ],
   },
   {
     id: "ml",
     label: "Machine learning",
     skills: [
+      { name: "LightGBM", usedIn: ["brand-forecast-studio"], note: "Rolling-origin backtesting and conformal forecast intervals." },
       { name: "NumPy and pandas", aliases: ["numpy", "pandas"], usedIn: ["quant-copilot", "ai-trading-copilot", "document-qa-agent", "field-force-planner"] },
       { name: "scikit-learn", aliases: ["sklearn"], usedIn: ["ai-trading-copilot"] },
       { name: "TensorFlow and Keras", aliases: ["tensorflow", "keras", "tf"], usedIn: [], note: "Used in the IEEE edge-ML paper." },
@@ -171,17 +143,45 @@ export const skillGroups: SkillGroup[] = [
     ],
   },
   {
+    id: "languages",
+    label: "Languages",
+    skills: [
+      { name: "TypeScript", aliases: ["ts"], usedIn: ["inbound", "backroom", "order-desk", "invoice-ready", "quote-desk", "content-desk", "flowboard", "sayso", "hindsight", "agent-desk", "ai-market-analyst", "rx-market-pulse", "pharma-evidence", "signaldesk-ai", "footnote"] },
+      { name: "JavaScript", aliases: ["js"], usedIn: ["noodle", "pokemon-aurora"] },
+      { name: "Python", aliases: ["py"], usedIn: ["inbound", "backroom", "order-desk", "loopdesk", "followdesk", "scopedesk", "quote-desk", "content-desk", "rx-market-pulse", "payer-access-intelligence", "field-force-planner", "drug-price-watch", "trial-pipeline-benchmark", "pharma-evidence", "signaldesk-ai", "footnote", "agent-desk", "quant-copilot", "ai-trading-copilot", "document-qa-agent", "ticket-triage-agent", "pr-diff-summarizer", "support-triage-pipeline", "property-data-warehouse"], note: "Also at Amaani." },
+      { name: "Java", usedIn: [] },
+      { name: "SQL", usedIn: ["backroom", "order-desk", "loopdesk", "scopedesk", "content-desk", "rx-market-pulse", "payer-access-intelligence", "field-force-planner", "drug-price-watch", "trial-pipeline-benchmark", "signaldesk-ai", "property-data-warehouse", "agent-desk"] },
+      { name: "C", usedIn: [] },
+      { name: "LaTeX", aliases: ["latex"], usedIn: [] },
+    ],
+  },
+  {
     id: "backend",
     label: "Backend and databases",
     skills: [
       { name: "FastAPI", usedIn: ["agent-desk", "quant-copilot", "ai-trading-copilot"] },
-      { name: "Flask", usedIn: ["document-qa-agent"], note: "Also at Amaani." },
+      { name: "Flask", usedIn: ["inbound", "backroom", "order-desk", "loopdesk", "followdesk", "scopedesk", "quote-desk", "content-desk", "document-qa-agent"], note: "Also at Amaani." },
       { name: "REST API design", aliases: ["rest", "rest api", "rest apis", "api design", "apis"], usedIn: ["flowboard", "sayso", "document-qa-agent"], note: "And at Amaani." },
       { name: "Swagger/OpenAPI and Postman", aliases: ["swagger", "openapi", "postman"], usedIn: [], note: "At Amaani." },
-      { name: "SQLite", usedIn: ["agent-desk"] },
+      { name: "PostgreSQL", aliases: ["postgres"], usedIn: ["backroom", "order-desk", "loopdesk", "followdesk", "scopedesk", "content-desk"] },
+      { name: "SQLite", usedIn: ["inbound", "loopdesk", "followdesk", "scopedesk", "agent-desk"] },
       { name: "DuckDB", usedIn: ["rx-market-pulse", "payer-access-intelligence", "field-force-planner", "drug-price-watch", "trial-pipeline-benchmark", "pharma-evidence", "property-data-warehouse"] },
       { name: "Redis", usedIn: ["signaldesk-ai"] },
       { name: "MySQL", usedIn: [] },
+    ],
+  },
+  {
+    id: "frontend",
+    label: "Front-end",
+    skills: [
+      { name: "React", aliases: ["reactjs"], usedIn: ["inbound", "backroom", "order-desk", "invoice-ready", "quote-desk", "content-desk", "flowboard", "sayso", "hindsight", "agent-desk", "ai-market-analyst", "quant-copilot"] },
+      { name: "Next.js", aliases: ["nextjs", "next"], usedIn: ["flowboard", "sayso", "hindsight", "agent-desk", "ai-market-analyst", "quant-copilot", "rx-market-pulse", "drug-price-watch", "field-force-planner", "trial-pipeline-benchmark", "pharma-evidence", "footnote"] },
+      { name: "Redux Toolkit", aliases: ["redux", "rtk", "rtk query", "state management"], usedIn: ["flowboard", "sayso", "hindsight"] },
+      { name: "React Flow", aliases: ["xyflow", "reactflow"], usedIn: ["flowboard"] },
+      { name: "Tailwind CSS", aliases: ["tailwind", "css"], usedIn: ["sayso", "hindsight", "flowboard", "ai-market-analyst"] },
+      { name: "Zod", aliases: ["schema validation"], usedIn: ["flowboard", "sayso", "hindsight"] },
+      { name: "Accessibility", aliases: ["a11y", "wcag", "axe"], usedIn: ["flowboard", "sayso", "hindsight"], note: "WCAG checks with axe in both themes." },
+      { name: "SVG charts", aliases: ["svg", "data visualisation", "data visualization", "charts", "dataviz"], usedIn: ["hindsight", "quant-copilot", "rx-market-pulse", "drug-price-watch", "field-force-planner", "trial-pipeline-benchmark"] },
     ],
   },
   {
