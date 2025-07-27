@@ -22,8 +22,18 @@ for (const theme of ["light", "dark"] as const) {
 
     test("the desktop with the assistant open", async ({ page }) => {
       await gotoDesktop(page);
+      await expect(page.getByRole("region", { name: "Featured work" }).getByRole("listitem")).toHaveCount(3);
       await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
       await scan(page, "desktop");
+    });
+
+    test("the compact featured list with the assistant open", async ({ page }) => {
+      await page.setViewportSize({ width: 1280, height: 720 });
+      await gotoDesktop(page);
+      const panel = page.getByRole("region", { name: "Featured work" });
+      await expect(panel).toBeInViewport({ ratio: 1 });
+      await expect(panel.getByRole("listitem")).toHaveCount(3);
+      await scan(page, "compact featured work");
     });
 
     test("an answer with sources, actions and the fold-out open", async ({ page }) => {
@@ -80,6 +90,7 @@ test.describe("on a phone", () => {
 
   test("the desktop and an open window", async ({ page }) => {
     await gotoDesktop(page);
+    await expect(page.getByRole("region", { name: "Featured work" }).getByRole("listitem")).toHaveCount(3);
     await scan(page, "phone desktop");
     await page.getByRole("option", { name: /^Inbound/ }).tap();
     await expect(page.getByRole("dialog", { name: "Inbound", exact: true })).toBeVisible();

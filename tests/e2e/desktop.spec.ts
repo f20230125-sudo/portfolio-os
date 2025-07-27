@@ -272,7 +272,7 @@ test.describe("right-click menus", () => {
 
   test("the desktop offers its own menu, and Escape closes it", async ({ page }) => {
     await gotoDesktop(page);
-    await page.mouse.click(700, 500, { button: "right" });
+    await page.mouse.click(800, 700, { button: "right" });
     await expect(page.getByRole("menu").getByRole("menuitem", { name: "Settings" })).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(page.getByRole("menu")).toHaveCount(0);

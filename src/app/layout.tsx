@@ -6,7 +6,7 @@ import "./globals.css";
 
 const TITLE = `${person.name} · ${person.role}`;
 const DESCRIPTION =
-  "A portfolio built as a desktop. Open Uzair Khan's projects in windows, run his live apps inside them, and ask the assistant anything about him. BITS Pilani Dubai, building LLM agents, front-end interfaces for AI and edge ML.";
+  "Mohammad Uzair Khan is a CS undergraduate at BITS Pilani Dubai who builds AI agents, automations and data systems. Explore his desktop portfolio with live apps and an assistant.";
 
 // On Vercel this is the site's public address, which link previews need.
 const SITE = process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3050";

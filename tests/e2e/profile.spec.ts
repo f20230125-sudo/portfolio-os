@@ -27,9 +27,9 @@ test.describe("on a wide screen", () => {
     const c = card(page);
     await expect(c).toBeVisible();
     await expect(c.getByRole("heading", { name: "Mohammad Uzair Khan" })).toBeVisible();
-    await expect(c).toContainText("AI agents & automation, data science & analytics");
+    await expect(c).toContainText("AI engineering: agents, automation and data");
     await expect(c).toContainText("Dubai, UAE");
-    await expect(c).toContainText("Open to work in Dubai: on-site, hybrid or remote");
+    await expect(c).toContainText("Open to AI and software roles in Dubai, internship or full-time");
     expect(errors).toEqual([]);
   });
 
@@ -42,6 +42,7 @@ test.describe("on a wide screen", () => {
     await expect(c.getByRole("link", { name: "Email" })).toHaveAttribute("href", /^mailto:/);
     await expect(c.getByRole("link", { name: "GitHub" })).toHaveAttribute("href", /^https:\/\/github\.com\//);
     await expect(c.getByRole("link", { name: "LinkedIn" })).toHaveAttribute("href", /^https:\/\/www\.linkedin\.com\//);
+    await expect(c.getByRole("link", { name: "Read as a page" })).toHaveAttribute("href", "/simple");
   });
 
   test("the CV file is a PDF the browser may show, and does not carry what he keeps private", async ({ page, request }) => {
@@ -82,7 +83,7 @@ test.describe("on a wide screen", () => {
   test("is in the page the server sends, for search engines and for visitors without scripts", async ({ request }) => {
     const html = await (await request.get("/")).text();
     expect(html).toContain("Mohammad Uzair Khan");
-    expect(html).toContain("Open to work in Dubai");
+    expect(html).toContain("Open to AI and software roles");
     expect(html).toContain(CV);
     expect(html).toMatch(/<link rel="canonical" href="https?:\/\/[^"/]+"/);
   });
@@ -107,11 +108,12 @@ test.describe("on a narrower screen", () => {
 for (const [name, width, height] of [
   ["a phone", 390, 844],
   ["a small phone", 375, 667],
+  ["a short phone", 375, 568],
 ] as const) {
   test.describe(`on ${name}`, () => {
     test.use({ viewport: { width, height }, hasTouch: true, isMobile: true });
 
-    test("shows the card under the icons, above the taskbar, inside the screen", async ({ page }) => {
+    test("shows the complete card first, before featured work and the icons", async ({ page }) => {
       await gotoDesktop(page);
       const cardEl = card(page);
       await expect(cardEl).toBeVisible();
@@ -120,6 +122,10 @@ for (const [name, width, height] of [
       expect(c.x).toBeGreaterThanOrEqual(0);
       expect(c.x + c.width).toBeLessThanOrEqual(width);
       expect(c.y + c.height).toBeLessThanOrEqual(height - 48);
+      const featured = await box(page.getByRole("region", { name: "Featured work" }));
+      expect(c.y + c.height).toBeLessThan(featured.y);
+      expect(await cardEl.locator(".profile-about").isVisible()).toBe(true);
+      for (const i of await iconBoxes(page)) expect(i.y).toBeGreaterThan(featured.y + featured.height);
       for (const i of await iconBoxes(page)) expect(overlaps(c, i)).toBe(false);
       expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false);
     });
@@ -128,6 +134,8 @@ for (const [name, width, height] of [
       await gotoDesktop(page);
       await icon(page, "About").tap();
       await expect(win(page, "About")).toBeVisible();
+      // Restore the intro's scroll position beneath the full-screen window.
+      await page.locator(".desktop-content").evaluate((el) => { el.scrollTop = 0; });
       const c = await box(card(page));
       const top = await page.evaluate(([px, py]) => document.elementFromPoint(px, py)?.closest("[role=dialog]")?.getAttribute("aria-label") ?? null, [c.x + c.width / 2, c.y + c.height / 2]);
       expect(top).toBe("About");
@@ -168,7 +176,7 @@ test.describe("the CV from everywhere else", () => {
     await page.goto("/simple");
     await expect(page.getByRole("link", { name: "CV (PDF)" })).toHaveAttribute("href", CV);
     await expect(page.locator("a[download]")).toHaveCount(1);
-    await expect(page.getByText("Open to work in Dubai: on-site, hybrid or remote.")).toBeVisible();
+    await expect(page.getByText("Open to AI and software roles in Dubai, internship or full-time.")).toBeVisible();
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /\/simple$/);
   });
 
@@ -177,6 +185,6 @@ test.describe("the CV from everywhere else", () => {
     const about = await openIcon(page, "About");
     await expect(about).not.toContainText("I build");
     await expect(about).not.toContainText("per his LinkedIn");
-    await expect(about).toContainText("Open to work in Dubai: on-site, hybrid or remote");
+    await expect(about).toContainText("Open to AI and software roles in Dubai, internship or full-time");
   });
 });
