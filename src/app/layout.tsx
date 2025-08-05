@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Providers } from "@/components/Providers";
+import { ThemeProvider } from "@/components/theme";
 import { THEME_SCRIPT } from "@/components/themeScript";
 import { person } from "@/knowledge/profile";
 import "./globals.css";
@@ -36,7 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
       <body className="h-full">
-        <Providers>{children}</Providers>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

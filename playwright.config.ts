@@ -1,5 +1,9 @@
 import { defineConfig, devices } from "@playwright/test";
 
+// Choose a separate port when the usual development port is already occupied.
+const port = process.env.PLAYWRIGHT_PORT ?? "3050";
+const baseURL = `http://localhost:${port}`;
+
 // End-to-end tests drive the real site in a real browser. Locally they use the
 // dev server (and reuse one that is already running); in CI they run against
 // the production build.
@@ -12,7 +16,7 @@ export default defineConfig({
   workers: process.env.CI ? 2 : 6,
   reporter: process.env.CI ? [["github"], ["list"]] : "list",
   use: {
-    baseURL: "http://localhost:3050",
+    baseURL,
     trace: "retain-on-failure",
     // The taskbar clock shows Dubai time. One fixed zone keeps a test the same
     // on a laptop in Dubai and on a CI machine in UTC.
@@ -28,8 +32,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: process.env.CI ? "npm run start" : "npm run dev",
-    url: "http://localhost:3050",
+    command: `node node_modules/next/dist/bin/next ${process.env.CI ? "start" : "dev"} -p ${port}`,
+    url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

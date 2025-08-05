@@ -1,6 +1,7 @@
-import { chunkById, chunks, type Chunk } from "@/knowledge/chunks";
+import { chunkById, type Chunk } from "@/knowledge/chunks";
 import { education, experience, person, research, skillGroups } from "@/knowledge/profile";
 import { flagship, olderProjects, projectById, projects, type Project } from "@/knowledge/projects";
+import { dayLabel } from "./labels";
 import { passageCount } from "./retrieve";
 import type { Action, Block, SourceChip } from "./types";
 
@@ -8,28 +9,13 @@ import type { Action, Block, SourceChip } from "./types";
 // chips that open the matching window, the buttons, and the follow-up
 // questions. No searching happens here.
 
-export const ASOF_LABEL = "7 October 2026";
-
-const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-/** "2026-10-18" as "18 October 2026". */
-export const dayLabel = (iso: string): string => {
-  const [y, m, d] = iso.split("-").map(Number);
-  return `${d} ${MONTH_NAMES[m - 1]} ${y}`;
-};
-
-export const STARTERS = [
-  "What projects has he built?",
-  "Tell me about his research",
-  "Where has he worked?",
-  "How can I contact him?",
-  "What is he looking for?",
-];
+export { dayLabel, STARTERS } from "./labels";
 
 const text = (c: Chunk | undefined): string => (c ? c.text.replace("{{chunks}}", String(passageCount)) : "");
 
 export const para = (t: string): Block => ({ type: "p", text: t });
 
-export function chip(c: Chunk): SourceChip | null {
+function chip(c: Chunk): SourceChip | null {
   if (!c.app) return null;
   if (c.app.startsWith("project:")) {
     const p = projectById(c.app.slice("project:".length));
@@ -212,6 +198,4 @@ export function findChunks(ids: string[]): Chunk[] {
   return ids.map((id) => chunkById.get(id)).filter((c): c is Chunk => Boolean(c));
 }
 
-export const allProjects = projects;
 export const chunkText = text;
-export const chunkTotal = chunks.length;
