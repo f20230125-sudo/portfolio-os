@@ -2,11 +2,12 @@
 
 import { Copy, Minus, Square, X } from "lucide-react";
 import { memo, useEffect, useRef } from "react";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector, useAppStore } from "@/store/hooks";
 import { uiActions } from "@/store/uiSlice";
 import { windowsActions } from "@/store/windowsSlice";
 import { appDef } from "./apps";
 import { AppView } from "./AppView";
+import { closeApp } from "./actions";
 import { clampRect, resizeRect, restoreUnderPointer, snapRect, snapZone, type Handle, type Rect, type SnapSide } from "./geometry";
 import { AppIcon } from "./icons";
 import { PHONE_WIDTH } from "./useViewport";
@@ -23,6 +24,7 @@ const frame = (r: Rect) => `translate(${r.x}px, ${r.y}px)`;
  */
 function WindowImpl({ id }: { id: string }) {
   const dispatch = useAppDispatch();
+  const store = useAppStore();
   const win = useAppSelector((s) => s.windows.byId[id]);
   const focused = useAppSelector((s) => s.windows.focusedId === id);
   const vp = useAppSelector((s) => s.windows.viewport);
@@ -35,20 +37,26 @@ function WindowImpl({ id }: { id: string }) {
   // keyboard focus, unless the app inside already took it for an input.
   useEffect(() => {
     const el = ref.current;
-    if (!el || minimized) return;
+    if (!el || minimized || store.getState().windows.focusedId !== id) return;
     if (!el.contains(document.activeElement)) el.focus({ preventScroll: true });
-  }, [focusNonce, minimized]);
+  }, [focusNonce, minimized, id, store]);
 
   if (!win) return null;
   const def = appDef(id);
   const maximised = win.mode === "max";
+
+  const focusIfNeeded = () => {
+    // Pointer capture and focus capture can run in the same browser event,
+    // before React renders the new focused value. Check the live state.
+    if (store.getState().windows.focusedId !== id) dispatch(windowsActions.focus(id));
+  };
 
   const startDrag = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.button !== 0 || mobile) return;
     if ((e.target as HTMLElement).closest("button")) return;
     const el = ref.current;
     if (!el) return;
-    dispatch(windowsActions.focus(id));
+    focusIfNeeded();
     const handle = e.currentTarget;
     handle.setPointerCapture(e.pointerId);
     const start = { x: e.clientX, y: e.clientY };
@@ -98,7 +106,7 @@ function WindowImpl({ id }: { id: string }) {
     const el = ref.current;
     if (!el) return;
     e.stopPropagation();
-    dispatch(windowsActions.focus(id));
+    focusIfNeeded();
     const grip = e.currentTarget;
     grip.setPointerCapture(e.pointerId);
     const start = { x: e.clientX, y: e.clientY };
@@ -155,9 +163,8 @@ function WindowImpl({ id }: { id: string }) {
       data-min={win.minimized}
       data-mode={mobile ? "mobile" : win.mode}
       style={style}
-      onPointerDownCapture={() => {
-        if (!focused) dispatch(windowsActions.focus(id));
-      }}
+      onPointerDownCapture={focusIfNeeded}
+      onFocusCapture={focusIfNeeded}
       onKeyDown={onKeyDown}
     >
       <div className="win-title" onPointerDown={startDrag} onDoubleClick={() => !mobile && dispatch(windowsActions.toggleMax(id))}>
@@ -174,7 +181,7 @@ function WindowImpl({ id }: { id: string }) {
               {maximised ? <Copy size={12} /> : <Square size={12} />}
             </button>
           )}
-          <button type="button" className="close" aria-label={`Close ${win.title}`} onClick={() => dispatch(windowsActions.close(id))}>
+          <button type="button" className="close" aria-label={`Close ${win.title}`} onClick={() => dispatch(closeApp(id))}>
             <X size={16} />
           </button>
         </div>
