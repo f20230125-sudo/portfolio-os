@@ -91,7 +91,7 @@ const PROJECT_APPS: AppDef[] = projects.map((p) => ({
   id: `project:${p.id}`,
   title: p.name,
   icon: p.icon,
-  size: p.kind === "flagship" ? { w: 940, h: 640 } : { w: 820, h: 600 },
+  size: p.kind === "flagship" ? { w: 1080, h: 720 } : { w: 820, h: 600 },
   kind: "project",
   keywords: [...p.aliases, ...p.tags, ...p.stack],
   blurb: p.tagline,
