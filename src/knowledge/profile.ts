@@ -169,7 +169,7 @@ export const skillGroups: SkillGroup[] = [
       { name: "pytest", usedIn: ["agent-desk", "ai-trading-copilot", "document-qa-agent", "ticket-triage-agent", "pr-diff-summarizer"] },
       { name: "GitHub Actions", aliases: ["ci", "ci/cd", "cicd", "continuous integration"], usedIn: ["agent-desk", "flowboard", "sayso", "hindsight", "ai-trading-copilot", "ai-market-analyst", "property-data-warehouse"] },
       { name: "Docker", usedIn: ["flowboard", "sayso", "hindsight"] },
-      { name: "Kubernetes", aliases: ["k8s", "kind"], usedIn: ["flowboard", "sayso", "hindsight"], note: "Manifest applied to a kind cluster in CI." },
+      { name: "Kubernetes", aliases: ["k8s", "kind cluster"], usedIn: ["flowboard", "sayso", "hindsight"], note: "Manifest applied to a kind cluster in CI." },
       { name: "Vercel", aliases: ["deployment", "hosting"], usedIn: ["agent-desk", "flowboard", "sayso", "hindsight"] },
       { name: "Git and GitHub", aliases: ["git", "github"], usedIn: [] },
       { name: "AWS", usedIn: [], note: "AWS Cloud Technical Essentials is in progress." },

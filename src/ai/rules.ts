@@ -126,6 +126,7 @@ export const isHowSiteBuilt = (n: string): boolean =>
 
 export const isProjectsList = (n: string): boolean =>
   any(n, [
+    /\bhow many (projects|apps|applications|repos|repositories|builds)\b/,
     /\b(what|which|list|show|see|all|tell|name|any)\b.*\b(projects|builds|apps|applications|portfolio|repos|repositories|work)\b/,
     /\bwhat (has|did|have) (he|uzair|you)\b.*\b(built|made|created|build|make|done)\b/,
     /\bhis (projects|builds|work|portfolio|repos|repositories)\b/,
@@ -153,4 +154,4 @@ export const aspectKinds: { test: RegExp; kinds: Chunk["kind"][]; label: string 
 ];
 
 export const wantsLinks = (n: string): boolean =>
-  hasPhrase(n, "live") || /\b(link|url|demo|try|website|site|repo|repository|source|github|code|open|run|where can i)\b/.test(n);
+  hasPhrase(n, "live") || /\b(link|url|demo|try|website|site|repo|repository|source code)\b/.test(n) || /\bwhere can i (see|find|try|use|run|open|get)\b/.test(n);
