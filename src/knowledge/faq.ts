@@ -125,6 +125,98 @@ export const faqs: Faq[] = [
     sources: ["cv"],
   },
   {
+    id: "cv",
+    questions: [
+      "Can I download his CV?",
+      "Where is his CV?",
+      "Does he have a resume I can download?",
+      "Can I see his resume?",
+      "Is there a PDF of his CV?",
+      "Send me his CV",
+    ],
+    answer:
+      "Yes. His CV is a one-page PDF: the Download CV button on the desktop card, in the Resume window and in Contact all give you the same file. It leaves out his phone number and grades, so email him if you need those.",
+    app: "resume",
+    sources: ["cv"],
+  },
+  {
+    id: "strongest-skill",
+    questions: [
+      "What is his strongest skill?",
+      "What is he best at?",
+      "What is his best skill?",
+      "What is his main skill?",
+      "What is his strongest technology?",
+      "What is his main programming language?",
+      "Which language is he strongest in?",
+    ],
+    answer:
+      "He hasn't ranked his skills, so I can't name one as his strongest; this is only what his work shows. TypeScript, React and Next.js are behind all four flagship apps, and Flowboard, Sayso and Hindsight add Redux Toolkit, with unit tests, end-to-end tests and accessibility scans. Python is behind most of the older builds: agents, retrieval, quant tools and the data warehouse. His machine learning is the IEEE paper and a signal model in AI Trading Copilot. For the front end, start with Sayso; for agents, Agent Desk.",
+    app: "projects",
+    sources: ["cv", "readme"],
+  },
+  {
+    id: "teamwork",
+    questions: [
+      "Has he worked in a team?",
+      "Does he have teamwork experience?",
+      "Is he a team player?",
+      "Can he work with others?",
+      "Has he collaborated with other developers?",
+      "How does he work in a team?",
+      "Has he worked with other people?",
+      "How does he handle collaboration?",
+      "Does he work well with others?",
+    ],
+    answer:
+      "Uzair hasn't written about teamwork, so I can't describe how he works with others, and I won't make it up. Two things are on record: he was a backend developer intern at Amaani, a Dubai travel-tech startup, in 2025, and he is first author of an IEEE paper with advisor Prof. Pranav M. Pawar. Team sizes and his part in each aren't published, so for that, email him.",
+    app: "resume",
+    sources: ["cv"],
+  },
+  {
+    id: "open-source",
+    questions: [
+      "Has he contributed to open source?",
+      "Does he contribute to open source?",
+      "Any open source contributions?",
+      "Has he made pull requests to other repositories?",
+      "Is his code public?",
+    ],
+    answer:
+      "He hasn't listed contributions to projects that aren't his own, so I can't say he has or hasn't. What is public is his own work: every project in the Projects folder links to its code on his GitHub.",
+    app: "projects",
+    sources: ["github", "readme"],
+  },
+  {
+    id: "portfolio-site",
+    questions: ["Does he have a portfolio?", "Where is his portfolio?", "Can I see his portfolio?", "Is there a portfolio website?"],
+    answer:
+      "You are looking at it. This desktop is his portfolio: the icons are his projects, the Projects folder holds all of them, and the four flagship apps run live inside their windows.",
+    app: "projects",
+    sources: ["readme"],
+  },
+  {
+    id: "location",
+    questions: ["Where does he live?", "Where is he based?", "Which city is he in?", "Where is he located?", "Is he in Dubai?"],
+    answer: "Uzair is based in Dubai, UAE, where he studies at BITS Pilani, Dubai Campus.",
+    app: "about",
+    sources: ["cv", "linkedin"],
+  },
+  {
+    id: "years-experience",
+    questions: [
+      "How many years of experience does he have?",
+      "How much experience does he have?",
+      "How experienced is he?",
+      "Is he a junior or a senior?",
+      "What level is he at?",
+    ],
+    answer:
+      "He hasn't stated a number of years. On record: one backend internship, at Amaani from June to August 2025, and the projects in the Projects folder. He expects to finish his degree in 2027.",
+    app: "resume",
+    sources: ["cv"],
+  },
+  {
     id: "free-to-use",
     questions: ["Is this free?", "Does this cost anything?", "Do the demos cost money?"],
     answer:

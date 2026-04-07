@@ -21,15 +21,9 @@
   },
   "setB": {
     "total": 40,
-    "passed": 38,
-    "percent": 95,
+    "passed": 39,
+    "percent": 97.5,
     "failures": [
-      {
-        "q": "how do i see his work running without installing anything",
-        "why": "no button to project:",
-        "intent": "about_assistant",
-        "said": "This desktop is a small window manager written for the job, with no windowing library: drag, resize, snap, minimise, maximise and stacking a"
-      },
       {
         "q": "which of his projects work offline",
         "why": "none of \"Noodle\", \"no API key\", \"no key\"",

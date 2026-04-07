@@ -10,7 +10,7 @@ The look follows Windows 11: soft greys, a frosted taskbar, a Start menu. No Mic
 
 ## Try it in a minute
 
-1. Open the site. The assistant is already up: click **What projects has he built?**
+1. Open the site. The card on the desktop says who he is and offers his CV (a one-page PDF, no phone number or grades). On a wide screen the assistant is already up: click **What projects has he built?**
 2. Double-click **Sayso**, then its **Live** tab and **Run it here**. The real app runs inside the window.
 3. Drag a window to the left edge of the screen to snap it. Click a window to bring it forward. Right-click an icon.
 4. Press **Start**, type `react flow`, press Enter. Or type a question in the taskbar box.
@@ -78,9 +78,9 @@ Tests I write for rules I write only prove the rules do what I meant. So the que
 | Set | Questions | First score | After fixing what it exposed |
 | --- | --- | --- | --- |
 | **A**, written before tuning, then tuned to | 166 | 138 (83.1%) | 164 (98.8%) |
-| **B**, written after, never tuned to | 40 | **27 (67.5%)** | 38 (95.0%), no longer independent |
+| **B**, written after, never tuned to | 40 | **27 (67.5%)** | 39 (97.5%), no longer independent |
 
-Read set B's first score, not the later ones: it is the honest guide to a question the assistant has not been shaped to, about one in three of a harder, more indirect kind missing. The later numbers show how much fixing the general causes helped (possessives, filler words, a spelling correction that turned "trades" into "grades", prepared answers losing to looser matches, project questions answered with the whole overview), and flatter it, because set B stopped being a hold-out the moment it was used to find them. Both first runs are in [`docs/eval-first-run.json`](docs/eval-first-run.json); `npm run eval` rescores both sets into [`docs/eval.json`](docs/eval.json), and a test fails if either falls below its floor. What it still misses is listed there, in plain words.
+Read set B's first score, not the later ones: it is the honest guide to a question the assistant has not been shaped to, about one in three of a harder, more indirect kind missing. The later numbers show how much fixing the general causes helped (possessives, filler words, a spelling correction that turned "trades" into "grades", prepared answers losing to looser matches, project questions answered with the whole overview), and flatter it, because set B stopped being a hold-out the moment it was used to find them. Both first runs are in [`docs/eval-first-run.json`](docs/eval-first-run.json); `npm run eval` rescores both sets into [`docs/eval.json`](docs/eval.json), and a test fails if either falls below its floor. What it still misses is listed there, in plain words. (On 8 October 2026 set B's later figure went from 38 to 39: prepared answers added for questions a recruiter asks, such as the CV, teamwork, open source and "does he have a portfolio", happened to answer one of its questions. The first scores did not change.)
 
 ## Run it
 
@@ -102,7 +102,7 @@ npm run dev        # http://localhost:3050
 
 ## Tests
 
-223 unit tests and 117 end-to-end tests, as of 7 October 2026. CI runs all of it on every push.
+249 unit tests and 131 end-to-end tests, as of 8 October 2026. CI runs all of it on every push.
 
 - **Unit tests** cover the window maths (clamping, resizing from every handle, snapping, restoring), the windows reducer (stacking, focus, minimise, maximise, snap, a changing screen), the knowledge data against its schema and against what must never be public, every step of the assistant, and its evaluation.
 - **End-to-end tests** drive the production build in a real browser: every icon, dragging, resizing, snapping and stacking with the mouse and with the keyboard alone, menus, Start and search, twenty-odd questions to the assistant (including injection and markup), the phone layout, the security headers, that no request leaves the site, and axe accessibility scans in both themes on the desktop, every window, an answer, menus and a phone. The Live tab is tested against stand-ins for the four sites, so the tests never depend on the internet.

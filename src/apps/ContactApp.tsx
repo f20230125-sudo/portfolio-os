@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Copy, Mail } from "lucide-react";
+import { Check, Copy, Download, Mail } from "lucide-react";
 import { useState } from "react";
 import { person } from "@/knowledge/profile";
 import { GithubGlyph, LinkedinGlyph } from "@/os/icons";
@@ -27,7 +27,7 @@ export default function ContactApp() {
     <div className="mx-auto max-w-[520px] space-y-5 p-6">
       <header>
         <h2 className="text-[20px] font-semibold">Get in touch</h2>
-        <p className="mt-1 text-[14px] leading-relaxed text-muted">{person.openToWork} Email is the quickest way to reach him.</p>
+        <p className="mt-1 text-[14px] leading-relaxed text-muted">He is open to work in Dubai, on-site, hybrid or remote. Email is the quickest way to reach him.</p>
       </header>
 
       <div className="panel flex items-center gap-3 p-3">
@@ -47,7 +47,7 @@ export default function ContactApp() {
         </label>
         <label className="block text-[13px]">
           <span className="mb-1 block text-muted">Message</span>
-          <textarea value={body} onChange={(e) => setBody(e.target.value)} rows={5} maxLength={1500} className="w-full resize-none rounded-md border border-line-strong bg-surface p-3 text-[14px] outline-none focus:border-accent" />
+          <textarea value={body} onChange={(e) => setBody(e.target.value)} rows={4} maxLength={1500} className="w-full resize-none rounded-md border border-line-strong bg-surface p-3 text-[14px] outline-none focus:border-accent" />
         </label>
         <div className="flex flex-wrap items-center gap-3">
           <a className="btn btn-primary" href={href}>
@@ -58,6 +58,9 @@ export default function ContactApp() {
       </form>
 
       <div className="flex flex-wrap gap-2 border-t border-line pt-4">
+        <a className="btn" href={person.cv.url} download>
+          <Download size={14} aria-hidden="true" /> {person.cv.label}
+        </a>
         <a className="btn" href={person.linkedin} target="_blank" rel="noopener noreferrer">
           <LinkedinGlyph size={14} /> LinkedIn
         </a>
