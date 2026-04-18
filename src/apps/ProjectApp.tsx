@@ -2,7 +2,7 @@
 
 import { ExternalLink, Play, RotateCw, Sparkles } from "lucide-react";
 import { useState } from "react";
-import { ASOF_LABEL } from "@/ai/compose";
+import { dayLabel } from "@/ai/compose";
 import { projectById, kindLabels, type Project } from "@/knowledge/projects";
 import type { LiveSpec } from "@/knowledge/schema";
 import { AppIcon, GithubGlyph } from "@/os/icons";
@@ -134,7 +134,7 @@ function Overview({ p, goLive, ask }: { p: Project; goLive: () => void; ask: () 
             <li key={f}>{f}</li>
           ))}
         </ul>
-        <p className="mt-2 text-[12px] text-faint">Figures are as of {ASOF_LABEL}.</p>
+        <p className="mt-2 text-[12px] text-faint">Figures are as of {dayLabel(p.asOf)}.</p>
       </section>
       <section aria-labelledby={`${p.id}-stack`}>
         <h3 id={`${p.id}-stack`} className="eyebrow mb-2">Built with</h3>

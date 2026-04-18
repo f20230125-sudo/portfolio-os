@@ -9,7 +9,7 @@ test.describe("on a phone", () => {
     await gotoDesktop(page);
     await expect(page.getByRole("dialog")).toHaveCount(0);
     const n = await page.getByRole("option").count();
-    expect(n).toBe(10);
+    expect(n).toBe(11);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
     expect(overflow).toBe(false);
     expect(errors).toEqual([]);

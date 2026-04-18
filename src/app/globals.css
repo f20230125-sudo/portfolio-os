@@ -176,7 +176,8 @@ button {
   padding: 12px 8px;
   display: grid;
   grid-auto-flow: column;
-  grid-template-rows: repeat(5, 96px);
+  /* Six to a column keeps all eleven icons in two columns, beside the profile card. */
+  grid-template-rows: repeat(6, 96px);
   grid-auto-columns: 92px;
   align-content: start;
   justify-content: start;
@@ -239,6 +240,16 @@ button {
   left: 216px;
   top: 40px;
   width: min(420px, calc(100vw - 232px));
+}
+/* On a short screen six do not fit above the taskbar: five to a column, three columns, and the card moves over. */
+@media (min-width: 768px) and (max-height: 700px) {
+  .desktop {
+    grid-template-rows: repeat(5, 96px);
+  }
+  .profile-card {
+    left: 308px;
+    width: min(420px, calc(100vw - 324px));
+  }
 }
 .profile-status {
   display: inline-flex;

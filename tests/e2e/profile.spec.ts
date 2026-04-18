@@ -27,7 +27,7 @@ test.describe("on a wide screen", () => {
     const c = card(page);
     await expect(c).toBeVisible();
     await expect(c.getByRole("heading", { name: "Mohammad Uzair Khan" })).toBeVisible();
-    await expect(c).toContainText("Software & AI engineer");
+    await expect(c).toContainText("Data science, analytics & AI");
     await expect(c).toContainText("Dubai, UAE");
     await expect(c).toContainText("Open to work in Dubai: on-site, hybrid or remote");
     expect(errors).toEqual([]);
