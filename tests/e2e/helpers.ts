@@ -19,7 +19,14 @@ export const icon = (page: Page, name: string): Locator => page.getByRole("optio
 export const win = (page: Page, name: string): Locator => page.getByRole("dialog", { name, exact: true });
 
 export async function openIcon(page: Page, name: string): Promise<Locator> {
-  await icon(page, name).dblclick();
+  if ((await icon(page, name).count()) > 0) {
+    await icon(page, name).dblclick();
+  } else {
+    // Not on the desktop (only the flagship projects are): open it the way a visitor would, from Start's search.
+    await page.getByRole("button", { name: "Start" }).click();
+    await page.getByLabel("Search apps and projects, or ask a question").fill(name);
+    await page.getByRole("dialog", { name: "Start menu" }).getByRole("list", { name: "Results" }).getByRole("button", { name: new RegExp(`^${name}`) }).first().click();
+  }
   const w = win(page, name);
   await expect(w).toBeVisible();
   return w;
@@ -41,4 +48,4 @@ export async function drag(page: Page, from: { x: number; y: number }, to: { x: 
   await page.mouse.up();
 }
 
-export const DESKTOP_ICONS = ["Agent Desk", "Flowboard", "Sayso", "Hindsight", "Projects", "Ask Uzair", "About", "Resume", "Research", "Contact"] as const;
+export const DESKTOP_ICONS = ["Rx Market Pulse", "Payer Access Intelligence", "Field Force Planner", "Drug Price Watch", "Trial Pipeline Benchmark", "PharmaEvidence", "SignalDesk AI", "Projects", "Ask Uzair", "About", "Resume", "Research", "Contact"] as const;

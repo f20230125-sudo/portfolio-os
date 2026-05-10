@@ -1,6 +1,6 @@
 import { chunkById, chunks, type Chunk } from "@/knowledge/chunks";
 import { education, experience, person, research, skillGroups } from "@/knowledge/profile";
-import { dataProjects, flagship, olderProjects, projectById, projects, type Project } from "@/knowledge/projects";
+import { flagship, olderProjects, projectById, projects, type Project } from "@/knowledge/projects";
 import { passageCount } from "./retrieve";
 import type { Action, Block, SourceChip } from "./types";
 
@@ -50,8 +50,6 @@ export function appLabel(app: string): string {
       return "Contact";
     case "projects":
       return "Projects";
-    case "data-projects":
-      return "Data work";
     case "settings":
       return "Settings";
     case "ask":
@@ -110,12 +108,13 @@ export function cvActions(): Action[] {
 }
 
 export function projectsListBlocks(): Block[] {
+  const apps = projects.filter((p) => p.kind === "apps");
   return [
-    para("These are the four flagship projects. Each opens in its own window with a demo, the numbers and the decisions behind it:"),
+    para(`His ${flagship.length} flagship projects are data science and analytics work on public pharmaceutical data related to MSD's business (independent projects, not work for MSD). Each opens in its own window with the numbers and the decisions behind it:`),
     { type: "list", items: flagship.map((p) => `${p.name}: ${p.tagline}`) },
-    para(`His newest work is in the Data work folder: ${dataProjects.length} data science and analytics projects on public pharmaceutical and financial data:`),
-    { type: "list", items: dataProjects.map((p) => `${p.name}: ${p.tagline}`) },
-    para(`There are ${olderProjects.length - dataProjects.length} older builds in the Projects folder too, from RAG services and a trading research desk to a data warehouse, a chatbot and a game.`),
+    para(`Four earlier AI apps are in the Projects folder too: ${apps.map((p) => p.name).join(", ")}, each live on the web.`),
+    { type: "list", items: apps.map((p) => `${p.name}: ${p.tagline}`) },
+    para(`And ${olderProjects.length - apps.length} more builds, from Footnote's FinanceBench measurement and RAG services to a trading research desk, a data warehouse, a chatbot and a game.`),
   ];
 }
 

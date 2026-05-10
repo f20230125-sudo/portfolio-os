@@ -68,16 +68,16 @@ test.describe("the Projects folder", () => {
     const rows = w.getByRole("list", { name: "Projects" }).getByRole("button");
     await expect(rows).toHaveCount(22);
     const folders = w.getByRole("navigation", { name: "Project folders" });
-    await folders.getByRole("button", { name: "Data and analytics" }).click();
-    await expect(rows).toHaveCount(8);
+    await folders.getByRole("button", { name: "AI apps" }).click();
+    await expect(rows).toHaveCount(4);
     await folders.getByRole("button", { name: "Quant and markets" }).click();
     await expect(rows).toHaveCount(3);
     await folders.getByRole("button", { name: "Flagship" }).click();
-    await expect(rows).toHaveCount(4);
+    await expect(rows).toHaveCount(7);
     await rows.first().focus();
     await page.keyboard.press("ArrowDown");
     await page.keyboard.press("Enter");
-    await expect(win(page, "Flowboard")).toBeVisible();
+    await expect(win(page, "Payer Access Intelligence")).toBeVisible();
   });
 
   test("a row's details show beside the list", async ({ page }) => {
