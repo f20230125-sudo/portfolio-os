@@ -1,6 +1,6 @@
 # Portfolio OS
 
-A portfolio that is a desktop. Mohammad Uzair Khan's projects are the icons on it; each opens in a window you can drag, resize, snap, minimise and close, and his live apps run inside theirs. The desktop icons are his **flagship projects**, data science and analytics on public pharmaceutical data related to MSD's business (independent work, not for MSD): Rx Market Pulse, Payer Access Intelligence, Field Force Planner, Drug Price Watch, Trial Pipeline Benchmark, PharmaEvidence and SignalDesk AI. His four earlier AI apps (Agent Desk, Flowboard, Sayso, Hindsight) and every other build are in the Projects folder.
+A portfolio that is a desktop. Mohammad Uzair Khan's projects are the icons on it; each opens in a window you can drag, resize, snap, minimise and close, and his live apps run inside theirs. The desktop icons are his **flagship projects**, data science and analytics on public pharmaceutical data related to MSD's business (independent work, not for MSD): Rx Market Pulse, Payer Access Intelligence, Field Force Planner, Drug Price Watch, Trial Pipeline Benchmark, PharmaEvidence, SignalDesk AI and CampaignOps (synthetic campaign data, labelled so). His four earlier AI apps (Agent Desk, Flowboard, Sayso, Hindsight) and every other build are in the Projects folder.
 
 **Live: https://uzair-khan-lac.vercel.app** · a plain-page version of the same content: [/simple](https://uzair-khan-lac.vercel.app/simple)
 
@@ -102,7 +102,7 @@ npm run dev        # http://localhost:3050
 
 ## Tests
 
-280 unit tests and 134 end-to-end tests, as of 18 October 2026. CI runs all of it on every push.
+283 unit tests and 135 end-to-end tests, as of 18 October 2026. CI runs all of it on every push.
 
 - **Unit tests** cover the window maths (clamping, resizing from every handle, snapping, restoring), the windows reducer (stacking, focus, minimise, maximise, snap, a changing screen), the knowledge data against its schema and against what must never be public, every step of the assistant, and its evaluation.
 - **End-to-end tests** drive the production build in a real browser: every icon, dragging, resizing, snapping and stacking with the mouse and with the keyboard alone, menus, Start and search, twenty-odd questions to the assistant (including injection and markup), the phone layout, the security headers, that no request leaves the site, and axe accessibility scans in both themes on the desktop, every window, an answer, menus and a phone. The Live tab is tested against stand-ins for the four sites, so the tests never depend on the internet.

@@ -48,4 +48,4 @@ export async function drag(page: Page, from: { x: number; y: number }, to: { x: 
   await page.mouse.up();
 }
 
-export const DESKTOP_ICONS = ["Rx Market Pulse", "Payer Access Intelligence", "Field Force Planner", "Drug Price Watch", "Trial Pipeline Benchmark", "PharmaEvidence", "SignalDesk AI", "Projects", "Ask Uzair", "About", "Resume", "Research", "Contact"] as const;
+export const DESKTOP_ICONS = ["Rx Market Pulse", "Payer Access Intelligence", "Field Force Planner", "Drug Price Watch", "Trial Pipeline Benchmark", "PharmaEvidence", "SignalDesk AI", "CampaignOps", "Projects", "Ask Uzair", "About", "Resume", "Research", "Contact"] as const;

@@ -61,7 +61,7 @@ export function SimpleView() {
       <main>
         <section aria-labelledby="s-projects" className="py-6">
           <h2 id="s-projects" className="mb-1 text-[22px] font-semibold">Projects</h2>
-          <p className="text-[14px] text-muted">The flagship projects are data science and analytics work on public pharmaceutical data related to MSD&rsquo;s business: independent projects, not work for MSD. Most are live on the web. Flagship figures are as of {dayLabel(flagship.map((p) => p.asOf).sort().at(-1) ?? "2026-10-18")}; other figures as of {ASOF_LABEL}.</p>
+          <p className="text-[14px] text-muted">The flagship projects are data science and analytics work related to MSD&rsquo;s business, on public pharmaceutical data (CampaignOps on labelled synthetic campaign data): independent projects, not work for MSD. Most are live on the web. Flagship figures are as of {dayLabel(flagship.map((p) => p.asOf).sort().at(-1) ?? "2026-10-18")}; other figures as of {ASOF_LABEL}.</p>
           {flagship.map((p) => (
             <ProjectBlock key={p.id} p={p} />
           ))}
