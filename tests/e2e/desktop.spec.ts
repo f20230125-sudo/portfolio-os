@@ -384,3 +384,9 @@ test.describe("the simple view", () => {
     expect(html).toContain('href="/simple"');
   });
 });
+
+test("opens in light mode even when the system prefers dark", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+});
