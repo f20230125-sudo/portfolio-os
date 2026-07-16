@@ -48,17 +48,15 @@ export default function ResumeApp() {
           <a className="btn btn-primary" href={person.cv.url} download>
             <Download size={14} aria-hidden="true" /> {person.cv.label}
           </a>
-          <a className="btn" href={person.cvAnalyst.url} download>
-            <Download size={14} aria-hidden="true" /> {person.cvAnalyst.label}
-          </a>
-          <a className="btn" href={person.cvDigital.url} download>
-            <Download size={14} aria-hidden="true" /> {person.cvDigital.label}
-          </a>
           <a className="btn" href="/simple">
             <FileText size={14} aria-hidden="true" /> Printable version
           </a>
         </div>
       </header>
+
+      <Section title="Profile">
+        <p className="text-[13.5px] leading-relaxed">{person.summary}</p>
+      </Section>
 
       <Section title="Education">
         <Row title={u.name} right={person.location} sub={u.degree} subRight={`Expected ${u.expected}`} />
@@ -102,7 +100,7 @@ export default function ResumeApp() {
           ))}
         </ul>
         <button type="button" className="link no-print mt-2 text-[13px]" onClick={() => os.open("projects")}>
-          See all fourteen in the Projects folder
+          See every project in the Projects folder
         </button>
       </Section>
 

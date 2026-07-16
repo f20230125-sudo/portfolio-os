@@ -31,6 +31,9 @@ export function correct(norm: string): string {
       let bestD = limit + 1;
       let ties = 0;
       for (const w of WORDS) {
+        // A new four-letter tool name is weak evidence that a five-letter word
+        // lost a letter: PINT must not consume "print", or Vite "vitae".
+        if (tok.length === 5 && w.length === 4) continue;
         if (Math.abs(w.length - tok.length) > limit) continue;
         const d = distance(tok, w, limit);
         if (d < bestD) {

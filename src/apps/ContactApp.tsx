@@ -61,12 +61,6 @@ export default function ContactApp() {
         <a className="btn" href={person.cv.url} download>
           <Download size={14} aria-hidden="true" /> {person.cv.label}
         </a>
-        <a className="btn" href={person.cvAnalyst.url} download>
-          <Download size={14} aria-hidden="true" /> {person.cvAnalyst.label}
-        </a>
-        <a className="btn" href={person.cvDigital.url} download>
-          <Download size={14} aria-hidden="true" /> {person.cvDigital.label}
-        </a>
         <a className="btn" href={person.linkedin} target="_blank" rel="noopener noreferrer">
           <LinkedinGlyph size={14} /> LinkedIn
         </a>

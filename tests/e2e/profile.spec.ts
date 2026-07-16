@@ -27,7 +27,7 @@ test.describe("on a wide screen", () => {
     const c = card(page);
     await expect(c).toBeVisible();
     await expect(c.getByRole("heading", { name: "Mohammad Uzair Khan" })).toBeVisible();
-    await expect(c).toContainText("Data science, analytics & AI");
+    await expect(c).toContainText("AI agents & automation, data science & analytics");
     await expect(c).toContainText("Dubai, UAE");
     await expect(c).toContainText("Open to work in Dubai: on-site, hybrid or remote");
     expect(errors).toEqual([]);
@@ -36,7 +36,7 @@ test.describe("on a wide screen", () => {
   test("offers the CV, email, GitHub and LinkedIn as real links", async ({ page }) => {
     await gotoDesktop(page);
     const c = card(page);
-    const cv = c.getByRole("link", { name: "Download CV (PDF)" });
+    const cv = c.getByRole("link", { name: "CV (PDF)" });
     await expect(cv).toHaveAttribute("href", CV);
     await expect(cv).toHaveAttribute("download", "");
     await expect(c.getByRole("link", { name: "Email" })).toHaveAttribute("href", /^mailto:/);
@@ -55,7 +55,7 @@ test.describe("on a wide screen", () => {
     const body = await res.body();
     expect(body.subarray(0, 5).toString("latin1")).toBe("%PDF-");
     // A real click downloads it.
-    const [download] = await Promise.all([page.waitForEvent("download"), card(page).getByRole("link", { name: "Download CV (PDF)" }).click()]);
+    const [download] = await Promise.all([page.waitForEvent("download"), card(page).getByRole("link", { name: "CV (PDF)" }).click()]);
     expect(download.suggestedFilename()).toBe("Mohammad-Uzair-Khan-CV.pdf");
   });
 
@@ -115,7 +115,7 @@ for (const [name, width, height] of [
       await gotoDesktop(page);
       const cardEl = card(page);
       await expect(cardEl).toBeVisible();
-      await expect(cardEl.getByRole("link", { name: "Download CV (PDF)" })).toBeVisible();
+      await expect(cardEl.getByRole("link", { name: "CV (PDF)" })).toBeVisible();
       const c = await box(cardEl);
       expect(c.x).toBeGreaterThanOrEqual(0);
       expect(c.x + c.width).toBeLessThanOrEqual(width);
@@ -141,7 +141,7 @@ test.describe("the CV from everywhere else", () => {
     const log = page.getByRole("log");
     await page.getByLabel("Ask a question about Uzair").fill("Can I download his CV?");
     await page.keyboard.press("Enter");
-    const link = log.getByRole("link", { name: "Download CV (PDF)" });
+    const link = log.getByRole("link", { name: "CV (PDF)" });
     await expect(link).toBeVisible();
     await expect(link).toHaveAttribute("href", CV);
     await expect(log.getByText("phone number and grades")).toBeVisible();
@@ -150,11 +150,13 @@ test.describe("the CV from everywhere else", () => {
   test("the Resume and Contact windows offer it, and Contact shows its whole form without scrolling", async ({ page }) => {
     await gotoDesktop(page);
     const resume = await openIcon(page, "Resume");
-    await expect(resume.getByRole("link", { name: "Download CV (PDF)" })).toHaveAttribute("href", CV);
+    await expect(resume.getByRole("link", { name: "CV (PDF)" })).toHaveAttribute("href", CV);
+    await expect(resume.locator("a[download]")).toHaveCount(1);
     await resume.getByRole("button", { name: "Close Resume" }).click();
 
     const contact = await openIcon(page, "Contact");
-    await expect(contact.getByRole("link", { name: "Download CV (PDF)" })).toHaveAttribute("href", CV);
+    await expect(contact.getByRole("link", { name: "CV (PDF)" })).toHaveAttribute("href", CV);
+    await expect(contact.locator("a[download]")).toHaveCount(1);
     const w = await box(contact);
     const send = await box(contact.getByRole("link", { name: "Open in my email app" }));
     const linkedin = await box(contact.getByRole("link", { name: "LinkedIn" }));
@@ -164,7 +166,8 @@ test.describe("the CV from everywhere else", () => {
 
   test("the simple view offers it too", async ({ page }) => {
     await page.goto("/simple");
-    await expect(page.getByRole("link", { name: "Download CV (PDF)" })).toHaveAttribute("href", CV);
+    await expect(page.getByRole("link", { name: "CV (PDF)" })).toHaveAttribute("href", CV);
+    await expect(page.locator("a[download]")).toHaveCount(1);
     await expect(page.getByText("Open to work in Dubai: on-site, hybrid or remote.")).toBeVisible();
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /\/simple$/);
   });
