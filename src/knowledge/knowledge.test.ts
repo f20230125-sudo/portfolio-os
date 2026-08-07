@@ -5,7 +5,7 @@ import { ALL_APPS, appDef, DESKTOP_ORDER, PINNED, resolveAppId, TASKBAR_PINNED }
 import { chunks } from "./chunks";
 import { faqs, unknowns } from "./faq";
 import { certifications, education, experience, person, research, skillGroups } from "./profile";
-import { flagship, olderProjects, projects } from "./projects";
+import { featured, FEATURED_IDS, flagship, olderProjects, projectById, projects } from "./projects";
 import { faq, project, skillGroup, unknownTopic } from "./schema";
 
 const publicDir = join(__dirname, "..", "..", "public");
@@ -53,6 +53,17 @@ describe("ids", () => {
 });
 
 describe("what is on the desktop", () => {
+  it("features real projects with live sites and screenshots, in the curated order", () => {
+    expect(new Set(FEATURED_IDS).size).toBe(FEATURED_IDS.length);
+    expect(featured.map((p) => p.id)).toEqual(FEATURED_IDS);
+    for (const id of FEATURED_IDS) {
+      const p = projectById(id);
+      expect(p, id).toBeDefined();
+      expect(p?.live?.url, id).toMatch(/^https:\/\//);
+      expect(p?.shots.length, id).toBeGreaterThan(0);
+    }
+  });
+
   it("leads with the ten agent and automation projects in the agreed order", () => {
     expect(flagship.map((p) => p.id)).toEqual(["inbound", "backroom", "agent-desk", "order-desk", "loopdesk", "followdesk", "scopedesk", "invoice-ready", "quote-desk", "content-desk"]);
     expect(projects.filter((p) => p.kind === "apps").map((p) => p.id)).toEqual(["flowboard", "sayso", "hindsight"]);

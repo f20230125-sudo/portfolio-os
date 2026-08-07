@@ -7,10 +7,10 @@ import type { SkillGroup, SourceKind } from "./schema";
 export const person = {
   name: "Mohammad Uzair Khan",
   short: "Uzair",
-  role: "AI agents & automation, data science & analytics",
+  role: "AI engineering: agents, automation and data",
   tagline: "Builds AI agents, automations and data systems that show their work.",
   // How the site's own pages say it. The assistant keeps to openToWork below, which names where it comes from.
-  status: "Open to work in Dubai: on-site, hybrid or remote",
+  status: "Open to AI and software roles in Dubai, internship or full-time",
   // A one-page copy of his CV, without phone numbers or grades (see unknowns in faq.ts).
   cv: { url: "/cv/Mohammad-Uzair-Khan-CV.pdf", label: "CV (PDF)" },
   linkedinHeadline: "Aspiring AI Engineer | CS @ BITS Pilani Dubai | Python · Gemini API · RAG · Claude | 1st Author, IEEE Paper on Edge AI",

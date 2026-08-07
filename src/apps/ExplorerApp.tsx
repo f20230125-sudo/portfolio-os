@@ -5,6 +5,8 @@ import { useMemo, useRef, useState } from "react";
 import { kindLabels, projects, type Project, type ProjectKind } from "@/knowledge/projects";
 import { AppIcon, GithubGlyph } from "@/os/icons";
 import { useOs } from "@/os/useOs";
+import { useAppSelector } from "@/store/hooks";
+import { PHONE_WIDTH } from "@/os/useViewport";
 
 type Filter = "all" | ProjectKind;
 
@@ -32,6 +34,7 @@ const order = (p: Project) => (p.kind === "flagship" ? projects.indexOf(p) : 0);
 /** A File Explorer: categories on the left, projects as rows, details on the right. */
 export default function ExplorerApp({ initialFilter = "all" }: { initialFilter?: Filter }) {
   const os = useOs();
+  const mobile = useAppSelector((s) => s.windows.viewport.w < PHONE_WIDTH);
   const [filter, setFilter] = useState<Filter>(initialFilter);
   const [selected, setSelected] = useState<string>(initialFilter === "data" ? "rx-market-pulse" : "inbound");
   const listRef = useRef<HTMLUListElement>(null);
@@ -90,7 +93,10 @@ export default function ExplorerApp({ initialFilter = "all" }: { initialFilter?:
                 aria-current={current?.id === p.id}
                 tabIndex={current?.id === p.id ? 0 : -1}
                 onFocus={() => setSelected(p.id)}
-                onClick={() => setSelected(p.id)}
+                onClick={(e) => {
+                  setSelected(p.id);
+                  if ((e.nativeEvent as PointerEvent).pointerType === "touch" || mobile) os.open(`project:${p.id}`);
+                }}
                 onDoubleClick={() => os.open(`project:${p.id}`)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
@@ -113,9 +119,12 @@ export default function ExplorerApp({ initialFilter = "all" }: { initialFilter?:
             </li>
           ))}
         </ul>
-        <p className="border-t border-line px-4 py-1.5 text-[12px] text-faint" role="status">
-          {rows.length} {rows.length === 1 ? "item" : "items"} · double-click or press Enter to open
-        </p>
+        <div className="flex shrink-0 items-center justify-between gap-2 border-t border-line px-4 py-1.5">
+          <p className="text-[12px] text-faint" role="status">
+            {rows.length} {rows.length === 1 ? "item" : "items"} · {mobile ? "tap to open" : "double-click or press Enter to open"}
+          </p>
+          {current && <button type="button" className="btn shrink-0 lg:hidden" onClick={() => os.open(`project:${current.id}`)}>Open <span className="sr-only">{current.name}</span><ChevronRight size={14} aria-hidden="true" /></button>}
+        </div>
       </div>
 
       {current && (
