@@ -2,7 +2,7 @@
 
 import { ExternalLink, Play, RotateCw, Sparkles } from "lucide-react";
 import { useState } from "react";
-import { dayLabel } from "@/ai/compose";
+import { dayLabel } from "@/ai/labels";
 import { projectById, kindLabels, type Project } from "@/knowledge/projects";
 import type { LiveSpec } from "@/knowledge/schema";
 import { AppIcon, GithubGlyph } from "@/os/icons";
@@ -121,6 +121,9 @@ function Overview({ p, goLive, ask }: { p: Project; goLive: () => void; ask: () 
         ) : null}
         <a className="btn" href={p.code} target="_blank" rel="noopener noreferrer">
           <GithubGlyph size={14} /> Code on GitHub
+        </a>
+        <a className="link self-center text-[14px]" href={`/projects/${p.id}`} target="_blank" rel="noopener noreferrer">
+          Share link
         </a>
         <button type="button" className="btn" onClick={ask}>
           <Sparkles size={14} aria-hidden="true" /> Ask about this

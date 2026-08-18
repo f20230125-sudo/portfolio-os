@@ -26,8 +26,8 @@ export const openApp =
 
 /** Opens the assistant and asks it something. */
 export const askAbout =
-  (question: string): AppThunk =>
+  (question: string): AppThunk<Promise<void>> =>
   (dispatch) => {
     dispatch(openApp("ask"));
-    dispatch(submitQuestion(question));
+    return dispatch(submitQuestion(question));
   };

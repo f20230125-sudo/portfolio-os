@@ -2,7 +2,8 @@
 
 import { SendHorizontal } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { STARTERS } from "@/ai/compose";
+import { STARTERS } from "@/ai/labels";
+import { preloadAssistant } from "@/ai/preload";
 import { AppIcon } from "@/os/icons";
 import { appDef } from "@/os/apps";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -19,6 +20,8 @@ export default function AskApp({ focusNonce }: { focusNonce: number }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const lastAssistant = [...messages].reverse().find((m) => m.role === "assistant")?.id;
+
+  useEffect(() => { preloadAssistant(); }, []);
 
   // Ready to type whenever the window is brought up.
   useEffect(() => {
