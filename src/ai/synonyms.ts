@@ -41,7 +41,15 @@ const GROUPS: string[][] = [
   ["require", "need", "must", "optional", "necessary", "mandatory"],
   ["find", "found", "discover", "discovered", "uncover", "reveal", "revealed"],
   ["receive", "arrive", "send", "sent", "accept", "import", "hand over"],
-  ["accuracy", "accurate", "precision", "correct", "result", "score"],
+  ["accuracy", "accurate", "precision", "precise", "correct", "result", "score"],
+  ["post", "publish", "send", "sent", "dispatch"],
+  ["erase", "delete", "remove"],
+  ["cycle", "loop"],
+  ["compress", "squeeze"],
+  ["pause", "wait"],
+  ["human", "person"],
+  // Both sides of the autonomy question find the documented human controls.
+  ["automatic", "automatically", "autonomous", "autonomously", "manual", "manually", "click", "confirmation"],
   ["impressive", "best", "favourite", "favorite", "proud", "highlight", "flagship", "showcase", "standout"],
 ];
 

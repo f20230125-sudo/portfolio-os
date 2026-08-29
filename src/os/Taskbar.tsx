@@ -7,7 +7,7 @@ import { useTheme } from "@/components/theme";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { uiActions } from "@/store/uiSlice";
 import { windowsActions } from "@/store/windowsSlice";
-import { askAbout, openApp } from "./actions";
+import { activateApp, askAbout, openApp } from "./actions";
 import { appDef, TASKBAR_PINNED } from "./apps";
 import { AppIcon, Mark } from "./icons";
 
@@ -77,7 +77,7 @@ export function Taskbar() {
               aria-pressed={isFront}
               aria-label={`${def.title}${win ? (win.minimized ? ", minimised" : ", open") : ""}`}
               title={def.title}
-              onClick={() => dispatch(win ? windowsActions.activate(id) : openApp(id))}
+              onClick={() => dispatch(win ? activateApp(id) : openApp(id))}
             >
               <AppIcon icon={def.icon} size={26} />
             </button>

@@ -30,6 +30,24 @@ export default function ProjectApp({ projectId, tab, nonce }: { projectId: strin
     { id: "details", label: "How it is built" },
   ];
 
+  const focusTab = (next: Tab) => {
+    setCurrent(next);
+    document.getElementById(`${p.id}-tab-${next}`)?.focus();
+  };
+
+  const onTabKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+    let next: number;
+    switch (e.key) {
+      case "Home": next = 0; break;
+      case "End": next = tabs.length - 1; break;
+      case "ArrowRight": next = (index + 1) % tabs.length; break;
+      case "ArrowLeft": next = (index + tabs.length - 1) % tabs.length; break;
+      default: return;
+    }
+    e.preventDefault();
+    focusTab(tabs[next].id);
+  };
+
   return (
     <div className="flex h-full flex-col">
       <header className="flex flex-wrap items-center gap-3 border-b border-line px-5 py-3.5">
@@ -40,18 +58,22 @@ export default function ProjectApp({ projectId, tab, nonce }: { projectId: strin
           <p className="text-[13px] leading-snug text-muted" data-selectable>{p.tagline}</p>
         </div>
         <div className="seg" role="tablist" aria-label={`${p.name} sections`}>
-          {tabs.map((t) => (
-            <button key={t.id} type="button" role="tab" aria-selected={current === t.id} id={`${p.id}-tab-${t.id}`} aria-controls={`${p.id}-panel`} onClick={() => setCurrent(t.id)}>
+          {tabs.map((t, index) => (
+            <button key={t.id} type="button" role="tab" aria-selected={current === t.id} tabIndex={current === t.id ? 0 : -1} id={`${p.id}-tab-${t.id}`} aria-controls={`${p.id}-panel-${t.id}`} onClick={() => setCurrent(t.id)} onKeyDown={(e) => onTabKeyDown(e, index)}>
               {t.label}
             </button>
           ))}
         </div>
       </header>
-      <div className="min-h-0 flex-1 overflow-auto" role="tabpanel" id={`${p.id}-panel`} aria-labelledby={`${p.id}-tab-${current}`}>
-        {current === "overview" && <Overview p={p} goLive={() => setCurrent("live")} ask={() => os.ask(`Tell me about ${p.name}`)} />}
-        {current === "live" && p.live && <LiveFrame name={p.name} live={p.live} preview={p.gif?.src ?? p.shots[0]?.src} />}
-        {current === "details" && <Details p={p} ask={() => os.ask(`What were the key decisions in ${p.name}?`)} />}
-      </div>
+      {tabs.map((t) => (
+        <div key={t.id} hidden={current !== t.id} className="min-h-0 flex-1 overflow-auto" role="tabpanel" tabIndex={0} id={`${p.id}-panel-${t.id}`} aria-labelledby={`${p.id}-tab-${t.id}`}>
+          {current === t.id && <>
+            {t.id === "overview" && <Overview p={p} goLive={() => focusTab("live")} ask={() => os.ask(`Tell me about ${p.name}`)} />}
+            {t.id === "live" && p.live && <LiveFrame name={p.name} live={p.live} preview={p.gif?.src ?? p.shots[0]?.src} />}
+            {t.id === "details" && <Details p={p} ask={() => os.ask(`What were the key decisions in ${p.name}?`)} />}
+          </>}
+        </div>
+      ))}
     </div>
   );
 }

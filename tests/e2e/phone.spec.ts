@@ -51,7 +51,7 @@ test.describe("on a phone", () => {
     await page.getByRole("button", { name: "Ask Uzair" }).tap();
     await page.getByLabel("Ask a question about Uzair").fill("What projects has he built?");
     await page.keyboard.press("Enter");
-    await expect(page.getByRole("log").getByText("flagship projects")).toBeVisible();
+    await expect(page.getByRole("log").getByText("Start with these three:", { exact: false })).toBeVisible();
   });
 
   test("Start fits the screen", async ({ page }) => {

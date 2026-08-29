@@ -13,6 +13,11 @@ export function watchConsole(page: Page): string[] {
 export async function gotoDesktop(page: Page, query = ""): Promise<void> {
   await page.goto(`/${query}`);
   await expect(page.getByRole("listbox", { name: "Desktop" })).toBeVisible();
+  // The desktop is server-rendered before hydration opens the initial window.
+  // Let that initial focus settle before a test starts using the keyboard.
+  if (!query && (page.viewportSize()?.width ?? 0) >= 1180) {
+    await expect(page.getByLabel("Ask a question about Uzair")).toBeFocused();
+  }
 }
 
 export const icon = (page: Page, name: string): Locator => page.getByRole("option", { name: new RegExp(`^${name}(,| |$)`) });

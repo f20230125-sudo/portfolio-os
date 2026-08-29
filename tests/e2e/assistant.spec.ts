@@ -19,7 +19,7 @@ test.describe("the assistant", () => {
     const w = win(page, "Ask Uzair");
     await expect(w.getByText("Not a language model")).toBeVisible();
     await w.getByRole("button", { name: "What projects has he built?" }).click();
-    await expect(page.getByRole("log").getByText("flagship projects")).toBeVisible();
+    await expect(page.getByRole("log").getByText("Start with these three:", { exact: false })).toBeVisible();
     expect(errors).toEqual([]);
   });
 
@@ -44,6 +44,23 @@ test.describe("the assistant", () => {
     await ask(page, "Tell me about his research");
     await lastAnswer(page).getByRole("button", { name: "Research", exact: true }).click();
     await expect(win(page, "Research")).toBeVisible();
+  });
+
+  test("answers on-record metrics and posting controls phrased with synonyms", async ({ page }) => {
+    await gotoDesktop(page);
+    await ask(page, "How accurate is his tomato leaf model?");
+    const research = lastAnswer(page);
+    await expect(research).toContainText("97.33%");
+    await expect(research.getByRole("button", { name: "Research", exact: true })).toBeVisible();
+    await research.getByText("How I answered").click();
+    await expect(research).toContainText("Grounded: yes");
+
+    await ask(page, "Can Agent Desk post to LinkedIn by itself?");
+    const desk = lastAnswer(page);
+    await expect(desk).toContainText("Pitch only drafts");
+    await expect(desk).toContainText("Uzair presses Post himself");
+    await desk.getByText("How I answered").click();
+    await expect(desk).toContainText("Grounded: yes");
   });
 
   test("an action button opens a project on the right tab", async ({ page }) => {
