@@ -1,0 +1,41 @@
+{
+  "generated": "by src/ai/eval/eval.test.ts",
+  "setA": {
+    "total": 166,
+    "passed": 164,
+    "percent": 98.8,
+    "failures": [
+      {
+        "q": "can the model in sayso change a price",
+        "why": "missing \"never a number\"",
+        "intent": "project",
+        "said": "Sayso: Say what you need, and the screen builds itself: a service desk for a made-up airline. A typed or spoken request is answered with wor"
+      },
+      {
+        "q": "udemy courses?",
+        "why": "declined, but should have answered",
+        "intent": "unsure",
+        "said": "I don't have that. It isn't something Uzair has told me, and I'd rather say so than guess. The closest things I do know about: Certification"
+      }
+    ]
+  },
+  "setB": {
+    "total": 40,
+    "passed": 38,
+    "percent": 95,
+    "failures": [
+      {
+        "q": "how do i see his work running without installing anything",
+        "why": "no button to project:",
+        "intent": "about_assistant",
+        "said": "This desktop is a small window manager written for the job, with no windowing library: drag, resize, snap, minimise, maximise and stacking a"
+      },
+      {
+        "q": "which of his projects work offline",
+        "why": "none of \"Noodle\", \"no API key\", \"no key\"",
+        "intent": "retrieval",
+        "said": "Everything is plain JavaScript in the browser, so it works offline after the first visit. Claude is an optional upgrade that never replaces "
+      }
+    ]
+  }
+}

@@ -40,6 +40,11 @@ export interface Chunk {
   asOf?: string;
 }
 
+/** What a group of skills has actually been used for, said once. */
+const GROUP_NOTES: Record<string, string> = {
+  ml: "In practice: his first-author IEEE paper (MobileNetV2 on a Raspberry Pi 4B) and a gradient-boosting signal model in AI Trading Copilot.",
+};
+
 const list = (items: readonly string[]): string => {
   if (items.length <= 1) return items.join("");
   return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
@@ -157,7 +162,7 @@ function personChunks(): Chunk[] {
     topic: "education",
     title: "University",
     text: `Uzair studies ${u.degree} at ${u.name}. He started in ${u.started} and expects to graduate in ${u.expected}.`,
-    keywords: ["education", "university", "college", "degree", "study", "studies", "student", "bits", "pilani", "graduate", "graduation", "year", "batch", "major"],
+    keywords: ["education", "university", "college", "degree", "study", "studies", "student", "bits", "pilani", "graduate", "graduation", "year", "batch", "major", "attend", "which university", "which college", "where does he study"],
     app: "resume",
     sources: ["cv", "linkedin"],
   });
@@ -178,7 +183,7 @@ function personChunks(): Chunk[] {
     topic: "education",
     title: "School",
     text: `Before university he finished ${s.level} at ${s.name} in ${s.place}, in ${s.year}.`,
-    keywords: ["school", "high school", "secondary", "class xii", "12th", "twelfth", "bareilly", "india", "previous education"],
+    keywords: ["school", "high school", "secondary", "class xii", "12th", "twelfth", "bareilly", "india", "previous education", "attend", "which school"],
     app: "resume",
     sources: ["cv"],
   });
@@ -219,12 +224,22 @@ function personChunks(): Chunk[] {
     sources: ["cv", "linkedin", "github"],
   });
   c.push({
+    id: "research:advisor",
+    kind: "research",
+    topic: "research",
+    title: "Research advisor and authorship",
+    text: `His advisor on the research is ${research.advisor}. Uzair is first author, and the paper was submitted to IEEE MSN 2026 and is under review.`,
+    keywords: ["advisor", "adviser", "supervisor", "advised", "supervised", "mentor", "guide", "professor", "author", "first author", "co-author", "who"],
+    app: "research",
+    sources: ["cv"],
+  });
+  c.push({
     id: "research:accuracy",
     kind: "research",
     topic: "research",
     title: "Research results",
     text: "The model reached 97.33% test accuracy on 10 disease classes of the PlantVillage dataset, with a macro-F1 of 0.963 and a mean AUC of 0.994.",
-    keywords: ["accuracy", "results", "f1", "auc", "score", "performance", "97.33", "metrics", "paper"],
+    keywords: ["accuracy", "accurate", "how accurate", "results", "f1", "auc", "score", "performance", "97.33", "metrics", "paper", "model", "dataset", "plantvillage", "classes"],
     app: "research",
     sources: ["cv"],
   });
@@ -234,7 +249,7 @@ function personChunks(): Chunk[] {
     topic: "research",
     title: "Research on the Raspberry Pi",
     text: "INT8 post-training quantisation with TensorFlow Lite compressed the model to 5.3 MB and 1.4 million parameters with negligible accuracy loss. On a Raspberry Pi 4B it runs in about 250 ms per image, roughly 3.6 frames per second at about 3.2 W.",
-    keywords: ["raspberry pi", "edge", "quantization", "quantisation", "int8", "tflite", "latency", "fps", "power", "deployment", "size", "compressed"],
+    keywords: ["raspberry pi", "edge", "quantization", "quantisation", "int8", "tflite", "latency", "fps", "power", "deployment", "deploy", "deployed", "hardware", "device", "size", "how big", "big", "small", "compressed", "how fast", "fast", "speed", "inference", "model size"],
     app: "research",
     sources: ["cv"],
   });
@@ -257,8 +272,22 @@ function personChunks(): Chunk[] {
       kind: "skills",
       topic: "skills",
       title: g.label,
-      text: `${g.label}: ${list(names)}.`,
-      keywords: ["skills", "skill", "technologies", "tech", "stack", "know", "knows", "tools", "proficient", g.label, ...g.skills.flatMap((x) => [x.name, ...(x.aliases ?? [])])],
+      text: `${g.label}: ${list(names)}.${GROUP_NOTES[g.id] ? ` ${GROUP_NOTES[g.id]}` : ""}`,
+      keywords: [
+        "skills",
+        "skill",
+        "technologies",
+        "tech",
+        "stack",
+        "know",
+        "knows",
+        "tools",
+        "proficient",
+        g.label,
+        ...(g.id === "languages" ? ["programming languages", "programming", "code in", "codes in", "write code in"] : []),
+        ...(g.id === "ml" ? ["machine learning", "ml", "deep learning", "neural networks"] : []),
+        ...g.skills.flatMap((x) => [x.name, ...(x.aliases ?? [])]),
+      ],
       app: "resume",
       sources: ["cv"],
     });
@@ -280,7 +309,7 @@ function personChunks(): Chunk[] {
     topic: "contact",
     title: "Availability",
     text: `${person.openToWork} He expects to graduate in ${education.university.expected}. For role types, start dates or notice, email him.`,
-    keywords: ["available", "availability", "open to work", "hire", "hiring", "job", "looking", "internship", "full-time", "full time", "remote", "hybrid", "on-site", "onsite", "relocate", "start date", "notice"],
+    keywords: ["available", "availability", "open to work", "hire", "hiring", "job", "looking", "internship", "full-time", "full time", "remote", "hybrid", "on-site", "onsite", "relocate", "start date", "notice", "start", "soon", "join", "immediately", "full time job", "looking for a job"],
     app: "contact",
     sources: ["linkedin"],
   });

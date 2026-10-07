@@ -102,7 +102,9 @@ describe("following a conversation", () => {
     const { answers } = chat("Tell me about Sayso", "Tell me about his research");
     expect(answers[1].explain.intent).toBe("research");
     const b = chat("Tell me about Sayso", "how can I contact him");
-    expect(b.answers[1].explain.intent).toBe("contact");
+    // Answered from the prepared answer for exactly this question, and about him, not about Sayso.
+    expect(text(b.answers[1])).toContain(person.email);
+    expect(b.answers[1].sources.some((s) => s.app === "project:sayso")).toBe(false);
   });
 
   it("a named project beats the one before", () => {
@@ -163,6 +165,49 @@ describe("the person", () => {
   it("gives the curated answer to a curated question", () => {
     expect(text(one("Which project should I look at first?"))).toMatch(/front-end/);
     expect(text(one("What makes him different?"))).toMatch(/show their work/);
+  });
+});
+
+describe("questions put in other words", () => {
+  it("reads a possessive as the thing itself", () => {
+    expect(one("what is sayso's stack").sources[0].app).toBe("project:sayso");
+    expect(text(one("what is Flowboard's stack"))).toContain("React Flow");
+  });
+
+  it("answers about the time before university with school, not the degree", () => {
+    expect(text(one("what did he do before university"))).toContain("Bishop Conrad");
+    expect(text(one("where did he study before BITS"))).toContain("Bishop Conrad");
+    expect(text(one("what did he study"))).not.toContain("Bishop Conrad");
+  });
+
+  it("takes 'experience' as the kind of thing asked for, not the topic", () => {
+    expect(text(one("does he have cloud experience"))).toMatch(/AWS|Google Cloud/);
+  });
+
+  it("counts projects by listing them", () => {
+    const a = one("how many projects does he have");
+    expect(a.explain.intent).toBe("projects_list");
+    expect(a.actions.some((x) => x.target.startsWith("project:"))).toBe(true);
+  });
+
+  it("does not take 'kind' for Kubernetes", () => {
+    expect(one("what kind of engineer is he").explain.intent).not.toBe("skill_usage");
+  });
+
+  it("answers a question about a method, not as if it were about a project's tests", () => {
+    const t = text(one("what is circular shift null testing"));
+    expect(t).not.toMatch(/doesn't give test figures/);
+    expect(t).toMatch(/null/i);
+  });
+
+  it("reads 'front ends' like 'front end'", () => {
+    expect(one("is he comfortable testing front ends").grounded).toBe(true);
+  });
+
+  it("answers the part of a project that was asked about, not its whole overview", () => {
+    expect(text(one("how does hindsight receive runs securely"))).toContain("postMessage");
+    expect(text(one("what did hindsight find in his own bot"))).toContain("403");
+    expect(text(one("does flowboard run blocks in parallel"))).toContain("parallel");
   });
 });
 

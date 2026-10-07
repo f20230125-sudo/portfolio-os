@@ -34,6 +34,20 @@ const CONTRACTIONS: [RegExp, string][] = [
   [/\bn't\b/g, " not"],
 ];
 
+const SLANG: [RegExp, string][] = [
+  [/\bwat\b|\bwut\b/g, "what"],
+  [/\bwats\b|\bwhats\b/g, "what is"],
+  [/\bhes\b|\bhez\b/g, "he is"],
+  [/\babt\b|\babot\b/g, "about"],
+  [/\btel\b/g, "tell"],
+  [/\bu\b/g, "you"],
+  [/\bur\b/g, "your"],
+  [/\bpls\b|\bplz\b/g, "please"],
+  [/\bproj\b|\bprojs\b/g, "projects"],
+  [/\bdoes he knows\b/g, "does he know"],
+  [/\bcv\b/g, "cv"],
+];
+
 // Words that should stay one token, written the way people write them.
 const KEEP_WHOLE: [RegExp, string][] = [
   [/next\.?\s?js/g, "nextjs"],
@@ -49,8 +63,8 @@ const KEEP_WHOLE: [RegExp, string][] = [
   [/\be[- ]?mail\b/g, "email"],
   [/\bpoke\s?mon\b/g, "pokemon"],
   [/pokémon/g, "pokemon"],
-  [/\bfront[- ]end\b/g, "frontend"],
-  [/\bback[- ]end\b/g, "backend"],
+  [/\bfront[- ]ends?\b/g, "frontend"],
+  [/\bback[- ]ends?\b/g, "backend"],
   [/\bfull[- ]stack\b/g, "fullstack"],
   [/\bopen[- ]source\b/g, "opensource"],
   [/\bread[- ]?me\b/g, "readme"],
@@ -61,6 +75,10 @@ export function normalize(input: string): string {
   let s = input.toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "");
   s = s.replace(/[‘’ʼ]/g, "'");
   for (const [re, to] of CONTRACTIONS) s = s.replace(re, to);
+  // Casual spellings that are not slips of the finger but ways of writing.
+  for (const [re, to] of SLANG) s = s.replace(re, to);
+  // "Sayso's stack" is Sayso's stack: drop the possessive.
+  s = s.replace(/'s\b/g, "");
   for (const [re, to] of KEEP_WHOLE) s = s.replace(re, to);
   s = s.replace(/[^a-z0-9%\s']/g, " ").replace(/'/g, "").replace(/\s+/g, " ").trim();
   return s;
@@ -73,6 +91,8 @@ export const STOPWORDS = new Set(
     "what which who whom whose when where why how can could would should will shall may might must " +
     "about into over under again then than too very just so also not no yes please tell show give let " +
     "any some all each every more most much many such own same other another " +
+    "mean means meaning yet still already ever else related relating regarding concerning anything something comfortable familiar able capable " +
+    "one ones go goes going went gone get gets got come comes done main major key primary top kind sort thing things really actually " +
     "uzair uzairs khan mohammad mr"
   ).split(" "),
 );
