@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { boxOf, drag, gotoDesktop, icon, openIcon, win } from "./helpers";
+import { boxOf, drag, gotoDesktop, openIcon, win } from "./helpers";
 
 // The Live tab shows the real app inside its window. These tests never reach
 // the real sites: each address is answered here with a stand-in page, so the
@@ -20,10 +20,6 @@ async function stubSites(page: Page): Promise<{ hits: string[] }> {
     const host = new URL(route.request().url()).hostname;
     hits.push(host);
     return route.fulfill({ status: 200, contentType: "text/html", body: `<!doctype html><title>stand-in</title><h1>Stand-in for ${host}</h1><button>Press me</button>` });
-  });
-  await page.route(/^https:\/\/f20230125-sudo\.github\.io\/.*/, (route) => {
-    hits.push("noodle");
-    return route.fulfill({ status: 200, contentType: "text/html", body: "<!doctype html><title>stand-in</title><h1>Stand-in for Noodle</h1>" });
   });
   return { hits };
 }
@@ -177,26 +173,12 @@ test.describe("a link", () => {
   });
 });
 
-test.describe("Noodle runs from GitHub Pages", () => {
-  test("is shown in its window like the others", async ({ page }) => {
-    const { hits } = await stubSites(page);
-    await gotoDesktop(page);
-    await openIcon(page, "Projects");
-    await win(page, "Projects").getByRole("button", { name: /^Noodle/ }).dblclick();
-    const w = win(page, "Noodle");
-    await w.getByRole("tab", { name: "Live" }).click();
-    await w.getByRole("button", { name: "Run it here" }).click();
-    await expect(page.frameLocator('iframe[title="Noodle, running live"]').getByRole("heading")).toContainText("Noodle");
-    expect(hits).toContain("noodle");
-  });
-});
-
-test("a project with no live site never makes a frame", async ({ page }) => {
-  await gotoDesktop(page);
-  await openIcon(page, "Projects");
-  await win(page, "Projects").getByRole("button", { name: /^Quant Copilot/ }).dblclick();
-  const w = win(page, "Quant Copilot");
-  await expect(w.getByRole("tab", { name: "Live" })).toHaveCount(0);
-  await expect(page.locator("iframe")).toHaveCount(0);
-  await icon(page, "Sayso").focus();
+test("a project with no live site has no live tab and never makes a frame", async ({ page }) => {
+  for (const [id, name] of [["quant-copilot", "Quant Copilot"], ["noodle", "Noodle"]]) {
+    await gotoDesktop(page, `?open=${id}`);
+    const w = win(page, name);
+    await expect(w).toBeVisible();
+    await expect(w.getByRole("tab")).toHaveText(["Overview", "How it is built"]);
+    await expect(page.locator("iframe")).toHaveCount(0);
+  }
 });

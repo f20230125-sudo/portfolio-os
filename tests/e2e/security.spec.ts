@@ -28,7 +28,6 @@ test.describe("security headers", () => {
     const frames = directive("frame-src").split(" ").slice(1).sort();
     expect(frames).toEqual(
       [
-        "https://f20230125-sudo.github.io",
         "https://flowboard-flax-seven.vercel.app",
         "https://github-bot-wine.vercel.app",
         "https://hindsight-sand.vercel.app",
