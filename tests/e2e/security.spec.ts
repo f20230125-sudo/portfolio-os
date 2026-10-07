@@ -65,6 +65,7 @@ test.describe("the site's own pages", () => {
       expect(html, path).toMatch(/<title>[^<]*Uzair[^<]*<\/title>/);
       expect(html, path).toMatch(/<meta name="description" content="[^"]{40,}/);
       expect(html, path).toContain('property="og:title"');
+      expect(html, path).toContain('property="og:image"');
     }
   });
 
