@@ -1,6 +1,6 @@
 // Retakes the pictures in the README from the running site.
 //
-//   node scripts/screenshots.mjs        (site running on http://127.0.0.1:3050)
+//   node scripts/screenshots.mjs [name]   (site running on http://127.0.0.1:3050; a name retakes just that picture)
 //
 // The Live window loads the real Sayso, which only allows the deployed portfolio to frame it, so that
 // one picture is taken from the deployed site (LIVE_URL), not from the local one.
@@ -11,8 +11,10 @@ const base = process.env.BASE_URL ?? "http://127.0.0.1:3050";
 const dir = "docs/screenshots";
 mkdirSync(dir, { recursive: true });
 
+const only = process.argv[2];
 const browser = await chromium.launch();
 const shot = async (name, { width = 1440, height = 900, scheme = "light", touch = false }, steps) => {
+  if (only && only !== name) return;
   const page = await browser.newPage({ viewport: { width, height }, colorScheme: scheme, timezoneId: "Asia/Dubai", reducedMotion: "reduce", hasTouch: touch });
   await page.goto(base);
   await page.getByRole("listbox", { name: "Desktop" }).waitFor();
@@ -74,9 +76,11 @@ await shot("phone", { width: 390, height: 844, touch: true }, async (page) => {
 
 await shot("phone-desktop", { width: 390, height: 844, touch: true }, async () => {});
 
-const simple = await browser.newPage({ viewport: { width: 1000, height: 900 }, reducedMotion: "reduce" });
-await simple.goto(`${base}/simple`);
-await simple.screenshot({ path: `${dir}/simple.png` });
+if (!only || only === "simple") {
+  const simple = await browser.newPage({ viewport: { width: 1000, height: 900 }, reducedMotion: "reduce" });
+  await simple.goto(`${base}/simple`);
+  await simple.screenshot({ path: `${dir}/simple.png` });
+}
 
 await browser.close();
 console.log("saved pictures to docs/screenshots");
