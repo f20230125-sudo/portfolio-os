@@ -59,14 +59,6 @@ test.describe("project windows", () => {
     await expect(page.getByRole("log").getByText("Hindsight reads runs")).toBeVisible();
   });
 
-  test("the live tab says plainly when a site opens in its own tab", async ({ page }) => {
-    await gotoDesktop(page);
-    const w = await openIcon(page, "Flowboard");
-    await w.getByRole("tab", { name: /Live/ }).click();
-    const link = w.getByRole("link", { name: /Open Flowboard/ });
-    await expect(link).toHaveAttribute("href", "https://flowboard-flax-seven.vercel.app");
-    await expect(link).toHaveAttribute("target", "_blank");
-  });
 });
 
 test.describe("the Projects folder", () => {

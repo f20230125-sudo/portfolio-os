@@ -35,12 +35,14 @@ export function Os() {
   useEffect(() => {
     if (started.current) return;
     started.current = true;
-    const wanted = new URLSearchParams(window.location.search)
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get("tab") ?? undefined;
+    const wanted = params
       .get("open")
       ?.split(",")
       .map(resolveAppId)
       .filter((id): id is string => Boolean(id));
-    if (wanted && wanted.length > 0) wanted.slice(0, 3).forEach((id) => dispatch(openApp(id)));
+    if (wanted && wanted.length > 0) wanted.slice(0, 3).forEach((id, i) => dispatch(openApp(id, i === 0 && tab ? { tab } : undefined)));
     else if (window.innerWidth >= PHONE_WIDTH) dispatch(openApp("ask"));
   }, [dispatch]);
 

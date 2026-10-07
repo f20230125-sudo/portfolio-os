@@ -40,7 +40,7 @@ export const projects: Project[] = [
     code: `${GH}/github-bot`,
     live: {
       url: "https://github-bot-wine.vercel.app",
-      frameable: false,
+      frameable: true,
       note: "This is the view-only copy. The working desk runs on Uzair's own PC.",
     },
     shots: [
@@ -85,7 +85,7 @@ export const projects: Project[] = [
     code: `${GH}/flowboard`,
     live: {
       url: "https://flowboard-flax-seven.vercel.app",
-      frameable: false,
+      frameable: true,
       note: "Saved flows inside this window are kept apart from the ones you save on Flowboard's own site.",
     },
     gif: { src: "/media/flowboard/demo.gif", alt: "Flowboard in use: Run is pressed and each block lights up as it executes." },
@@ -130,7 +130,7 @@ export const projects: Project[] = [
     code: `${GH}/sayso`,
     live: {
       url: "https://sayso-sigma.vercel.app",
-      frameable: false,
+      frameable: true,
       microphone: true,
       note: "Bookings made in this window are kept apart from the ones on Sayso's own site.",
     },
@@ -176,7 +176,7 @@ export const projects: Project[] = [
     code: `${GH}/hindsight`,
     live: {
       url: "https://hindsight-sand.vercel.app",
-      frameable: false,
+      frameable: true,
     },
     gif: { src: "/media/hindsight/demo.gif", alt: "A tour of Hindsight: the list of runs, one run on a timeline, agent time, playback and the overview." },
     shots: [
