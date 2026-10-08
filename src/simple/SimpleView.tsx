@@ -52,8 +52,9 @@ export function SimpleView() {
           <a className="link" href={`mailto:${person.email}`}>{person.email}</a>
           <a className="link" href={person.linkedin} rel="noopener noreferrer">LinkedIn</a>
           <a className="link" href={person.github} rel="noopener noreferrer">GitHub</a>
+          <a className="link no-print" href={person.cv.url} download>{person.cv.label}</a>
         </p>
-        <p className="mt-3 text-[14px] text-muted">{person.openToWork}</p>
+        <p className="mt-3 text-[14px] text-muted">{person.status}.</p>
       </header>
 
       <main>

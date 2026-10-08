@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { ALL_APPS, appDef, DESKTOP_ORDER, PINNED, resolveAppId, TASKBAR_PINNED } from "@/os/apps";
@@ -84,6 +84,31 @@ describe("pictures", () => {
   });
   it("every picture has alt text that says what it shows", () => {
     for (const p of projects) for (const m of [...(p.gif ? [p.gif] : []), ...p.shots]) expect(m.alt.length).toBeGreaterThan(20);
+  });
+});
+
+describe("the CV file", () => {
+  const file = join(publicDir, person.cv.url);
+  const source = join(__dirname, "..", "..", "docs", "cv", "Mohammad-Uzair-Khan-CV.tex");
+
+  it("is where the site says it is, and is a PDF of a sensible size", () => {
+    expect(existsSync(file)).toBe(true);
+    const bytes = readFileSync(file);
+    expect(bytes.subarray(0, 5).toString("latin1")).toBe("%PDF-");
+    expect(bytes.length).toBeGreaterThan(10_000);
+    expect(bytes.length).toBeLessThan(400_000);
+  });
+
+  // The PDF's text and pages are compressed, so what is checked is the LaTeX it was made from, which is kept
+  // beside it in docs/cv. (Page count and text were read back from the PDF itself with PyMuPDF when it was built.)
+  it("is made from a source that holds no phone number, no grades and no other address", () => {
+    const tex = readFileSync(source, "utf8");
+    expect(tex).not.toMatch(/\+\d[\d\s-]{8,}\d/);
+    expect(tex).not.toMatch(/(?<![\d.])\d{3}[\s-]\d{3,4}[\s-]\d{3,4}(?![\d.])/);
+    expect(tex).not.toMatch(/\bcgpa\b/i);
+    expect(tex).not.toMatch(/\b81\s?\\?%/);
+    expect(tex).toContain(person.email);
+    expect([...new Set(tex.match(/[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g) ?? [])]).toEqual([person.email]);
   });
 });
 

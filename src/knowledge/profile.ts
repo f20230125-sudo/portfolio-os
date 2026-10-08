@@ -8,7 +8,11 @@ export const person = {
   name: "Mohammad Uzair Khan",
   short: "Uzair",
   role: "Software & AI engineer",
-  headline: "I build AI systems that show their work.",
+  tagline: "Builds AI systems that show their work.",
+  // How the site's own pages say it. The assistant keeps to openToWork below, which names where it comes from.
+  status: "Open to work in Dubai: on-site, hybrid or remote",
+  // A one-page copy of his CV, without phone numbers or grades (see unknowns in faq.ts).
+  cv: { url: "/cv/Mohammad-Uzair-Khan-CV.pdf", label: "Download CV (PDF)" },
   linkedinHeadline: "Aspiring AI Engineer | CS @ BITS Pilani Dubai | Python · Gemini API · RAG · Claude | 1st Author, IEEE Paper on Edge AI",
   location: "Dubai, UAE",
   timeZone: "Asia/Dubai",

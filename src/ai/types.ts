@@ -29,12 +29,12 @@ export interface SourceChip {
   tab?: "overview" | "live" | "details";
 }
 
-export type ActionKind = "open" | "link" | "mail" | "ask";
+export type ActionKind = "open" | "link" | "mail" | "ask" | "download";
 
 export interface Action {
   kind: ActionKind;
   label: string;
-  /** A window id for open, a URL for link and mail, a question for ask. */
+  /** A window id for open, a URL for link, mail and download, a question for ask. */
   target: string;
   tab?: "overview" | "live" | "details";
 }

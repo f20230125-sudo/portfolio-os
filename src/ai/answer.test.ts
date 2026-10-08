@@ -313,6 +313,82 @@ describe("about the assistant", () => {
   });
 });
 
+describe("the CV", () => {
+  const requests = [
+    "Can I download his CV?",
+    "can i download his resume",
+    "where is his cv",
+    "his cv",
+    "resume",
+    "send me his resume",
+    "does he have a pdf resume",
+    "how can i get his CV",
+    "Where can I find his curriculum vitae?",
+  ];
+
+  it.each(requests)("%s gets the file, first", (q) => {
+    const a = one(q);
+    expect(a.explain.intent).toBe("resume");
+    expect(a.grounded).toBe(true);
+    expect(a.actions[0]).toMatchObject({ kind: "download", target: person.cv.url });
+    expect(a.actions.some((x) => x.kind === "open" && x.target === "resume")).toBe(true);
+  });
+
+  it("says plainly what the file leaves out", () => {
+    expect(text(one("can I download his CV"))).toMatch(/phone number and grades/);
+  });
+
+  it("does not take a question about what is on the CV for a request for the file", () => {
+    expect(one("is kubernetes on his cv").explain.intent).toBe("skill_usage");
+    expect(one("what does his resume say about python").explain.intent).toBe("skill_usage");
+    expect(one("where did he put redux on his cv").explain.intent).toBe("skill_usage");
+    expect(one("what skills are listed in his resume").explain.intent).toBe("skills");
+  });
+
+  it("still keeps his grades and phone number to itself", () => {
+    expect(one("what is his cgpa").explain.intent).toBe("unknown_topic");
+    expect(one("what is the phone number on his cv").explain.intent).toBe("unknown_topic");
+  });
+});
+
+describe("the questions a recruiter asks that his pages do not spell out", () => {
+  it("names no strongest skill, and says what the work shows instead", () => {
+    for (const q of ["What is his strongest skill?", "what is he best at", "which programming language is he best in", "what tech is he strongest in"]) {
+      const t = text(one(q));
+      expect(t, q).toMatch(/hasn't ranked his skills/);
+      expect(t, q).toMatch(/TypeScript/);
+    }
+  });
+
+  it("does not claim teamwork, and names what is on record", () => {
+    for (const q of ["Has he worked in a team?", "is he a team player", "can he work with others", "has he worked with other people", "how does he handle collaboration"]) {
+      const t = text(one(q));
+      expect(t, q).toMatch(/hasn't written about teamwork/);
+      expect(t, q).toContain("Amaani");
+      expect(t, q).not.toMatch(/\b(he is|he's) a (great|strong|good) (team|collaborat)/i);
+    }
+  });
+
+  it("does not claim open-source contributions, and says what is public", () => {
+    for (const q of ["Has he contributed to open source?", "does he do open source", "any open-source contributions", "is his code public"]) {
+      const t = text(one(q));
+      expect(t, q).toMatch(/can't say he has or hasn't/);
+      expect(t, q).toMatch(/GitHub/);
+    }
+  });
+
+  it("says where he lives, and that this site is his portfolio", () => {
+    expect(text(one("where does he live"))).toContain("Dubai");
+    expect(text(one("does he have a portfolio"))).toMatch(/You are looking at it/);
+  });
+
+  it("gives no number of years of experience that he has not stated", () => {
+    const t = text(one("how many years of experience does he have"));
+    expect(t).toMatch(/hasn't stated a number/);
+    expect(t).toContain("Amaani");
+  });
+});
+
 describe("odd input", () => {
   it("copes with nothing, symbols and noise", () => {
     expect(one("").explain.intent).toBe("unsure");

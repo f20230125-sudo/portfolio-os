@@ -92,6 +92,19 @@ export const offTopics: OffTopic[] = [
   },
 ];
 
+/**
+ * Asking for the CV itself, as a file or a page: "can I download his CV",
+ * "where is his resume", "his cv". Not asking about what is on it ("is Redux on
+ * his CV", "what does his resume say"), which is a question about him.
+ */
+export const isCvRequest = (n: string): boolean => {
+  if (!/\b(cv|resume|curriculum vitae)\b/.test(n)) return false;
+  if (n.split(" ").length <= 3) return true;
+  if (/\b(download|pdf|attach|attachment|send me|email me|share)\b/.test(n)) return true;
+  if (/\b(on|in|from|says?|said|lists?|listed|contains?|mentions?|includes?|about|under|section|writes?|wrote)\b/.test(n)) return false;
+  return /\b(where|find|get|see|view|read|access|have|show|copy|link|file|print|open)\b/.test(n);
+};
+
 export const isMore = (n: string): boolean =>
   n.split(" ").length <= 5 && any(n, [/^(tell me )?more\b/, /^go on\b/, /^continue\b/, /^what else\b/, /^anything else\b/, /^elaborate\b/, /^expand\b/, /^and\b\s*\w{0,6}$/, /^keep going\b/]);
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText } from "lucide-react";
+import { Download, FileText } from "lucide-react";
 import { certifications, education, experience, person, research, skillGroups } from "@/knowledge/profile";
 import { flagship } from "@/knowledge/projects";
 import { useOs } from "@/os/useOs";
@@ -44,9 +44,14 @@ export default function ResumeApp() {
           <p className="text-[13.5px] text-muted">{person.location} · {person.email}</p>
           <p className="text-[13px] text-muted">linkedin.com/in/mohammad-uzair-khan-2b24b0355 · github.com/{person.githubHandle}</p>
         </div>
-        <a className="btn no-print" href="/simple">
-          <FileText size={14} aria-hidden="true" /> Printable version
-        </a>
+        <div className="no-print flex flex-wrap gap-2">
+          <a className="btn btn-primary" href={person.cv.url} download>
+            <Download size={14} aria-hidden="true" /> {person.cv.label}
+          </a>
+          <a className="btn" href="/simple">
+            <FileText size={14} aria-hidden="true" /> Printable version
+          </a>
+        </div>
       </header>
 
       <Section title="Education">

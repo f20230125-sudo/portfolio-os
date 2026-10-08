@@ -1,0 +1,223 @@
+%-------------------------
+% Mohammad Uzair Khan - CV (public version: no phone numbers, no grades)
+% Template: based on Jake Gutierrez's resume template (MIT).
+% Compiles on Overleaf with pdfLaTeX (default) and with XeLaTeX.
+%-------------------------
+
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Mohammad Uzair Khan - CV}, pdfauthor={Mohammad Uzair Khan}}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+% Latin Modern in every engine. Under XeLaTeX the "fi" and "fl" ligatures are switched off:
+% they are saved in the PDF as single ligature characters, which applicant-tracking systems
+% then read as a different word ("workflow" is not "workﬂow"). pdfLaTeX needs no switch,
+% since glyphtounicode below maps its ligatures back to letters.
+\ifdefined\XeTeXversion
+  \usepackage{fontspec}
+  \setmainfont{lmroman10}[Extension=.otf, UprightFont=*-regular, BoldFont=*-bold, ItalicFont=*-italic,
+    BoldItalicFont=*-bolditalic, SmallCapsFont=lmromancaps10-regular.otf, Ligatures=NoCommon]
+  % The name at the top is bold small capitals, which this family has no file for: embolden the small caps.
+  \newfontfamily\namefont{lmromancaps10-regular.otf}[FakeBold=2, Ligatures=NoCommon]
+\else
+  \usepackage[T1]{fontenc}
+  \usepackage{lmodern}
+  \newcommand{\namefont}{\bfseries\scshape}
+\fi
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Margins
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.6in}
+\addtolength{\textwidth}{1.2in}
+\addtolength{\topmargin}{-.6in}
+\addtolength{\textheight}{1.2in}
+
+% Tight bullet lists (level 1 = entries, level 2 = the bullets under an entry)
+\setlist[itemize,1]{itemsep=2pt, parsep=0pt}
+\setlist[itemize,2]{itemsep=0pt, parsep=0pt, topsep=9pt}
+
+\linespread{0.96}
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Section headings
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+\titlespacing*{\section}{0pt}{5pt}{2.3ex plus .2ex}
+
+% Make the PDF text selectable and searchable for applicant tracking systems (pdfLaTeX only)
+\ifdefined\pdfgentounicode
+  \input{glyphtounicode}
+  \pdfgentounicode=1
+\fi
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+% Link style used for the "Live" and "Code" links on each project
+\newcommand{\link}[2]{\href{#1}{\underline{#2}}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    {\namefont\Huge Mohammad Uzair Khan} \\ \vspace{1pt}
+    \small Dubai, UAE $\cdot$ \href{mailto:uk4320930@gmail.com}{uk4320930@gmail.com} \\
+    \href{https://linkedin.com/in/mohammad-uzair-khan-2b24b0355}{linkedin.com/in/mohammad-uzair-khan-2b24b0355} $\cdot$
+    \href{https://github.com/f20230125-sudo}{github.com/f20230125-sudo} $\cdot$
+    \href{https://uzair-khan-lac.vercel.app}{uzair-khan-lac.vercel.app}
+\end{center}
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {BITS Pilani, Dubai Campus}{Dubai, UAE}
+      {B.E. Computer Science}{Expected 2027}
+      \resumeItemListStart
+        \resumeItem{Relevant Coursework: Data Structures \& Algorithms, Operating Systems, Computer Networks, Machine Learning, Large Language Models, Database Management Systems}
+      \resumeItemListEnd
+    \resumeProjectHeading
+      {\textbf{\normalsize Bishop Conrad Senior Secondary School} $|$ \emph{Senior Secondary (Class XII)}}
+      {Bareilly, India $|$ \emph{2023}}
+    \vspace{4pt}
+  \resumeSubHeadingListEnd
+
+%-----------RESEARCH & PUBLICATIONS-----------
+\section{Research \& Publications}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Lightweight Deep Learning for Tomato Leaf Disease Detection on Edge Devices}{2025 -- 2026}
+      {First Author; submitted to IEEE MSN 2026 (under review); Advisor: Prof. Pranav M. Pawar}{}
+      \resumeItemListStart
+        \resumeItem{Trained a MobileNetV2 classifier (10 disease classes, PlantVillage dataset) with two-phase transfer learning, reaching \textbf{97.33\% test accuracy} (macro-F1 0.963, mean AUC 0.994)}
+        \resumeItem{Compressed the model to \textbf{5.3 MB / 1.4M parameters} via INT8 post-training quantization (TensorFlow Lite) with negligible accuracy loss}
+        \resumeItem{Deployed the quantized model on a \textbf{Raspberry Pi 4B} for real-time on-device inference (about 250 ms/image, 3.6 FPS, 3.2 W)}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Backend Developer Intern, Amaani (Travel-Tech Startup)}{Dubai, UAE}
+      {BITS Practice School (PS-1)}{Jun 2025 -- Aug 2025}
+      \resumeItemListStart
+        \resumeItem{Developed and maintained backend services in \textbf{Python (Flask)}, building RESTful APIs for core travel-booking features}
+        \resumeItem{Documented API contracts with \textbf{Swagger/OpenAPI} and validated endpoints end-to-end using \textbf{Postman}; implemented request validation and data models}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{Flagship Projects}
+  \resumeSubHeadingListStart
+
+    \resumeProjectHeading
+      {\textbf{Agent Desk} $|$ \emph{Next.js, FastAPI, SQLite, Claude Code}}
+      {\link{https://github-bot-wine.vercel.app}{Live} $|$ \link{https://github.com/f20230125-sudo/github-bot}{Code}}
+      \resumeItemListStart
+        \resumeItem{Two AI agents on one site: \textbf{Patch} audits every GitHub repository (scored out of 100) and drafts fixes; \textbf{Pitch} drafts LinkedIn posts from Patch's notes. Nothing is sent without a click: a fixed list of allowed writes, dry-run by default, a pause switch}
+        \resumeItem{Claude via the Claude Code CLI (no API key), stopped at 40\% plan usage; rules before model calls (12 repositories audited in 30 requests, 0 model calls); 469 pytest tests. View-only hosted copy refreshed every six hours by a GitHub Actions job}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Flowboard} $|$ \emph{TypeScript, Next.js, React, Redux Toolkit, React Flow, Zod, Docker}}
+      {\link{https://flowboard-flax-seven.vercel.app}{Live} $|$ \link{https://github.com/f20230125-sudo/flowboard}{Code}}
+      \resumeItemListStart
+        \resumeItem{Visual workflow builder, a small n8n: connect eight block types, press Run, see each step's data. A React-free engine runs ready blocks in parallel; hand-written undo/redo; flows cannot run code (no \texttt{eval}, references are path lookups)}
+        \resumeItem{REST relay hardened against SSRF (host allow-list, no private addresses or redirects, size and rate caps); 319 unit and 37 Playwright tests with axe scans; CI builds the Docker image and applies the Kubernetes manifest to a kind cluster}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Sayso} $|$ \emph{TypeScript, Next.js, Redux Toolkit, Zod, Tailwind CSS, Playwright}}
+      {\link{https://sayso-sigma.vercel.app}{Live} $|$ \link{https://github.com/f20230125-sudo/sayso}{Code}}
+      \resumeItemListStart
+        \resumeItem{Service desk for a made-up airline: a typed or spoken request is answered with working interface (seat map, price, receipt), not text. A four-step agent (understand, plan, run, check) in plain TypeScript, 14 Zod-validated components}
+        \resumeItem{The plan chooses, the code computes: the server re-prices every order and refuses a mismatch. Rules read requests with no key (76\% of 105 unseen sentences before tuning); a model is optional. 370 unit and 59 end-to-end tests}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Hindsight} $|$ \emph{TypeScript, Next.js, Redux Toolkit (RTK Query), Zod, SVG}}
+      {\link{https://hindsight-sand.vercel.app}{Live} $|$ \link{https://github.com/f20230125-sudo/hindsight}{Code}}
+      \resumeItemListStart
+        \resumeItem{Agent observer: reads runs from the apps above through one Zod-checked trace format and draws each as a timeline (real or ``agent'' time), with playback and keyboard navigation. Runs arrive by \texttt{postMessage} from allow-listed origins; 289 unit, 98 end-to-end tests}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Portfolio OS} $|$ \emph{TypeScript, Next.js, React, Redux Toolkit, Zod, Playwright}}
+      {\link{https://uzair-khan-lac.vercel.app}{Live} $|$ \link{https://github.com/f20230125-sudo/portfolio-os}{Code}}
+      \resumeItemListStart
+        \resumeItem{Personal portfolio built as a Windows-style desktop: projects are icons that open in windows, and the live apps above run inside theirs. Window manager written from scratch (drag, resize, snap, keyboard), with unit-tested math}
+        \resumeItem{An assistant answers questions about the owner from a fact base, with sources, in plain TypeScript, no API or model; first-run accuracy 83\% on 166 questions written before tuning, 67.5\% on 40 held-out. 249 unit and 131 end-to-end tests with axe}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages}{: TypeScript, JavaScript, HTML/CSS, Python, Java, SQL, C, LaTeX} \\
+     \textbf{Front-End}{: React, Next.js, state management (Redux Toolkit, Context), React Flow, Tailwind CSS, CSS animation, responsive design, data visualization (SVG charts), interactive UI, Zod, accessibility (WCAG, axe)} \\
+     \textbf{Generative AI / LLMs}{: Claude API \& Claude Code, Gemini API, agentic tool-calling, prompt engineering, RAG, FAISS, structured output (Zod, Pydantic)} \\
+     \textbf{Machine Learning}{: NumPy, Pandas, scikit-learn, TensorFlow/Keras, TensorFlow Lite, transfer learning, edge ML (Raspberry Pi)} \\
+     \textbf{Backend \& Databases}{: Node.js, FastAPI, Flask, REST API design, Swagger/OpenAPI, Postman, SQLite, MySQL} \\
+     \textbf{Testing \& DevOps}{: Vitest, Playwright, pytest, CI/CD (GitHub Actions), Docker, Kubernetes, Vercel, Git, AWS (learning)}
+    }}
+ \end{itemize}
+
+%-----------CERTIFICATIONS-----------
+\section{Certifications}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     The Ultimate Job Ready Data Science Course -- CodeWithHarry (2026) $\cdot$ AWS Cloud Technical Essentials -- Coursera \textit{(in progress)}
+    }}
+ \end{itemize}
+
+\end{document}

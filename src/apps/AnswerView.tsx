@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight, ExternalLink, Mail } from "lucide-react";
+import { ChevronRight, Download, ExternalLink, Mail } from "lucide-react";
 import type { Action, Answer } from "@/ai/types";
 import { useOs } from "@/os/useOs";
 
@@ -14,6 +14,14 @@ function ActionButton({ a }: { a: Action }) {
       <a className="btn" href={a.target} target="_blank" rel="noopener noreferrer">
         {a.label}
         <ExternalLink size={13} aria-hidden="true" />
+      </a>
+    );
+  }
+  if (a.kind === "download") {
+    return (
+      <a className="btn btn-primary" href={a.target} download>
+        <Download size={14} aria-hidden="true" />
+        {a.label}
       </a>
     );
   }

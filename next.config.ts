@@ -58,7 +58,12 @@ const nextConfig: NextConfig = {
   // The Docker build asks for a self-contained server. Other builds, such as Vercel's, are left alone.
   output: process.env.BUILD_STANDALONE === "1" ? "standalone" : undefined,
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      // The CV is a PDF, which the browser shows in its own viewer; a policy that bans plugins and
+      // objects can stop that. Later rules win for the same header, so only framing is refused here.
+      { source: "/cv/:path*", headers: [{ key: "Content-Security-Policy", value: "frame-ancestors 'none'" }] },
+    ];
   },
 };
 

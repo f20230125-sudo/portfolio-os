@@ -222,6 +222,45 @@ button {
   box-shadow: 0 0 0 4px rgb(0 0 0 / 0.55);
 }
 
+/* ------------------------------------------------------------ profile card */
+
+/* A card on the desktop that says who this is. It is drawn after the icons and
+   before the windows, so every window covers it. On a wide screen it sits
+   beside the icons, clear of the assistant on the right; on a phone it sits
+   under them, above the taskbar. */
+.profile-card {
+  position: absolute;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-win-idle);
+  color: var(--fg);
+  left: 216px;
+  top: 40px;
+  width: min(420px, calc(100vw - 232px));
+}
+.profile-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 4px 11px;
+  border-radius: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  font-size: 12.5px;
+  line-height: 1.25;
+}
+.profile-status::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ok);
+}
+
 .tile {
   display: grid;
   place-items: center;
@@ -787,6 +826,13 @@ a.chip:hover {
   .os .dicon {
     width: 100%;
   }
+  .os .profile-card {
+    left: 12px;
+    right: 12px;
+    top: auto;
+    bottom: 60px;
+    width: auto;
+  }
   .os .win {
     inset: 0 0 48px 0;
     width: auto;
@@ -819,6 +865,18 @@ a.chip:hover {
 @media (max-width: 1100px) {
   .tb-search {
     width: 170px;
+  }
+}
+
+/* A short phone: the card drops its second paragraph, and on a very short one it goes. */
+@media (max-width: 767px) and (max-height: 700px) {
+  .os .profile-about {
+    display: none;
+  }
+}
+@media (max-width: 767px) and (max-height: 520px) {
+  .os .profile-card {
+    display: none;
   }
 }
 
