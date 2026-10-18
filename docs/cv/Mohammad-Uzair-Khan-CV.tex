@@ -1,9 +1,4 @@
-%-------------------------
-% Mohammad Uzair Khan - CV (public version: no phone numbers, no grades)
-% Template: based on Jake Gutierrez's resume template (MIT).
-% Compiles on Overleaf with pdfLaTeX (default) and with XeLaTeX.
-%-------------------------
-
+% Public copy for the portfolio site: no phone numbers and no grades or marks. Built from D:/claude-workspace/cv-msd/fresh (data science version).
 \documentclass[letterpaper,10pt]{article}
 
 \usepackage{latexsym}
@@ -51,7 +46,7 @@
 \setlist[itemize,1]{itemsep=2pt, parsep=0pt}
 \setlist[itemize,2]{itemsep=0pt, parsep=0pt, topsep=9pt}
 
-\linespread{0.96}
+\linespread{1.0}
 \urlstyle{same}
 \raggedbottom
 \raggedright
@@ -61,7 +56,7 @@
 \titleformat{\section}{
   \vspace{-4pt}\scshape\raggedright\large
 }{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
-\titlespacing*{\section}{0pt}{5pt}{2.3ex plus .2ex}
+\titlespacing*{\section}{0pt}{3.5pt}{1.9ex plus .2ex}
 
 % Make the PDF text selectable and searchable for applicant tracking systems (pdfLaTeX only)
 \ifdefined\pdfgentounicode
@@ -100,9 +95,25 @@
 % Link style used for the "Live" and "Code" links on each project
 \newcommand{\link}[2]{\href{#1}{\underline{#2}}}
 
-%-------------------------------------------
-%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Project addresses (set when the repository and site are published)
+\newcommand{\rxrepo}{https://github.com/f20230125-sudo/rx-market-pulse}
+\newcommand{\rxlive}{https://rx-market-pulse.vercel.app}
+\newcommand{\tprepo}{https://github.com/f20230125-sudo/trial-pipeline-benchmark}
+\newcommand{\tplive}{https://trial-pipeline-benchmark.vercel.app}
+\newcommand{\ffrepo}{https://github.com/f20230125-sudo/field-force-planner}
+\newcommand{\fflive}{https://field-force-planner.vercel.app}
+\newcommand{\pwrepo}{https://github.com/f20230125-sudo/drug-price-watch}
+\newcommand{\pwlive}{https://drug-price-watch.vercel.app}
+\newcommand{\parepo}{https://github.com/f20230125-sudo/payer-access-intelligence}
+\newcommand{\pelive}{https://pharma-evidence.vercel.app}
+\newcommand{\perepo}{https://github.com/f20230125-sudo/pharma-evidence}
+\newcommand{\sdlive}{https://signaldesk-ai-phi.vercel.app}
+\newcommand{\sdrepo}{https://github.com/f20230125-sudo/-signaldesk-ai}
+\newcommand{\fnlive}{https://footnote-ten.vercel.app}
+\newcommand{\fnrepo}{https://github.com/f20230125-sudo/footnote}
+\newcommand{\colive}{https://campaignops-digital-solutions.vercel.app}
+\newcommand{\rxagent}{https://github.com/f20230125-sudo/rx-market-pulse/tree/feat/msd-commercial-agent}
 \begin{document}
 
 %----------HEADING----------
@@ -121,25 +132,61 @@
       {BITS Pilani, Dubai Campus}{Dubai, UAE}
       {B.E. Computer Science}{Expected 2027}
       \resumeItemListStart
-        \resumeItem{Relevant Coursework: Data Structures \& Algorithms, Operating Systems, Computer Networks, Machine Learning, Large Language Models, Database Management Systems}
+        \resumeItem{Relevant Coursework: Database Management Systems, Machine Learning, Data Structures \& Algorithms, Large Language Models}
       \resumeItemListEnd
     \resumeProjectHeading
       {\textbf{\normalsize Bishop Conrad Senior Secondary School} $|$ \emph{Senior Secondary (Class XII)}}
       {Bareilly, India $|$ \emph{2023}}
     \vspace{4pt}
   \resumeSubHeadingListEnd
-
-%-----------RESEARCH & PUBLICATIONS-----------
-\section{Research \& Publications}
+%-----------PROJECTS-----------
+\section{Data Science \& AI Projects}
   \resumeSubHeadingListStart
-    \resumeSubheading
-      {Lightweight Deep Learning for Tomato Leaf Disease Detection on Edge Devices}{2025 -- 2026}
-      {First Author; submitted to IEEE MSN 2026 (under review); Advisor: Prof. Pranav M. Pawar}{}
+
+    \resumeProjectHeading
+      {\textbf{PharmaEvidence: evidence-grounded claim review} $|$ \emph{Python, BM25, DeBERTa NLI, ONNX, Next.js}}
+      {\link{\pelive}{Live} $|$ \link{\perepo}{Code}}
       \resumeItemListStart
-        \resumeItem{Trained a MobileNetV2 classifier (10 disease classes, PlantVillage dataset) with two-phase transfer learning, reaching \textbf{97.33\% test accuracy} (macro-F1 0.963, mean AUC 0.994)}
-        \resumeItem{Compressed the model to \textbf{5.3 MB / 1.4M parameters} via INT8 post-training quantization (TensorFlow Lite) with negligible accuracy loss}
-        \resumeItem{Deployed the quantized model on a \textbf{Raspberry Pi 4B} for real-time on-device inference (about 250 ms/image, 3.6 FPS, 3.2 W)}
+        \resumeItem{Parsed four versioned DailyMed labels (KEYTRUDA, WINREVAIR) into \textbf{2,309} evidence passages; combined BM25 retrieval, numeric and qualifier rules and a pretrained \textbf{INT8 DeBERTa NLI} model running in the browser}
+        \resumeItem{Froze \textbf{120} authored claims split by fact family (72 development / 48 held out): held out, rules scored 40/48, NLI \textbf{47/48}, rules + NLI \textbf{48/48}; the rules caught a tenfold dose error the model accepted}
       \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Rx Market Pulse: forecasting and an AI analyst} $|$ \emph{Python, SQL (DuckDB), TypeScript, LLM tool calling}}
+      {\link{\rxlive/ask}{Live} $|$ \link{\rxagent}{Code}}
+      \resumeItemListStart
+        \resumeItem{Backtested quarterly spend forecasts over \textbf{28 quarters}, choosing on 2022--23 and testing on 2024--25: the chosen method scored 9.01\% WAPE, worse than the seasonal baseline's \textbf{5.54\%}, reported as found}
+        \resumeItem{Built an analyst agent over \textbf{36.1M} Medicaid rows with \textbf{five typed tools} (spend, growth drivers, territories, forecasts, trials), provenance and refusals; passed 20/20 curated real-model smoke checks}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Footnote: question answering over company filings} $|$ \emph{Python, BM25, embeddings, LLM agents, Next.js}}
+      {\link{\fnlive}{Live} $|$ \link{\fnrepo}{Code}}
+      \resumeItemListStart
+        \resumeItem{Measured retrieval on all \textbf{150} FinanceBench questions over 360 filings (53,399 pages): hit@10 \textbf{44\%} with the right filing, 13\% across all, 31\% with a company/year filter; searching the gold text hits \textbf{97\%}, so the gap is vocabulary}
+        \resumeItem{Built cited answers with a grounding check, a whitelisted calculator, an agent and a model judge cross-checked by a rule, with bootstrap intervals}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{SignalDesk AI: oncology competitive intelligence} $|$ \emph{Python, SQL, Gemini, TypeScript}}
+      {\link{\sdlive}{Live} $|$ \link{\sdrepo}{Code}}
+      \resumeItemListStart
+        \resumeItem{Linked \textbf{29} FDA announcements, 8 formulations and \textbf{30} trial records; a bounded Gemini agent with five typed tools and citation checks, deployed with Redis-backed quotas}
+        \resumeItem{Paired evaluation, 20 development / \textbf{40 held-out} tasks against a same-model BM25 baseline: agent 17/40 vs baseline 19/40, short of the 34/40 target; published case-level results and failure analysis}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Field Force Planner: territory alignment from the NPI registry} $|$ \emph{Python, SQL (DuckDB), Excel}}
+      {\link{\fflive}{Live} $|$ \link{\ffrepo}{Code}}
+      \resumeItemListStart
+        \resumeItem{Sized a launch from \textbf{9.9M} registry records (1,310 diabetes reps) and cut 3,143 counties into connected territories by weighted k-means seeds and local search: spread \textbf{7.5\%} vs 274\% by county count; prevalence tracks state spend by size (Spearman 0.86) but not per enrollee (--0.10)}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Also built:} \link{\pwlive}{Drug Price Watch} \emph{(chained price index, 17.3M prices)} $\cdot$ \link{\parepo}{Payer Access Intelligence} $\cdot$ \link{\tplive}{Trial Pipeline Benchmark}}
+      {\link{https://github.com/f20230125-sudo}{GitHub}}
+    \vspace{3pt}
+
   \resumeSubHeadingListEnd
 
 %-----------EXPERIENCE-----------
@@ -154,70 +201,31 @@
       \resumeItemListEnd
   \resumeSubHeadingListEnd
 
-%-----------PROJECTS-----------
-\section{Flagship Projects}
+%-----------RESEARCH & PUBLICATIONS-----------
+\section{Research \& Publications}
   \resumeSubHeadingListStart
-
-    \resumeProjectHeading
-      {\textbf{Agent Desk} $|$ \emph{Next.js, FastAPI, SQLite, Claude Code}}
-      {\link{https://github-bot-wine.vercel.app}{Live} $|$ \link{https://github.com/f20230125-sudo/github-bot}{Code}}
+    \resumeSubheading
+      {Lightweight Deep Learning for Tomato Leaf Disease Detection on Edge Devices}{2025 -- 2026}
+      {First Author; submitted to IEEE MSN 2026 (under review)}{}
       \resumeItemListStart
-        \resumeItem{Two AI agents on one site: \textbf{Patch} audits every GitHub repository (scored out of 100) and drafts fixes; \textbf{Pitch} drafts LinkedIn posts from Patch's notes. Nothing is sent without a click: a fixed list of allowed writes, dry-run by default, a pause switch}
-        \resumeItem{Claude via the Claude Code CLI (no API key), stopped at 40\% plan usage; rules before model calls (12 repositories audited in 30 requests, 0 model calls); 469 pytest tests. View-only hosted copy refreshed every six hours by a GitHub Actions job}
+        \resumeItem{Trained a MobileNetV2 classifier (10 classes) reaching \textbf{97.33\% test accuracy} (macro-F1 0.963); compressed it to \textbf{5.3 MB} with INT8 quantization and ran it on a Raspberry Pi 4B at about 250 ms per image}
       \resumeItemListEnd
-
-    \resumeProjectHeading
-      {\textbf{Flowboard} $|$ \emph{TypeScript, Next.js, React, Redux Toolkit, React Flow, Zod, Docker}}
-      {\link{https://flowboard-flax-seven.vercel.app}{Live} $|$ \link{https://github.com/f20230125-sudo/flowboard}{Code}}
-      \resumeItemListStart
-        \resumeItem{Visual workflow builder, a small n8n: connect eight block types, press Run, see each step's data. A React-free engine runs ready blocks in parallel; hand-written undo/redo; flows cannot run code (no \texttt{eval}, references are path lookups)}
-        \resumeItem{REST relay hardened against SSRF (host allow-list, no private addresses or redirects, size and rate caps); 319 unit and 37 Playwright tests with axe scans; CI builds the Docker image and applies the Kubernetes manifest to a kind cluster}
-      \resumeItemListEnd
-
-    \resumeProjectHeading
-      {\textbf{Sayso} $|$ \emph{TypeScript, Next.js, Redux Toolkit, Zod, Tailwind CSS, Playwright}}
-      {\link{https://sayso-sigma.vercel.app}{Live} $|$ \link{https://github.com/f20230125-sudo/sayso}{Code}}
-      \resumeItemListStart
-        \resumeItem{Service desk for a made-up airline: a typed or spoken request is answered with working interface (seat map, price, receipt), not text. A four-step agent (understand, plan, run, check) in plain TypeScript, 14 Zod-validated components}
-        \resumeItem{The plan chooses, the code computes: the server re-prices every order and refuses a mismatch. Rules read requests with no key (76\% of 105 unseen sentences before tuning); a model is optional. 370 unit and 59 end-to-end tests}
-      \resumeItemListEnd
-
-    \resumeProjectHeading
-      {\textbf{Hindsight} $|$ \emph{TypeScript, Next.js, Redux Toolkit (RTK Query), Zod, SVG}}
-      {\link{https://hindsight-sand.vercel.app}{Live} $|$ \link{https://github.com/f20230125-sudo/hindsight}{Code}}
-      \resumeItemListStart
-        \resumeItem{Agent observer: reads runs from the apps above through one Zod-checked trace format and draws each as a timeline (real or ``agent'' time), with playback and keyboard navigation. Runs arrive by \texttt{postMessage} from allow-listed origins; 289 unit, 98 end-to-end tests}
-      \resumeItemListEnd
-
-    \resumeProjectHeading
-      {\textbf{Portfolio OS} $|$ \emph{TypeScript, Next.js, React, Redux Toolkit, Zod, Playwright}}
-      {\link{https://uzair-khan-lac.vercel.app}{Live} $|$ \link{https://github.com/f20230125-sudo/portfolio-os}{Code}}
-      \resumeItemListStart
-        \resumeItem{Personal portfolio built as a Windows-style desktop: projects are icons that open in windows, and the live apps above run inside theirs. Window manager written from scratch (drag, resize, snap, keyboard), with unit-tested math}
-        \resumeItem{An assistant answers questions about the owner from a fact base, with sources, in plain TypeScript, no API or model; first-run accuracy 83\% on 166 questions written before tuning, 67.5\% on 40 held-out. 249 unit and 131 end-to-end tests with axe}
-      \resumeItemListEnd
-
   \resumeSubHeadingListEnd
-
 %-----------TECHNICAL SKILLS-----------
 \section{Technical Skills}
  \begin{itemize}[leftmargin=0.15in, label={}]
     \small{\item{
-     \textbf{Languages}{: TypeScript, JavaScript, HTML/CSS, Python, Java, SQL, C, LaTeX} \\
-     \textbf{Front-End}{: React, Next.js, state management (Redux Toolkit, Context), React Flow, Tailwind CSS, CSS animation, responsive design, data visualization (SVG charts), interactive UI, Zod, accessibility (WCAG, axe)} \\
-     \textbf{Generative AI / LLMs}{: Claude API \& Claude Code, Gemini API, agentic tool-calling, prompt engineering, RAG, FAISS, structured output (Zod, Pydantic)} \\
-     \textbf{Machine Learning}{: NumPy, Pandas, scikit-learn, TensorFlow/Keras, TensorFlow Lite, transfer learning, edge ML (Raspberry Pi)} \\
-     \textbf{Backend \& Databases}{: Node.js, FastAPI, Flask, REST API design, Swagger/OpenAPI, Postman, SQLite, MySQL} \\
-     \textbf{Testing \& DevOps}{: Vitest, Playwright, pytest, CI/CD (GitHub Actions), Docker, Kubernetes, Vercel, Git, AWS (learning)}
+     \textbf{Machine Learning \& AI}{: scikit-learn, TensorFlow/Keras, TensorFlow Lite, INT8 quantization, Transformers.js, ONNX Runtime, NLI, retrieval (BM25, embeddings), RAG, LLM agents and tool calling (Claude, Gemini)} \\
+     \textbf{Statistics \& Evaluation}{: held-out and paired evaluation, bootstrap intervals, backtesting (WAPE), rank correlation, price indexes, optimisation heuristics} \\
+     \textbf{Data \& Engineering}{: Python (Pandas, NumPy), SQL (DuckDB, MySQL), Excel, Power BI (DAX), TypeScript, Flask, REST APIs, Next.js/React} \\
+     \textbf{Tools}{: Git, GitHub Actions, pytest, Playwright, Postman, LaTeX}
     }}
  \end{itemize}
 
 %-----------CERTIFICATIONS-----------
 \section{Certifications}
  \begin{itemize}[leftmargin=0.15in, label={}]
-    \small{\item{
-     The Ultimate Job Ready Data Science Course -- CodeWithHarry (2026) $\cdot$ AWS Cloud Technical Essentials -- Coursera \textit{(in progress)}
-    }}
+    \small{\item{The Ultimate Job Ready Data Science Course -- CodeWithHarry (2026)}}
  \end{itemize}
 
 \end{document}

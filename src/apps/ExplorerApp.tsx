@@ -2,7 +2,7 @@
 
 import { ChevronRight, ExternalLink, Folder, LayoutGrid } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
-import { kindLabels, projects, type Project, type ProjectKind } from "@/knowledge/projects";
+import { dataProjects, kindLabels, projects, type Project, type ProjectKind } from "@/knowledge/projects";
 import { AppIcon, GithubGlyph } from "@/os/icons";
 import { useOs } from "@/os/useOs";
 
@@ -11,6 +11,7 @@ type Filter = "all" | ProjectKind;
 const FILTERS: { id: Filter; label: string }[] = [
   { id: "all", label: "All projects" },
   { id: "flagship", label: kindLabels.flagship },
+  { id: "analytics", label: kindLabels.analytics },
   { id: "llm", label: kindLabels.llm },
   { id: "quant", label: kindLabels.quant },
   { id: "data", label: kindLabels.data },
@@ -23,18 +24,23 @@ const modified = (ym: string): string => {
   return `${MONTHS[m - 1]} ${y}`;
 };
 
+// The data science folder also holds the evaluation-led AI projects, whose own type stays "LLM and agents".
+const inFolder = (p: Project, f: Filter) => f === "all" || (f === "analytics" ? dataProjects.includes(p) : p.kind === f);
+/** Flagship apps first, then the data projects, then everything older. */
+const rank = (p: Project) => (p.kind === "flagship" ? 0 : dataProjects.includes(p) ? 1 : 2);
+
 /** A File Explorer: categories on the left, projects as rows, details on the right. */
-export default function ExplorerApp() {
+export default function ExplorerApp({ initialFilter = "all" }: { initialFilter?: Filter }) {
   const os = useOs();
-  const [filter, setFilter] = useState<Filter>("all");
-  const [selected, setSelected] = useState<string>("sayso");
+  const [filter, setFilter] = useState<Filter>(initialFilter);
+  const [selected, setSelected] = useState<string>(initialFilter === "analytics" ? "rx-market-pulse" : "sayso");
   const listRef = useRef<HTMLUListElement>(null);
 
   const rows = useMemo(
     () =>
       projects
-        .filter((p) => filter === "all" || p.kind === filter)
-        .sort((a, b) => (a.kind === "flagship" ? 0 : 1) - (b.kind === "flagship" ? 0 : 1) || b.updated.localeCompare(a.updated) || a.name.localeCompare(b.name)),
+        .filter((p) => inFolder(p, filter))
+        .sort((a, b) => rank(a) - rank(b) || b.updated.localeCompare(a.updated) || a.name.localeCompare(b.name)),
     [filter],
   );
   const current: Project | undefined = rows.find((p) => p.id === selected) ?? rows[0];

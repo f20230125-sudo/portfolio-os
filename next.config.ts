@@ -6,7 +6,7 @@ const isDev = process.env.NODE_ENV === "development";
 // The sites that may be shown inside a window, taken from the project data so
 // that adding a project with a live site is one edit, not two.
 const origin = (url: string) => new URL(url).origin;
-const frames = [...new Set(projects.flatMap((p) => (p.live ? [origin(p.live.url)] : [])))];
+const frames = [...new Set(projects.flatMap((p) => (p.live?.frameable ? [origin(p.live.url)] : [])))];
 const microphoneSites = [...new Set(projects.flatMap((p) => (p.live?.microphone ? [origin(p.live.url)] : [])))];
 
 // What a page of this site may load and reach. It is all its own: no scripts,

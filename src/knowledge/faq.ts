@@ -151,9 +151,25 @@ export const faqs: Faq[] = [
       "Which language is he strongest in?",
     ],
     answer:
-      "He hasn't ranked his skills, so I can't name one as his strongest; this is only what his work shows. TypeScript, React and Next.js are behind all four flagship apps, and Flowboard, Sayso and Hindsight add Redux Toolkit, with unit tests, end-to-end tests and accessibility scans. Python is behind most of the older builds: agents, retrieval, quant tools and the data warehouse. His machine learning is the IEEE paper and a signal model in AI Trading Copilot. For the front end, start with Sayso; for agents, Agent Desk.",
+      "He hasn't ranked his skills, so I can't name one as his strongest; this is only what his work shows. TypeScript, React and Next.js are behind all four flagship apps, and Flowboard, Sayso and Hindsight add Redux Toolkit, with unit tests, end-to-end tests and accessibility scans. For data work, Python, SQL (DuckDB), Excel and Power BI are behind the data science and analytics projects, such as Rx Market Pulse and Payer Access Intelligence, and Python is behind most of the older builds too. His machine learning is the IEEE paper, PharmaEvidence's evaluation and a signal model in AI Trading Copilot. For data, start with Rx Market Pulse; for the front end, Sayso; for agents, Agent Desk.",
     app: "projects",
     sources: ["cv", "readme"],
+  },
+  {
+    id: "data-projects",
+    questions: [
+      "What data analytics projects has he done?",
+      "Has he done any data analysis?",
+      "Does he have data science projects?",
+      "Show me his data analyst work",
+      "Has he worked with healthcare or pharma data?",
+      "Does he know Power BI and Excel?",
+      "What is his data analytics experience?",
+    ],
+    answer:
+      "Eight projects in the Data work folder work on large public datasets. Rx Market Pulse cleans 36.1 million US Medicaid rows into a web report, a Power BI project and an Excel model. Payer Access Intelligence compares Medicare plan coverage from 2.24 million formulary records in Excel and Power BI. Field Force Planner sizes a sales force from the 9.9 million-record NPI registry and balances territories. Drug Price Watch builds a price index from 17.3 million weekly prices. Trial Pipeline Benchmark compares 12 companies' clinical trials. PharmaEvidence, SignalDesk AI and Footnote evaluate retrieval and AI systems against held-out tests and baselines. These are independent projects on public data, not paid work.",
+    app: "data-projects",
+    sources: ["readme", "cv"],
   },
   {
     id: "teamwork",
@@ -191,7 +207,7 @@ export const faqs: Faq[] = [
     id: "portfolio-site",
     questions: ["Does he have a portfolio?", "Where is his portfolio?", "Can I see his portfolio?", "Is there a portfolio website?"],
     answer:
-      "You are looking at it. This desktop is his portfolio: the icons are his projects, the Projects folder holds all of them, and the four flagship apps run live inside their windows.",
+      "You are looking at it. This desktop is his portfolio: the icons are his projects, the Data work folder holds his data science and analytics work, the Projects folder holds everything, and the flagship apps and most data projects run live inside their windows.",
     app: "projects",
     sources: ["readme"],
   },
@@ -259,6 +275,11 @@ export const unknowns: UnknownTopic[] = [
     id: "personal",
     triggers: ["married", "girlfriend", "boyfriend", "wife", "family", "parents", "religion", "politics", "political", "dating"],
     answer: "That's personal, so it isn't on this site and I won't guess. I can talk about his work, studies and projects.",
+  },
+  {
+    id: "small-talk",
+    triggers: ["lunch", "dinner", "breakfast", "favourite food", "favorite food", "fun fact"],
+    answer: "He hasn't shared that kind of detail here, so I won't make it up. I can tell you about his projects, skills, studies or research.",
   },
   {
     id: "hobbies",

@@ -4,6 +4,7 @@ import { faqs, unknowns } from "@/knowledge/faq";
 import { person } from "@/knowledge/profile";
 import { flagship, projectById, type Project } from "@/knowledge/projects";
 import {
+  appLabel,
   asOfNote,
   bioBlocks,
   chunkText,
@@ -263,7 +264,7 @@ function faq(id: string, reason: string): Draft {
         : c?.app === "contact"
           ? contactActions()
           : c?.app && !c.app.startsWith("project:")
-            ? [{ kind: "open", label: `Open ${c.app === "settings" ? "Settings" : c.app[0].toUpperCase() + c.app.slice(1)}`, target: c.app }]
+            ? [{ kind: "open", label: `Open ${appLabel(c.app)}`, target: c.app }]
             : undefined,
     topic: c?.topic ?? null,
   };

@@ -1,0 +1,231 @@
+% Public copy for the portfolio site: no phone numbers and no grades or marks. Built from D:/claude-workspace/cv-msd/fresh (data analyst version).
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Mohammad Uzair Khan - CV}, pdfauthor={Mohammad Uzair Khan}}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+% Latin Modern in every engine. Under XeLaTeX the "fi" and "fl" ligatures are switched off:
+% they are saved in the PDF as single ligature characters, which applicant-tracking systems
+% then read as a different word ("workflow" is not "workﬂow"). pdfLaTeX needs no switch,
+% since glyphtounicode below maps its ligatures back to letters.
+\ifdefined\XeTeXversion
+  \usepackage{fontspec}
+  \setmainfont{lmroman10}[Extension=.otf, UprightFont=*-regular, BoldFont=*-bold, ItalicFont=*-italic,
+    BoldItalicFont=*-bolditalic, SmallCapsFont=lmromancaps10-regular.otf, Ligatures=NoCommon]
+  % The name at the top is bold small capitals, which this family has no file for: embolden the small caps.
+  \newfontfamily\namefont{lmromancaps10-regular.otf}[FakeBold=2, Ligatures=NoCommon]
+\else
+  \usepackage[T1]{fontenc}
+  \usepackage{lmodern}
+  \newcommand{\namefont}{\bfseries\scshape}
+\fi
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Margins
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.6in}
+\addtolength{\textwidth}{1.2in}
+\addtolength{\topmargin}{-.6in}
+\addtolength{\textheight}{1.2in}
+
+% Tight bullet lists (level 1 = entries, level 2 = the bullets under an entry)
+\setlist[itemize,1]{itemsep=2pt, parsep=0pt}
+\setlist[itemize,2]{itemsep=0pt, parsep=0pt, topsep=9pt}
+
+\linespread{1.0}
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Section headings
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+\titlespacing*{\section}{0pt}{3.5pt}{1.9ex plus .2ex}
+
+% Make the PDF text selectable and searchable for applicant tracking systems (pdfLaTeX only)
+\ifdefined\pdfgentounicode
+  \input{glyphtounicode}
+  \pdfgentounicode=1
+\fi
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+% Link style used for the "Live" and "Code" links on each project
+\newcommand{\link}[2]{\href{#1}{\underline{#2}}}
+
+
+% Project addresses (set when the repository and site are published)
+\newcommand{\rxrepo}{https://github.com/f20230125-sudo/rx-market-pulse}
+\newcommand{\rxlive}{https://rx-market-pulse.vercel.app}
+\newcommand{\tprepo}{https://github.com/f20230125-sudo/trial-pipeline-benchmark}
+\newcommand{\tplive}{https://trial-pipeline-benchmark.vercel.app}
+\newcommand{\ffrepo}{https://github.com/f20230125-sudo/field-force-planner}
+\newcommand{\fflive}{https://field-force-planner.vercel.app}
+\newcommand{\pwrepo}{https://github.com/f20230125-sudo/drug-price-watch}
+\newcommand{\pwlive}{https://drug-price-watch.vercel.app}
+\newcommand{\parepo}{https://github.com/f20230125-sudo/payer-access-intelligence}
+\newcommand{\pelive}{https://pharma-evidence.vercel.app}
+\newcommand{\perepo}{https://github.com/f20230125-sudo/pharma-evidence}
+\newcommand{\sdlive}{https://signaldesk-ai-phi.vercel.app}
+\newcommand{\sdrepo}{https://github.com/f20230125-sudo/-signaldesk-ai}
+\newcommand{\fnlive}{https://footnote-ten.vercel.app}
+\newcommand{\fnrepo}{https://github.com/f20230125-sudo/footnote}
+\newcommand{\colive}{https://campaignops-digital-solutions.vercel.app}
+\newcommand{\rxagent}{https://github.com/f20230125-sudo/rx-market-pulse/tree/feat/msd-commercial-agent}
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    {\namefont\Huge Mohammad Uzair Khan} \\ \vspace{1pt}
+    \small Dubai, UAE $\cdot$ \href{mailto:uk4320930@gmail.com}{uk4320930@gmail.com} \\
+    \href{https://linkedin.com/in/mohammad-uzair-khan-2b24b0355}{linkedin.com/in/mohammad-uzair-khan-2b24b0355} $\cdot$
+    \href{https://github.com/f20230125-sudo}{github.com/f20230125-sudo} $\cdot$
+    \href{https://uzair-khan-lac.vercel.app}{uzair-khan-lac.vercel.app}
+\end{center}
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {BITS Pilani, Dubai Campus}{Dubai, UAE}
+      {B.E. Computer Science}{Expected 2027}
+      \resumeItemListStart
+        \resumeItem{Relevant Coursework: Database Management Systems, Machine Learning, Data Structures \& Algorithms, Large Language Models}
+      \resumeItemListEnd
+    \resumeProjectHeading
+      {\textbf{\normalsize Bishop Conrad Senior Secondary School} $|$ \emph{Senior Secondary (Class XII)}}
+      {Bareilly, India $|$ \emph{2023}}
+    \vspace{4pt}
+  \resumeSubHeadingListEnd
+%-----------PROJECTS-----------
+\section{Data Analytics Projects}
+  \resumeSubHeadingListStart
+
+    \resumeProjectHeading
+      {\textbf{Payer Access Intelligence: BELSOMRA vs peers in Medicare} $|$ \emph{Python, SQL (DuckDB), Excel, Power BI}}
+      {\link{\parepo/blob/main/outputs/Payer-Access-Analytical-Report.pdf}{Report} $|$ \link{\parepo}{Code}}
+      \resumeItemListStart
+        \resumeItem{Harmonised \textbf{2.24M} CMS formulary records across \textbf{367} Medicare drug plans and eight strengths, joined January and August 2026 snapshots to enrollment without double counting shared formularies; \textbf{20} source-audit checks}
+        \resumeItem{BELSOMRA is listed in plans holding \textbf{80.5\%} of members (DAYVIGO 17.7\%, QUVIVIQ 9.3\%); showed its rise from 79.5\% was enrollment mix, not new listings, and queued \textbf{70 plans (3.2M members)} for payer review; Excel workbook (64 values recalculated in 8 scenarios) and Power BI project (29 DAX measures)}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Rx Market Pulse: Medicaid drug spend, 2019--2025} $|$ \emph{Python, SQL (DuckDB), Excel, Power BI, Next.js}}
+      {\link{\rxlive}{Live} $|$ \link{\rxrepo}{Code}}
+      \resumeItemListStart
+        \resumeItem{Built a tested pipeline over \textbf{36.1M} public Medicaid rows, a Power BI report (star schema, 28 DAX measures, 6 pages) and a web dashboard; harmonised \textbf{1,488} manufacturer name variants with \textbf{19} quality checks}
+        \resumeItem{Found spend rose \textbf{60\% to \$116.9B} on flat prescriptions (brands: \textbf{14\%} of prescriptions, \textbf{89\%} of spend); live-formula Excel territory model ranks 51 states, checked in Excel through 6 scenarios against Python}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Field Force Planner: reps and territories from the NPI registry} $|$ \emph{Python, SQL (DuckDB), Excel, Next.js}}
+      {\link{\fflive}{Live} $|$ \link{\ffrepo}{Code}}
+      \resumeItemListStart
+        \resumeItem{Streamed the \textbf{9.9M}-record NPI registry, placed \textbf{98.9\%} of providers in a county and sized a launch at \textbf{1,310 diabetes} and \textbf{474 oncology} reps; Excel sizing model checked in Excel on \textbf{2,730 cells}}
+        \resumeItem{Aligned 3,143 counties into one connected territory per rep: workload spread \textbf{7.5\%} against 274\% for an alignment by county count; \textbf{99.6\%} of territories within 25\% of target}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Drug Price Watch: US pharmacy drug prices} $|$ \emph{Python, SQL, Excel, GitHub Actions, Next.js}}
+      {\link{\pwlive}{Live} $|$ \link{\pwrepo}{Code}}
+      \resumeItemListStart
+        \resumeItem{Built a price index over \textbf{17.3M} weekly NADAC prices (every year ties to the portal): since 2019 brand prices \textbf{+22\%}, generics \textbf{--53\%}; \textbf{53\%} of brand price steps fall in January and July}
+        \resumeItem{Cross-checked Rx Market Pulse's price effect against a second source (\$2.5B vs \$2.8B); a weekly GitHub Actions watch found \textbf{28 generic sitagliptin packs} priced at \textbf{36\%} of Januvia's rate}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Trial Pipeline Benchmark: MSD vs 11 peers} $|$ \emph{Python, REST API (JSON), SQL, Excel, Next.js}}
+      {\link{\tplive}{Live} $|$ \link{\tprepo}{Code}}
+      \resumeItemListStart
+        \resumeItem{Pulled \textbf{36,612} trials from the ClinicalTrials.gov API and resolved \textbf{1,304} sponsor names to 12 companies (\textbf{25} checks, \textbf{264} tests); MSD has the \textbf{second-largest} active pipeline (238 studies), \textbf{35\%} of Phase 2+ on Keytruda}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Also built:} \link{\colive}{CampaignOps} \emph{(campaign KPIs, synthetic data)} $\cdot$ \link{\pelive}{PharmaEvidence} \emph{(label changes)} $\cdot$ \link{\fnlive}{Footnote} \emph{(filings retrieval)}}
+      {\link{https://github.com/f20230125-sudo}{GitHub}}
+    \vspace{3pt}
+
+  \resumeSubHeadingListEnd
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Backend Developer Intern, Amaani (Travel-Tech Startup)}{Dubai, UAE}
+      {BITS Practice School (PS-1)}{Jun 2025 -- Aug 2025}
+      \resumeItemListStart
+        \resumeItem{Developed and maintained backend services in \textbf{Python (Flask)}, building RESTful APIs for core travel-booking features}
+        \resumeItem{Documented API contracts with \textbf{Swagger/OpenAPI} and validated endpoints end-to-end using \textbf{Postman}; implemented request validation and data models}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------RESEARCH & PUBLICATIONS-----------
+\section{Research \& Publications}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Lightweight Deep Learning for Tomato Leaf Disease Detection on Edge Devices}{2025 -- 2026}
+      {First Author; submitted to IEEE MSN 2026 (under review)}{}
+      \resumeItemListStart
+        \resumeItem{Trained a MobileNetV2 classifier (10 classes) reaching \textbf{97.33\% test accuracy} (macro-F1 0.963); compressed it to \textbf{5.3 MB} with INT8 quantization and ran it on a Raspberry Pi 4B at about 250 ms per image}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Analytics \& BI}{: Excel (SUMIFS, INDEX/MATCH, MAXIFS, PERCENTRANK), Power BI (star schema, DAX), data transformation and harmonisation, data-quality checks, KPI and variance analysis, price indexes, forecasting} \\
+     \textbf{Languages \& Data}{: SQL (DuckDB, MySQL), Python (Pandas, NumPy, scikit-learn), REST APIs, TypeScript, Java, C} \\
+     \textbf{Visualisation \& Tools}{: Power BI, Excel charts, accessible web dashboards (Next.js/React), Git, GitHub Actions, pytest, Playwright, Postman} \\
+     \textbf{AI / ML}{: TensorFlow/Keras, edge ML, retrieval (BM25), LLM tool calling (Claude, Gemini)}
+    }}
+ \end{itemize}
+
+%-----------CERTIFICATIONS-----------
+\section{Certifications}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{The Ultimate Job Ready Data Science Course -- CodeWithHarry (2026)}}
+ \end{itemize}
+
+\end{document}

@@ -87,9 +87,12 @@ describe("pictures", () => {
   });
 });
 
-describe("the CV file", () => {
-  const file = join(publicDir, person.cv.url);
-  const source = join(__dirname, "..", "..", "docs", "cv", "Mohammad-Uzair-Khan-CV.tex");
+describe.each([
+  ["the CV file", person.cv.url, "Mohammad-Uzair-Khan-CV.tex"],
+  ["the data analyst CV file", person.cvAnalyst.url, "Mohammad-Uzair-Khan-CV-Data-Analyst.tex"],
+])("%s", (_name, url, tex) => {
+  const file = join(publicDir, url);
+  const source = join(__dirname, "..", "..", "docs", "cv", tex);
 
   it("is where the site says it is, and is a PDF of a sensible size", () => {
     expect(existsSync(file)).toBe(true);

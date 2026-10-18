@@ -48,6 +48,9 @@ export default function ResumeApp() {
           <a className="btn btn-primary" href={person.cv.url} download>
             <Download size={14} aria-hidden="true" /> {person.cv.label}
           </a>
+          <a className="btn" href={person.cvAnalyst.url} download>
+            <Download size={14} aria-hidden="true" /> {person.cvAnalyst.label}
+          </a>
           <a className="btn" href="/simple">
             <FileText size={14} aria-hidden="true" /> Printable version
           </a>

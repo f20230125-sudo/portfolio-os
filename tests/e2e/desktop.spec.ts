@@ -360,17 +360,17 @@ test.describe("the simple view", () => {
   test("lists exactly the projects the desktop can open", async ({ page, browser }) => {
     await page.goto("/simple");
     const simple = await page.getByRole("heading", { level: 3 }).allTextContents();
-    const fromSimple = simple.filter((t) => !["Earlier builds", "Certifications"].includes(t) && !/^(Lightweight|Backend Developer|BITS)/.test(t));
+    const fromSimple = simple.filter((t) => !["Earlier builds", "Data and analytics", "Certifications"].includes(t) && !/^(Lightweight|Backend Developer|BITS)/.test(t));
     const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
     const desk = await ctx.newPage();
     await gotoDesktop(desk);
     await openIcon(desk, "Projects");
     const projectRows = win(desk, "Projects").getByRole("list", { name: "Projects" }).getByRole("button");
-    await expect(projectRows).toHaveCount(14);
+    await expect(projectRows).toHaveCount(22);
     const rows = await projectRows.evaluateAll((els) => els.map((e) => e.querySelector("span.font-medium")?.textContent ?? ""));
     await ctx.close();
     expect([...rows].sort()).toEqual([...fromSimple].sort());
-    expect(rows).toHaveLength(14);
+    expect(rows).toHaveLength(22);
   });
 
   test("works with scripts off, and the desktop says where to go instead", async ({ browser, request }) => {

@@ -1,6 +1,6 @@
 import { chunkById, chunks, type Chunk } from "@/knowledge/chunks";
 import { education, experience, person, research, skillGroups } from "@/knowledge/profile";
-import { flagship, olderProjects, projectById, projects, type Project } from "@/knowledge/projects";
+import { dataProjects, flagship, olderProjects, projectById, projects, type Project } from "@/knowledge/projects";
 import { passageCount } from "./retrieve";
 import type { Action, Block, SourceChip } from "./types";
 
@@ -9,6 +9,13 @@ import type { Action, Block, SourceChip } from "./types";
 // questions. No searching happens here.
 
 export const ASOF_LABEL = "7 October 2026";
+
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+/** "2026-10-18" as "18 October 2026". */
+export const dayLabel = (iso: string): string => {
+  const [y, m, d] = iso.split("-").map(Number);
+  return `${d} ${MONTH_NAMES[m - 1]} ${y}`;
+};
 
 export const STARTERS = [
   "What projects has he built?",
@@ -43,6 +50,8 @@ export function appLabel(app: string): string {
       return "Contact";
     case "projects":
       return "Projects";
+    case "data-projects":
+      return "Data work";
     case "settings":
       return "Settings";
     case "ask":
@@ -66,8 +75,10 @@ export function uniqueChips(used: Chunk[], max = 3): SourceChip[] {
 
 /** A note about when counted figures were true, if the passages used hold any. */
 export function asOfNote(used: Chunk[]): Block | null {
-  const counted = used.some((c) => c.asOf && /\btests?\b/i.test(c.text) && /\d/.test(c.text));
-  return counted ? { type: "note", text: `Test counts are as of ${ASOF_LABEL}.` } : null;
+  const counted = used.filter((c) => c.asOf && /\btests?\b/i.test(c.text) && /\d/.test(c.text));
+  if (counted.length === 0) return null;
+  const days = [...new Set(counted.map((c) => c.asOf as string))].sort();
+  return { type: "note", text: `Test counts are as of ${days.map(dayLabel).join(" and ")}.` };
 }
 
 export function projectActions(p: Project, opts: { openFirst?: boolean } = {}): Action[] {
@@ -92,6 +103,7 @@ export function contactActions(): Action[] {
 export function cvActions(): Action[] {
   return [
     { kind: "download", label: person.cv.label, target: person.cv.url },
+    { kind: "download", label: person.cvAnalyst.label, target: person.cvAnalyst.url },
     { kind: "open", label: "Open Resume", target: "resume" },
     { kind: "mail", label: "Email Uzair", target: `mailto:${person.email}` },
   ];
@@ -101,7 +113,9 @@ export function projectsListBlocks(): Block[] {
   return [
     para("These are the four flagship projects. Each opens in its own window with a demo, the numbers and the decisions behind it:"),
     { type: "list", items: flagship.map((p) => `${p.name}: ${p.tagline}`) },
-    para(`There are ${olderProjects.length} older builds in the Projects folder too, from RAG services and a trading research desk to a data warehouse, a chatbot and a game.`),
+    para(`His newest work is in the Data work folder: ${dataProjects.length} data science and analytics projects on public pharmaceutical and financial data:`),
+    { type: "list", items: dataProjects.map((p) => `${p.name}: ${p.tagline}`) },
+    para(`There are ${olderProjects.length - dataProjects.length} older builds in the Projects folder too, from RAG services and a trading research desk to a data warehouse, a chatbot and a game.`),
   ];
 }
 
