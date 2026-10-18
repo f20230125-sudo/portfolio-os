@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ASOF_LABEL, dayLabel } from "@/ai/compose";
 import { certifications, education, experience, person, research, skillGroups } from "@/knowledge/profile";
-import { dataProjects, flagship, kindLabels, olderProjects, type Project } from "@/knowledge/projects";
+import { flagship, kindLabels, olderProjects, type Project } from "@/knowledge/projects";
 
 // The whole site as one ordinary page, rendered on the server from the same
 // data as the desktop. For anyone who would rather read than click, for screen
@@ -61,16 +61,16 @@ export function SimpleView() {
       <main>
         <section aria-labelledby="s-projects" className="py-6">
           <h2 id="s-projects" className="mb-1 text-[22px] font-semibold">Projects</h2>
-          <p className="text-[14px] text-muted">The four flagship apps and most of the data projects are live on the web. Flagship figures are as of {ASOF_LABEL}; data project figures as of {dayLabel(dataProjects.map((p) => p.asOf).sort().at(-1) ?? "2026-10-18")}.</p>
+          <p className="text-[14px] text-muted">The flagship projects are data science and analytics work on public pharmaceutical data related to MSD&rsquo;s business: independent projects, not work for MSD. Most are live on the web. Flagship figures are as of {dayLabel(flagship.map((p) => p.asOf).sort().at(-1) ?? "2026-10-18")}; other figures as of {ASOF_LABEL}.</p>
           {flagship.map((p) => (
             <ProjectBlock key={p.id} p={p} />
           ))}
-          <h3 className="mt-4 text-[17px] font-semibold text-muted">Data and analytics</h3>
-          {dataProjects.map((p) => (
+          <h3 className="mt-4 text-[17px] font-semibold text-muted">AI apps</h3>
+          {olderProjects.filter((p) => p.kind === "apps").map((p) => (
             <ProjectBlock key={p.id} p={p} />
           ))}
           <h3 className="mt-4 text-[17px] font-semibold text-muted">Earlier builds</h3>
-          {olderProjects.filter((p) => !dataProjects.includes(p)).map((p) => (
+          {olderProjects.filter((p) => p.kind !== "apps").map((p) => (
             <ProjectBlock key={p.id} p={p} />
           ))}
         </section>

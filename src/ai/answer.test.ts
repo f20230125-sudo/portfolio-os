@@ -35,10 +35,12 @@ describe("small talk", () => {
 });
 
 describe("the projects", () => {
-  it("lists the four flagships", () => {
+  it("lists the flagship projects, then the AI apps", () => {
     const a = one("What projects has he built?");
     expect(a.explain.intent).toBe("projects_list");
+    for (const name of ["Rx Market Pulse", "Payer Access Intelligence", "Field Force Planner", "Drug Price Watch", "Trial Pipeline Benchmark", "PharmaEvidence", "SignalDesk AI"]) expect(text(a)).toContain(name);
     for (const name of ["Agent Desk", "Flowboard", "Sayso", "Hindsight"]) expect(text(a)).toContain(name);
+    expect(text(a)).toContain("not work for MSD");
     expect(a.actions.some((x) => x.target === "projects")).toBe(true);
   });
 
@@ -48,11 +50,6 @@ describe("the projects", () => {
     expect(text(a)).toContain(name);
     expect(a.actions.some((x) => x.target === `project:${id}`)).toBe(true);
     expect(a.sources.some((s) => s.app === `project:${id}`)).toBe(true);
-  });
-
-  it("the project list also names the data projects and points at their folder", () => {
-    const a = one("What projects has he built?");
-    for (const name of ["Rx Market Pulse", "Payer Access Intelligence", "Field Force Planner", "Drug Price Watch"]) expect(text(a)).toContain(name);
   });
 
   it("answers a data analyst's questions from the data projects", () => {

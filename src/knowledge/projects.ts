@@ -2,7 +2,9 @@ import type { Project } from "./schema";
 
 export type { Project, ProjectKind } from "./schema";
 
-// Every project on the desktop. Written from each repository's README and from
+// Every project in the portfolio. The flagship projects (the desktop icons) are the ones on public
+// pharmaceutical data related to MSD's business, independent work and not for MSD; the four earlier
+// front-end AI apps are "apps". Written from each repository's README and from
 // Uzair's CV; numbers that change as the code does (test counts) are true as
 // of the day in `asOf`, and the assistant says so.
 
@@ -13,7 +15,7 @@ export const projects: Project[] = [
     id: "agent-desk",
     name: "Agent Desk",
     aliases: ["patch", "pitch", "github bot", "the github bot", "agent desk", "linkedin agent", "github agent"],
-    kind: "flagship",
+    kind: "apps",
     tagline: "Two AI agents on one site: Patch looks after a GitHub account, Pitch drafts LinkedIn posts.",
     pitch:
       "Patch audits every GitHub repository, scores each one out of 100 and drafts fixes. Pitch turns Patch's notes into LinkedIn post drafts. Nothing is sent anywhere without a click, and the agents run on Uzair's own Claude plan with no API key. A hosted, view-only half called GitHub Bot runs Patch's checks every six hours as a GitHub Actions job.",
@@ -57,7 +59,7 @@ export const projects: Project[] = [
     id: "flowboard",
     name: "Flowboard",
     aliases: ["workflow builder", "the workflow one", "n8n", "n8n clone"],
-    kind: "flagship",
+    kind: "apps",
     tagline: "A visual workflow builder, a small n8n: connect blocks, press Run, watch each step's real data.",
     pitch:
       "Drag eight kinds of block onto a canvas, connect them and press Run. A React-free engine runs the blocks that are ready in parallel and shows what each step received and returned. It calls real APIs from the browser and costs nothing to run.",
@@ -102,7 +104,7 @@ export const projects: Project[] = [
     id: "sayso",
     name: "Sayso",
     aliases: ["the airline one", "airline", "juno air", "service desk", "airline project"],
-    kind: "flagship",
+    kind: "apps",
     tagline: "Say what you need, and the screen builds itself: a service desk for a made-up airline.",
     pitch:
       "A typed or spoken request is answered with working interface, such as a seat map, a price and a receipt, instead of text. A four-step agent (understand, plan, run, check) written in plain TypeScript chooses from 14 Zod-validated components.",
@@ -148,7 +150,7 @@ export const projects: Project[] = [
     id: "hindsight",
     name: "Hindsight",
     aliases: ["observer", "the observer", "timeline", "agent observer"],
-    kind: "flagship",
+    kind: "apps",
     tagline: "What your agents did, after the fact: one timeline for every run of four apps.",
     pitch:
       "Hindsight reads runs from Uzair's other four apps through one Zod-checked trace format and draws each on a timeline: what was understood, every call, every wait, every check. It can show real time or agent time, which squeezes the waits for a person.",
@@ -192,7 +194,7 @@ export const projects: Project[] = [
     id: "rx-market-pulse",
     name: "Rx Market Pulse",
     aliases: ["rx market pulse", "medicaid project", "medicaid dashboard", "drug spend", "rx pulse", "the medicaid one"],
-    kind: "analytics",
+    kind: "flagship",
     tagline: "What US Medicaid pays for prescription drugs, 2019 to 2025: 36.1M rows, a Power BI report and an AI analyst.",
     pitch:
       "A commercial-analytics case study on seven years of public US Medicaid pharmacy data. A tested Python and SQL pipeline cleans and joins 36.1 million rows to FDA records, and the same numbers feed a web report, a six-page Power BI project, an Excel territory model and an analyst that answers questions through typed tools.",
@@ -227,7 +229,7 @@ export const projects: Project[] = [
     id: "payer-access-intelligence",
     name: "Payer Access Intelligence",
     aliases: ["payer access", "formulary project", "belsomra", "medicare formulary", "payer project"],
-    kind: "analytics",
+    kind: "flagship",
     tagline: "Which Medicare drug plans list BELSOMRA and its rivals, from 2.24M CMS formulary records, in Excel and Power BI.",
     pitch:
       "A payer-access analysis comparing BELSOMRA with DAYVIGO and QUVIVIQ across 367 Medicare drug plans, from January and August 2026 CMS snapshots. Python and SQL turn 2.24 million formulary records into plan, strength and brand tables, a live-formula Excel workbook, a four-page Power BI project and a written report.",
@@ -260,7 +262,7 @@ export const projects: Project[] = [
     id: "field-force-planner",
     name: "Field Force Planner",
     aliases: ["field force", "territory planner", "sales territories", "territory alignment", "sales reps", "npi project"],
-    kind: "analytics",
+    kind: "flagship",
     tagline: "How many reps a US launch needs, and 3,143 counties cut into balanced, connected territories, from the NPI registry.",
     pitch:
       "Sizes a pharmaceutical field force from the public NPI registry, Census and CDC data, then cuts US counties into one connected territory per rep, balanced on workload. The same sizing logic runs in Python and in an Excel model a visitor can change.",
@@ -290,7 +292,7 @@ export const projects: Project[] = [
     id: "drug-price-watch",
     name: "Drug Price Watch",
     aliases: ["price watch", "nadac", "drug prices", "price index", "pricing project"],
-    kind: "analytics",
+    kind: "flagship",
     tagline: "14 years of weekly US pharmacy drug prices: a price index, price-change events and a weekly automated watch.",
     pitch:
       "A pipeline over 17.3 million weekly NADAC pharmacy acquisition prices builds a chained price index for brands and generics, finds when prices step, follows prices after generic entry and cross-checks the price effect in Rx Market Pulse against a second source. A GitHub Action re-runs the checks every week.",
@@ -320,7 +322,7 @@ export const projects: Project[] = [
     id: "trial-pipeline-benchmark",
     name: "Trial Pipeline Benchmark",
     aliases: ["trial pipeline", "clinical trials", "clinicaltrials.gov", "pipeline benchmark"],
-    kind: "analytics",
+    kind: "flagship",
     tagline: "MSD's clinical pipeline against 11 peers, from 36,612 ClinicalTrials.gov records.",
     pitch:
       "Pulls every trial for MSD and 11 peer companies from the ClinicalTrials.gov API, resolves sponsor names to companies, and compares pipeline size, phase mix and therapeutic focus, with an Excel scorecard whose weights a visitor can change.",
@@ -348,7 +350,7 @@ export const projects: Project[] = [
     id: "pharma-evidence",
     name: "PharmaEvidence",
     aliases: ["pharma evidence", "claim review", "evidence workbench", "nli project", "deberta"],
-    kind: "llm",
+    kind: "flagship",
     tagline: "Checks a draft's claims against versioned drug labels, with retrieval, rules and an NLI model that runs in your browser.",
     pitch:
       "A claim-review workbench: paste a draft, and each claim is matched to passages from real, versioned DailyMed labels for KEYTRUDA and WINREVAIR. BM25 retrieval, explicit number and qualifier rules and a pretrained DeBERTa NLI model, running on the visitor's own device, each give a separate, labelled finding.",
@@ -379,7 +381,7 @@ export const projects: Project[] = [
     id: "signaldesk-ai",
     name: "SignalDesk AI",
     aliases: ["signaldesk", "signal desk", "oncology intelligence", "competitive intelligence agent"],
-    kind: "llm",
+    kind: "flagship",
     tagline: "Oncology competitive intelligence tied to FDA evidence, with an honestly reported agent evaluation.",
     pitch:
       "Collects FDA oncology announcements for KEYTRUDA, OPDIVO, IMFINZI, TECENTRIQ and LIBTAYO, links them to product formulations and cited trials, and lets a bounded Gemini agent answer competitive questions through typed tools, with every claim cited and exportable as a brief.",
@@ -698,12 +700,10 @@ export const projectById = (id: string): Project | undefined => projects.find((p
 
 export const flagship = projects.filter((p) => p.kind === "flagship");
 export const olderProjects = projects.filter((p) => p.kind !== "flagship");
-/** The data science and analytics projects, newest work, shown in their own desktop folder. */
-export const dataProjects = projects.filter((p) => p.kind === "analytics" || ["pharma-evidence", "signaldesk-ai", "footnote"].includes(p.id));
 
 export const kindLabels: Record<Project["kind"], string> = {
   flagship: "Flagship",
-  analytics: "Data and analytics",
+  apps: "AI apps",
   llm: "LLM and agents",
   quant: "Quant and markets",
   data: "Data engineering",
