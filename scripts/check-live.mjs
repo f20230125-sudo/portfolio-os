@@ -20,6 +20,11 @@ const APPS = [
   { id: "flowboard", title: "Flowboard", expect: /Flowboard|flow|Heat check/i },
   { id: "sayso", title: "Sayso", expect: /Sayso|Juno|Say what you need/i },
   { id: "hindsight", title: "Hindsight", expect: /Hindsight|run|agent/i },
+  { id: "rx-market-pulse", title: "Rx Market Pulse", expect: /Medicaid|prescription/i },
+  { id: "field-force-planner", title: "Field Force Planner", expect: /reps|territor/i },
+  { id: "drug-price-watch", title: "Drug Price Watch", expect: /price|NADAC/i },
+  { id: "trial-pipeline-benchmark", title: "Trial Pipeline Benchmark", expect: /trial|pipeline/i },
+  { id: "footnote", title: "Footnote", expect: /Footnote|filing/i },
 
 ];
 
