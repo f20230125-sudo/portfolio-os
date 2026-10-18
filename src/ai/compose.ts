@@ -110,7 +110,7 @@ export function cvActions(): Action[] {
 export function projectsListBlocks(): Block[] {
   const apps = projects.filter((p) => p.kind === "apps");
   return [
-    para(`His ${flagship.length} flagship projects are data science and analytics work on public pharmaceutical data related to MSD's business (independent projects, not work for MSD). Each opens in its own window with the numbers and the decisions behind it:`),
+    para(`His ${flagship.length} flagship projects are data science and analytics work related to MSD's business, on public pharmaceutical data (CampaignOps on labelled synthetic campaign data). They are independent projects, not work for MSD. Each opens in its own window with the numbers and the decisions behind it:`),
     { type: "list", items: flagship.map((p) => `${p.name}: ${p.tagline}`) },
     para(`Four earlier AI apps are in the Projects folder too: ${apps.map((p) => p.name).join(", ")}, each live on the web.`),
     { type: "list", items: apps.map((p) => `${p.name}: ${p.tagline}`) },

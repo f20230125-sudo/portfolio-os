@@ -209,7 +209,8 @@ button {
   /* Two lines of a long name ("Trial Pipeline Benchmark") fit inside the 92px tile; a single long word breaks like Windows does. */
   line-height: 1.15;
   max-width: 100%;
-  padding: 1px 4px;
+  padding: 1px 2px;
+  letter-spacing: -0.1px;
   overflow-wrap: anywhere;
   border-radius: 4px;
   background: rgb(0 0 0 / 0.42);

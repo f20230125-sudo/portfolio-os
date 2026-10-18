@@ -62,18 +62,18 @@ test.describe("project windows", () => {
 });
 
 test.describe("the Projects folder", () => {
-  test("lists all twenty-two, filters by folder, and opens one by double-click or Enter", async ({ page }) => {
+  test("lists all twenty-three, filters by folder, and opens one by double-click or Enter", async ({ page }) => {
     await gotoDesktop(page);
     const w = await openIcon(page, "Projects");
     const rows = w.getByRole("list", { name: "Projects" }).getByRole("button");
-    await expect(rows).toHaveCount(22);
+    await expect(rows).toHaveCount(23);
     const folders = w.getByRole("navigation", { name: "Project folders" });
     await folders.getByRole("button", { name: "AI apps" }).click();
     await expect(rows).toHaveCount(4);
     await folders.getByRole("button", { name: "Quant and markets" }).click();
     await expect(rows).toHaveCount(3);
     await folders.getByRole("button", { name: "Flagship" }).click();
-    await expect(rows).toHaveCount(7);
+    await expect(rows).toHaveCount(8);
     await rows.first().focus();
     await page.keyboard.press("ArrowDown");
     await page.keyboard.press("Enter");

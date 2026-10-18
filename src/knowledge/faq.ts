@@ -167,7 +167,7 @@ export const faqs: Faq[] = [
       "What is his data analytics experience?",
     ],
     answer:
-      "Eight projects work on large public datasets; the seven related to MSD's business are the flagship projects on the desktop. Rx Market Pulse cleans 36.1 million US Medicaid rows into a web report, a Power BI project and an Excel model. Payer Access Intelligence compares Medicare plan coverage from 2.24 million formulary records in Excel and Power BI. Field Force Planner sizes a sales force from the 9.9 million-record NPI registry and balances territories. Drug Price Watch builds a price index from 17.3 million weekly prices. Trial Pipeline Benchmark compares 12 companies' clinical trials. PharmaEvidence, SignalDesk AI and Footnote evaluate retrieval and AI systems against held-out tests and baselines. These are independent projects on public data, not paid work.",
+      "Eight projects work on large public datasets, and CampaignOps on clearly labelled synthetic campaign data; the eight related to MSD's business are the flagship projects on the desktop. Rx Market Pulse cleans 36.1 million US Medicaid rows into a web report, a Power BI project and an Excel model. Payer Access Intelligence compares Medicare plan coverage from 2.24 million formulary records in Excel and Power BI. Field Force Planner sizes a sales force from the 9.9 million-record NPI registry and balances territories. Drug Price Watch builds a price index from 17.3 million weekly prices. Trial Pipeline Benchmark compares 12 companies' clinical trials. CampaignOps traces a campaign drop from its tracking data to a fixed sign-up path in WordPress. PharmaEvidence, SignalDesk AI and Footnote evaluate retrieval and AI systems against held-out tests and baselines. These are independent projects on public data, not paid work.",
     app: "projects",
     sources: ["readme", "cv"],
   },
@@ -207,7 +207,7 @@ export const faqs: Faq[] = [
     id: "portfolio-site",
     questions: ["Does he have a portfolio?", "Where is his portfolio?", "Can I see his portfolio?", "Is there a portfolio website?"],
     answer:
-      "You are looking at it. This desktop is his portfolio: the icons are his flagship projects (data work on public pharmaceutical data related to MSD's business), the Projects folder holds everything, and most of his live sites run inside their windows.",
+      "You are looking at it. This desktop is his portfolio: the icons are his flagship projects (data work related to MSD's business), the Projects folder holds everything, and most of his live sites run inside their windows.",
     app: "projects",
     sources: ["readme"],
   },

@@ -403,6 +403,38 @@ export const projects: Project[] = [
     sources: ["readme"],
   },
   {
+    id: "campaignops-digital-solutions",
+    name: "CampaignOps",
+    aliases: ["campaign ops", "campaignops digital solutions", "campaign analytics", "wordpress project", "digital data solutions"],
+    kind: "flagship",
+    tagline: "Campaign analytics and WordPress content operations: a reported drop traced from the data to a fixed sign-up path.",
+    pitch:
+      "A reported campaign performance drop becomes a traceable investigation: check the tracking data, review the content asset in a real WordPress editor, fix a mobile registration path and record a real test journey. SQL recomputes every rate from its numerator and denominator, and reports export as PDF, Excel and CSV.",
+    facts: [
+      "8,861 accepted events, 73 quarantined rows and 228 populated reporting scopes; every report carries the input hashes and a calculation fingerprint.",
+      "Rates are recomputed for each scope with SQL grouping sets, never averaged across weeks or months, and a zero denominator is shown as undefined.",
+      "A real WordPress site is driven in the browser: the seeded mobile defect is reproduced, fixed in the native editor, and a new mobile registration is recorded and imported as an observed test.",
+      "10 pipeline tests, 13 WordPress checks and 23 browser checks against the public site passed, as of 18 October 2026.",
+      "Optional saved AI briefs from Gemini are rejected if they cite an unknown metric or write their own numbers; the public site has no live model.",
+    ],
+    decisions: [
+      "Conflicting records that share an ID are all quarantined, and tag mappings are explicit: nothing is guessed.",
+      "The test journey is kept apart from the historical figures, so it is never presented as measured conversion lift.",
+    ],
+    limits: [
+      "The campaign activity is synthetic, made from a fixed seed, and labelled so on the site; only the WHO health-day dates are real. No MSD data, patient records or claimed commercial lift.",
+    ],
+    stack: ["Python", "SQL", "Next.js", "TypeScript", "WordPress", "PHP", "Gemini API", "Playwright"],
+    tags: ["deployed", "hosted", "live", "online", "campaign analytics", "marketing analytics", "digital", "omnichannel", "email", "webinar", "wordpress", "cms", "content operations", "data quality", "reporting", "kpi", "pharma", "synthetic data"],
+    code: `${GH}/campaignops-digital-solutions`,
+    live: { url: "https://campaignops-digital-solutions.vercel.app", frameable: false },
+    shots: [{ src: "/media/campaignops-digital-solutions/overview.webp", alt: "CampaignOps' overview: email click, engaged session, registration and webinar attendance rates, marked as demo data." }],
+    icon: { glyph: "Megaphone", from: "#365314", to: "#a3e635" },
+    updated: "2026-10",
+    asOf: "2026-10-18",
+    sources: ["readme"],
+  },
+  {
     id: "footnote",
     name: "Footnote",
     aliases: ["financebench", "filings analyst", "10-k project", "filings search"],
