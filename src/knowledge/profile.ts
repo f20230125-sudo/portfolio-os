@@ -15,6 +15,8 @@ export const person = {
   cv: { url: "/cv/Mohammad-Uzair-Khan-CV.pdf", label: "Download CV (PDF)" },
   // The same CV tailored to data analyst roles: data and BI projects first. Same privacy rules.
   cvAnalyst: { url: "/cv/Mohammad-Uzair-Khan-CV-Data-Analyst.pdf", label: "Data analyst CV (PDF)" },
+  // Tailored to digital data roles (digital performance, dashboards, WordPress, platforms). Same privacy rules.
+  cvDigital: { url: "/cv/Mohammad-Uzair-Khan-CV-Digital-Data-Solutions.pdf", label: "Digital data CV (PDF)" },
   linkedinHeadline: "Aspiring AI Engineer | CS @ BITS Pilani Dubai | Python · Gemini API · RAG · Claude | 1st Author, IEEE Paper on Edge AI",
   location: "Dubai, UAE",
   timeZone: "Asia/Dubai",

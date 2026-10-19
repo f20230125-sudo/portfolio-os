@@ -222,7 +222,7 @@ test.describe("by keyboard", () => {
     await page.keyboard.press("ArrowDown");
     await expect(icon(page, "Field Force Planner")).toBeFocused();
     await page.keyboard.press("ArrowRight");
-    await expect(icon(page, "Ask Uzair")).toBeFocused();
+    await expect(icon(page, "GCC Market Report")).toBeFocused();
     await page.keyboard.press("ArrowLeft");
     await expect(icon(page, "Field Force Planner")).toBeFocused();
     await page.keyboard.press("Enter");
@@ -366,11 +366,11 @@ test.describe("the simple view", () => {
     await gotoDesktop(desk);
     await openIcon(desk, "Projects");
     const projectRows = win(desk, "Projects").getByRole("list", { name: "Projects" }).getByRole("button");
-    await expect(projectRows).toHaveCount(23);
+    await expect(projectRows).toHaveCount(27);
     const rows = await projectRows.evaluateAll((els) => els.map((e) => e.querySelector("span.font-medium")?.textContent ?? ""));
     await ctx.close();
     expect([...rows].sort()).toEqual([...fromSimple].sort());
-    expect(rows).toHaveLength(23);
+    expect(rows).toHaveLength(27);
   });
 
   test("works with scripts off, and the desktop says where to go instead", async ({ browser, request }) => {

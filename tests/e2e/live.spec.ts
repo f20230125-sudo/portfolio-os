@@ -103,7 +103,11 @@ test.describe("with a live frame open", () => {
     const frame = sayso.locator("iframe");
     await expect(frame).toHaveCSS("pointer-events", "auto");
     // Another window comes forward: the frame behind it is covered, so a click lands on the window, not in the app.
-    await openIcon(page, "About");
+    // About's icon can sit under the wide Sayso window, so it is opened from Start, as a visitor would.
+    await page.getByRole("button", { name: "Start" }).click();
+    await page.getByLabel("Search apps and projects, or ask a question").fill("About");
+    await page.getByRole("dialog", { name: "Start menu" }).getByRole("list", { name: "Results" }).getByRole("button", { name: /^About/ }).first().click();
+    await expect(win(page, "About")).toBeVisible();
     await expect(frame).toHaveCSS("pointer-events", "none");
     await sayso.locator(".win-title").click({ position: { x: 120, y: 10 } });
     await expect(sayso).toHaveAttribute("data-focused", "true");

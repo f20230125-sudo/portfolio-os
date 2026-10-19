@@ -66,7 +66,8 @@ export const offTopics: OffTopic[] = [
   },
   {
     id: "weather",
-    test: (n) => /\b(weather|temperature outside|forecast|rain|humid)\b/.test(n) && !/\bflowboard|heat check\b/.test(n),
+    // Not "forecast" on its own: his projects forecast sales; "weather forecast" is still caught by "weather".
+    test: (n) => /\b(weather|temperature outside|rain|humid)\b/.test(n) && !/\bflowboard|heat check\b/.test(n),
     reply: "I can't check the weather. I only know about Uzair, his work and his studies.",
   },
   {

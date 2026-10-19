@@ -37,6 +37,10 @@ test.describe("security headers", () => {
         "https://drug-price-watch.vercel.app",
         "https://field-force-planner.vercel.app",
         "https://footnote-ten.vercel.app",
+        "https://brand-forecast-studio.vercel.app",
+        "https://gcc-market-report.vercel.app",
+        "https://digital-demand-pulse.vercel.app",
+        "https://pharma-site-health.vercel.app",
       ].sort(),
     );
   });
