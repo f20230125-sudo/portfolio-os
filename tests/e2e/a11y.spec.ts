@@ -16,6 +16,9 @@ async function scan(page: Page, what: string) {
 for (const theme of ["light", "dark"] as const) {
   test.describe(`${theme} theme`, () => {
     test.use({ colorScheme: theme });
+    test.beforeEach(async ({ page }) => {
+      if (theme === "dark") await page.addInitScript(() => localStorage.setItem("portfolio-os:theme", "dark"));
+    });
 
     test("the desktop with the assistant open", async ({ page }) => {
       await gotoDesktop(page);
