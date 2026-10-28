@@ -96,7 +96,7 @@ export function SimpleView() {
         <section aria-labelledby="s-experience" className="border-t border-line py-6">
           <h2 id="s-experience" className="mb-2 text-[22px] font-semibold">Experience</h2>
           <h3 className="text-[17px] font-semibold">{e.role}, {e.org}</h3>
-          <p className="text-[14px] text-muted">{e.orgNote} · {e.place} · {e.program} · {e.when}</p>
+          <p className="text-[14px] text-muted">{e.orgNote} · {e.place} · {e.when}</p>
           <ul className="mt-2 list-disc space-y-1 pl-5 marker:text-faint">
             {e.bullets.map((b) => (
               <li key={b}>{b}</li>

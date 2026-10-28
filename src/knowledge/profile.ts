@@ -60,7 +60,6 @@ export const experience = [
     org: "Amaani",
     orgNote: "a Dubai travel-tech startup",
     place: "Dubai, UAE",
-    program: "Practice School (PS-1) at BITS Pilani",
     when: "Jun 2025 to Aug 2025",
     bullets: [
       "Developed and maintained backend services in Python (Flask), building RESTful APIs for core travel-booking features.",

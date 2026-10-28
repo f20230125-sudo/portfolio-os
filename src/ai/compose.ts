@@ -160,7 +160,7 @@ export function educationBlocks(): Block[] {
 export function experienceBlocks(): Block[] {
   const e = experience[0];
   return [
-    para(`${e.role} at ${e.org}, ${e.orgNote}, ${e.when}, through ${e.program}.`),
+    para(`${e.role} at ${e.org}, ${e.orgNote}, ${e.when}.`),
     { type: "list", items: [...e.bullets] },
   ];
 }
