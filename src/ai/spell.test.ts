@@ -13,7 +13,7 @@ describe("correct", () => {
 
   it("never changes a correct word into a different one", () => {
     // Each of these is one letter from a word the site uses ("grades", "summarizer", "kind", "point").
-    for (const word of ["trades", "summarise", "print", "paint", "pitch", "tomato", "airline"]) {
+    for (const word of ["trades", "summarise", "print", "paint", "vitae", "install", "pitch", "tomato", "airline"]) {
       expect(fix(word)).toBe(normalize(word));
     }
     expect(fix("does the market analyst place trades")).toBe("does the market analyst place trades");

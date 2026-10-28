@@ -2,6 +2,23 @@ import { expect, test } from "@playwright/test";
 import { gotoDesktop, openIcon, watchConsole, win } from "./helpers";
 
 test.describe("project windows", () => {
+  test("Inbound shows Scout's evidence and opens the fictional replay in a new tab", async ({ page }) => {
+    const errors = watchConsole(page);
+    await gotoDesktop(page);
+    const w = await openIcon(page, "Inbound");
+    await expect(w.getByRole("heading", { name: "Inbound", exact: true })).toBeVisible();
+    await expect(w.getByText("Key facts")).toBeVisible();
+    const img = w.getByRole("img", { name: /Scout lists decisions/ });
+    await expect.poll(() => img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
+    await expect(w.getByRole("link", { name: "Code on GitHub" })).toHaveAttribute("href", "https://github.com/f20230125-sudo/inbound");
+    await w.getByRole("tab", { name: "How it is built" }).click();
+    await expect(w.getByText(/The public demo is a read-only replay of fictional data/)).toBeVisible();
+    await w.getByRole("tab", { name: "Live site", exact: true }).click();
+    await expect(w.getByRole("link", { name: "Open Inbound" })).toHaveAttribute("href", "https://inbound-scout.vercel.app");
+    await expect(w.getByRole("link", { name: "Open Inbound" })).toHaveAttribute("target", "_blank");
+    await expect(w.locator("iframe")).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
   test("show the pitch, key facts, stack and links, and picture buttons change the picture", async ({ page }) => {
     const errors = watchConsole(page);
     await gotoDesktop(page);
@@ -62,22 +79,35 @@ test.describe("project windows", () => {
 });
 
 test.describe("the Projects folder", () => {
-  test("lists all twenty-seven, filters by folder, and opens one by double-click or Enter", async ({ page }) => {
+  test("the desktop Data and analytics folder opens filtered, with every data study one action away", async ({ page }) => {
+    await gotoDesktop(page);
+    const w = await openIcon(page, "Data and analytics");
+    await expect(w.getByRole("button", { name: "Data and analytics", exact: true })).toHaveAttribute("aria-pressed", "true");
+    const rows = w.getByRole("list", { name: "Projects" }).getByRole("button");
+    await expect(rows).toHaveCount(13);
+    for (const name of ["Rx Market Pulse", "Payer Access Intelligence", "Field Force Planner", "Drug Price Watch", "Trial Pipeline Benchmark", "PharmaEvidence", "SignalDesk AI", "CampaignOps", "Brand Forecast Studio", "GCC Market Report", "Digital Demand Pulse", "Site Health Monitor"]) {
+      await expect(rows.filter({ hasText: name })).toHaveCount(1);
+    }
+    await expect(rows.filter({ hasText: "Inbound" })).toHaveCount(0);
+    await rows.filter({ hasText: "Rx Market Pulse" }).dblclick();
+    await expect(win(page, "Rx Market Pulse")).toBeVisible();
+  });
+  test("lists all thirty-six, filters by folder, and opens one by double-click or Enter", async ({ page }) => {
     await gotoDesktop(page);
     const w = await openIcon(page, "Projects");
     const rows = w.getByRole("list", { name: "Projects" }).getByRole("button");
-    await expect(rows).toHaveCount(27);
+    await expect(rows).toHaveCount(36);
     const folders = w.getByRole("navigation", { name: "Project folders" });
     await folders.getByRole("button", { name: "AI apps" }).click();
-    await expect(rows).toHaveCount(4);
+    await expect(rows).toHaveCount(3);
     await folders.getByRole("button", { name: "Quant and markets" }).click();
     await expect(rows).toHaveCount(3);
     await folders.getByRole("button", { name: "Flagship" }).click();
-    await expect(rows).toHaveCount(12);
+    await expect(rows).toHaveCount(10);
     await rows.first().focus();
     await page.keyboard.press("ArrowDown");
     await page.keyboard.press("Enter");
-    await expect(win(page, "Payer Access Intelligence")).toBeVisible();
+    await expect(win(page, "Backroom")).toBeVisible();
   });
 
   test("a row's details show beside the list", async ({ page }) => {

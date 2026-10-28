@@ -66,7 +66,9 @@ export function queryTerms(normalized: string): QueryTerm[] {
   for (const original of terms(normalized)) {
     let base = original;
     let weight = 1;
-    if (!df.has(base) && base.length >= 5) {
+    // A known meaning wins over a nearby spelling: "securely" must keep its
+    // security synonyms even if a new project adds "recurring" to the index.
+    if (!df.has(base) && synonymsOf(base).every((s) => !df.has(s)) && base.length >= 5) {
       // A slip of the finger: the closest word we know, if it is close enough.
       const limit = base.length >= 8 ? 2 : 1;
       let best: string | null = null;

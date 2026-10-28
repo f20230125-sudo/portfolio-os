@@ -35,12 +35,32 @@ describe("small talk", () => {
 });
 
 describe("the projects", () => {
-  it("lists the flagship projects, then the AI apps", () => {
+  it.each([
+    ["inbox agent", "inbound"], ["scout", "inbound"], ["backroom", "backroom"],
+    ["restaurant agent", "backroom"], ["order desk", "order-desk"], ["crm", "loopdesk"],
+    ["loopdesk", "loopdesk"], ["follow desk", "followdesk"], ["itad", "scopedesk"],
+    ["e-invoicing", "invoice-ready"], ["quotations", "quote-desk"], ["publishing system", "content-desk"],
+  ])("finds %s and offers its link-out demo", (alias, id) => {
+    const a = one(`Tell me about ${alias}`);
+    expect(a.sources.some((s) => s.app === `project:${id}`)).toBe(true);
+    expect(a.actions.some((x) => x.kind === "link" && x.target === projects.find((p) => p.id === id)?.live?.url)).toBe(true);
+    expect(a.actions.some((x) => x.label === "Run it here")).toBe(false);
+  });
+
+  it("offers runnable projects when a visitor wants to try his work", () => {
+    const a = one("How can I try his apps in my browser?");
+    expect(a.actions.some((x) => x.target.startsWith("project:"))).toBe(true);
+    expect(text(a)).toContain("Inbound");
+  });
+  it("lists agents first, with the data folder and earlier apps", () => {
     const a = one("What projects has he built?");
     expect(a.explain.intent).toBe("projects_list");
     for (const name of ["Rx Market Pulse", "Payer Access Intelligence", "Field Force Planner", "Drug Price Watch", "Trial Pipeline Benchmark", "PharmaEvidence", "SignalDesk AI", "CampaignOps"]) expect(text(a)).toContain(name);
     for (const name of ["Agent Desk", "Flowboard", "Sayso", "Hindsight"]) expect(text(a)).toContain(name);
     expect(text(a)).toContain("not work for MSD");
+    expect(text(a)).toContain("Inbound");
+    expect(text(a)).toContain("Backroom");
+    expect(text(a).indexOf("Inbound")).toBeLessThan(text(a).indexOf("Rx Market Pulse"));
     expect(a.actions.some((x) => x.target === "projects")).toBe(true);
   });
 
@@ -347,6 +367,7 @@ describe("the CV", () => {
     expect(a.explain.intent).toBe("resume");
     expect(a.grounded).toBe(true);
     expect(a.actions[0]).toMatchObject({ kind: "download", target: person.cv.url });
+    expect(a.actions.filter((x) => x.kind === "download")).toHaveLength(1);
     expect(a.actions.some((x) => x.kind === "open" && x.target === "resume")).toBe(true);
   });
 

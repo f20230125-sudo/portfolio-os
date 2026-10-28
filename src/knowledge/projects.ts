@@ -2,9 +2,9 @@ import type { Project } from "./schema";
 
 export type { Project, ProjectKind } from "./schema";
 
-// Every project in the portfolio. The flagship projects (the desktop icons) are the ones on public
-// pharmaceutical data related to MSD's business, independent work and not for MSD; the four earlier
-// front-end AI apps are "apps". Written from each repository's README and from
+// Every project in the portfolio. The flagship projects (the desktop icons) lead with AI agents
+// and automation. Data and analytics includes independent pharmaceutical studies, not work for MSD;
+// Flowboard, Sayso and Hindsight are "apps". Written from each repository's README and from
 // Uzair's CV; numbers that change as the code does (test counts) are true as
 // of the day in `asOf`, and the assistant says so.
 
@@ -12,10 +12,76 @@ const GH = "https://github.com/f20230125-sudo";
 
 export const projects: Project[] = [
   {
+    id: "inbound",
+    name: "Inbound",
+    aliases: ["scout", "inbox agent", "inbound agent", "gmail agent"],
+    kind: "flagship",
+    tagline: "Scout, the inbox agent Uzair built for himself: read-only Gmail, a live journal, memory and a daily briefing.",
+    pitch:
+      "Scout triages mail, extracts deadlines and prepares CV packs from approved evidence for human review. A local cited chat, college tasks, remembered context and undoable learned rules share one desk. Uzair's real desk runs only on his PC; the public site is a read-only replay of fictional data, with no mailbox connected.",
+    facts: [
+      "Gmail uses the read-only scope: Scout cannot send, delete, label or change mail. No model processes private mail.",
+      "The append-only journal streams work as it happens; the daily briefing links stored deadlines, college tasks, waiting drafts and decisions to their sources.",
+      "Corrections can suggest scoped rules for review. Memory keeps its origin and versions, and cannot become approved CV evidence or grant new capabilities.",
+      "First blind synthetic evaluation: triage macro-F1 1.0 on 116 held-out messages, 365 of 387 applicable fields and 31 of 33 exact deadlines, with one silently wrong deadline. After fixes: 368 of 387 fields, 32 of 33 deadlines and no silently wrong deadlines; those cases are no longer blind.",
+    ],
+    decisions: [
+      "Rules classify and extract locally, keeping source quotes and found, inferred, unknown or conflicting status for each field.",
+      "Commands preview their effect and require confirmation, with Undo where supported. Pause stops imports, extraction and pack work.",
+      "Only approved evidence can supply CV claims; mail and prose memory cannot add claims. Human review and submission stay manual.",
+    ],
+    limits: [
+      "The public demo is a read-only replay of fictional data. The working desk and real mail stay on Uzair's PC.",
+      "Extraction is rules-only; unfamiliar wording and scanned attachments can fail. Synthetic evaluations are not a measurement on his inbox, and the ranking tied its fixed CV baseline.",
+    ],
+    stack: ["Python", "Flask", "SQLite", "Gmail API", "React", "TypeScript", "Tectonic"],
+    tags: ["agent", "automation", "inbox", "gmail", "memory", "learned rules", "journal", "college deadlines", "daily briefing", "citations", "local", "synthetic data"],
+    code: `${GH}/inbound`,
+    live: { url: "https://inbound-scout.vercel.app", frameable: false, note: "Read-only replay of fictional data; no mailbox is connected. The real desk runs only on Uzair's PC." },
+    shots: [{ src: "/media/inbound/overview.webp", alt: "Inbound's read-only synthetic Desk: Scout lists decisions waiting for review above a daily briefing with deadline source excerpts." }],
+    icon: { glyph: "Inbox", from: "#1d4ed8", to: "#60a5fa" },
+    updated: "2026-10",
+    asOf: "2026-10-28",
+    sources: ["readme"],
+  },
+  {
+    id: "backroom",
+    name: "Backroom",
+    aliases: ["restaurant agent", "back office agent", "restaurant back office"],
+    kind: "flagship",
+    tagline: "An AI back-office agent for a fictional restaurant group: read documents, reconcile payouts and cite every number.",
+    pitch:
+      "Reads supplier invoices, emails and payout statements into typed records with source quotes, matches messy names, reconciles POS, delivery payouts and the ledger, and flags e-invoicing data problems. A bounded question agent uses parameterised SQL tools; drafted emails are never sent.",
+    facts: [
+      "On 26 unseen-layout documents, the recorded model read 415 of 416 fields (99.8%) and 88 of 88 line items, against 12.7% of fields for rules alone. No accepted document among 221 scored carried a wrong amount.",
+      "Reconciliation found all 31 planted problems with no false alarms. Name matching on 40 variants had precision 1.0 and recall 0.925.",
+      "The question agent answered 29 of 30 SQL-scored questions correctly, refused one and gave no wrong answer; all five out-of-scope requests were refused.",
+      "272 Python tests, 13 web unit tests and 76 Playwright tests, with desktop, phone and axe checks in both themes, as documented in the README.",
+    ],
+    decisions: [
+      "The model supplies a typed record, then rules verify source quotes, sums and VAT. An unexplained result goes to review after one repair turn.",
+      "Six typed SQL tools and a number checker keep answers tied to database results; the model cannot write free-form SQL.",
+      "An idempotent pipeline, a scheduled GitHub Action and an HMAC-signed email webhook handle repeat runs and new inputs.",
+    ],
+    limits: [
+      "Synthetic data; the hosted read-only demo replays recorded model responses. Real-document accuracy needs a separate measurement.",
+      "Hours saved is an assumption-based estimate, not a labour study. Drafted emails have no send capability.",
+    ],
+    stack: ["Python", "Pydantic", "Gemini API", "PostgreSQL", "Flask", "React", "TypeScript", "GitHub Actions", "Playwright"],
+    tags: ["agent", "automation", "restaurant", "invoices", "reconciliation", "payouts", "name matching", "structured output", "tool calling", "webhook", "synthetic data"],
+    code: `${GH}/backroom`,
+    live: { url: "https://backroom-ops.vercel.app", frameable: false, note: "Read-only synthetic demo with recorded model responses." },
+    shots: [{ src: "/media/backroom/overview.webp", alt: "Backroom's synthetic restaurant overview: exceptions by kind, a last-run summary and a daily brief with links to review drafts." }],
+    icon: { glyph: "Utensils", from: "#9a3412", to: "#fb923c" },
+    updated: "2026-10",
+    asOf: "2026-10-28",
+    sources: ["readme"],
+  },
+  {
     id: "agent-desk",
     name: "Agent Desk",
     aliases: ["patch", "pitch", "github bot", "the github bot", "agent desk", "linkedin agent", "github agent"],
-    kind: "apps",
+    kind: "flagship",
     tagline: "Two AI agents on one site: Patch looks after a GitHub account, Pitch drafts LinkedIn posts.",
     pitch:
       "Patch audits every GitHub repository, scores each one out of 100 and drafts fixes. Pitch turns Patch's notes into LinkedIn post drafts. Nothing is sent anywhere without a click, and the agents run on Uzair's own Claude plan with no API key. A hosted, view-only half called GitHub Bot runs Patch's checks every six hours as a GitHub Actions job.",
@@ -54,6 +120,226 @@ export const projects: Project[] = [
     updated: "2026-10",
     asOf: "2026-10-07",
     sources: ["readme", "cv"],
+  },
+  {
+    id: "order-desk",
+    name: "Order Desk",
+    aliases: ["order desk", "order operations", "purchase order desk"],
+    kind: "flagship",
+    tagline: "A customer order from PO to ready to invoice, with document reading, source boxes and line-by-line checks.",
+    pitch:
+      "An IT reseller's order chain joins the customer's PO, distributor PO, confirmation and delivery evidence. Documents fill a review screen with the source of each value; a check engine explains mismatches and a role-aware board shows who acts next. Every decision needs a note and stays in the history.",
+    facts: [
+      "14 checks found all 34 planted problems across 42 synthetic orders, with no false alarms or misses, both on true data and after reading the documents back.",
+      "First held-out layout: 42 of 294 header fields (14.3%) and 120 of 120 line items. Generic fixes raised both to 100%; the later score is no longer a clean held-out test.",
+      "PDF and EML reading uses text and positions, with no model. Low-confidence values are marked Check, and nothing is saved until a person confirms.",
+      "91 Python tests (45 require PostgreSQL), 10 web unit tests and 16 browser tests, with axe checks in light and dark, as documented in the README.",
+    ],
+    decisions: [
+      "The board's stage, owner turn and days waiting are computed SQL views; database triggers write the role and changes to history.",
+      "Checks keep stable fingerprints. A decision stands only while its evidence stays the same; changed or recurring problems reopen.",
+    ],
+    limits: [
+      "Synthetic companies, orders and documents; the reader has not been measured on real paperwork. No OCR or Outlook MSG support, and multipage extraction needs review.",
+      "The demo has shared role controls rather than logins, rate-limited writes and a nightly reset. One distributor PO per customer order.",
+    ],
+    stack: ["Python", "Flask", "PostgreSQL", "SQL", "pdfplumber", "React", "TypeScript", "Vite", "Playwright"],
+    tags: ["automation", "orders", "purchase orders", "document extraction", "source boxes", "reconciliation", "audit history", "synthetic data"],
+    code: `${GH}/order-desk`,
+    live: { url: "https://order-desk-ops.vercel.app", frameable: false },
+    shots: [{ src: "/media/order-desk/overview.webp", alt: "Order Desk's demo order board in the Ops role, with route lines, waiting times and document mismatches beside each customer PO." }],
+    icon: { glyph: "PackageCheck", from: "#4338ca", to: "#818cf8" },
+    updated: "2026-10",
+    asOf: "2026-10-28",
+    sources: ["readme"],
+  },
+  {
+    id: "loopdesk",
+    name: "LoopDesk",
+    aliases: ["loop desk", "crm", "recycling crm", "outreach crm"],
+    kind: "flagship",
+    tagline: "A recycling outreach CRM: keep the enquiry, the right person and the next action together.",
+    pitch:
+      "Organisations, contacts, opportunities, conversation notes and dated follow-ups share a workspace. Pipeline board and list use the same filters as the CSV export. Reviewed ScopeDesk revisions attach to an opportunity, and FollowDesk can append outreach history through scoped, expiring grants.",
+    facts: [
+      "The seed contains 30 fictional organisations, 30 contacts, 36 opportunities and 24 follow-ups in an isolated 24-hour workspace.",
+      "Reports count open opportunities and due tasks, keeping unknown estimates separate from zero; won estimates are not revenue.",
+      "121 checks passed on both SQLite and PostgreSQL in Linux CI at the README's 26 October checkpoint.",
+    ],
+    decisions: [
+      "Composite foreign keys enforce workspace and organisation/contact relationships. Versioned updates reject stale edits, and failed writes roll back their audit entries too.",
+      "Repeated identical scope imports are idempotent; newer revisions preserve CRM fields while attaching immutable scope history.",
+    ],
+    limits: [
+      "Synthetic data in an independent portfolio prototype; no company adoption or measured business improvement is claimed.",
+      "No AI or real email sending. Expiry cuts off access, with physical cleanup on a later demo creation; this is not a real-customer CRM with durable staff accounts.",
+    ],
+    stack: ["Python", "Flask", "Jinja", "SQL", "SQLite", "PostgreSQL", "JavaScript", "CSS"],
+    tags: ["automation", "crm", "recycling", "pipeline", "follow-ups", "scope import", "audit history", "synthetic data"],
+    code: `${GH}/loopdesk`,
+    live: { url: "https://loopdesk-sigma.vercel.app", frameable: false },
+    shots: [{ src: "/media/loopdesk/overview.webp", alt: "LoopDesk's synthetic-demo landing page: recycling enquiries and follow-ups, a Try demo button and a three-step outreach workflow." }],
+    icon: { glyph: "Recycle", from: "#166534", to: "#4ade80" },
+    updated: "2026-10",
+    asOf: "2026-10-28",
+    sources: ["readme"],
+  },
+  {
+    id: "followdesk",
+    name: "FollowDesk",
+    aliases: ["follow desk", "sales outreach", "follow up desk"],
+    kind: "flagship",
+    tagline: "Review an exact saved follow-up, simulate delivery and keep the outcome linked to LoopDesk.",
+    pitch:
+      "Versioned linear follow-up plans enrol existing CRM enquiries. A person reviews the recipient, content, schedule and CRM context before explicit delivery to a demo inbox. Replies, opt-outs and pauses stop or suspend pending work, and repeat-safe events carry outcomes back to LoopDesk.",
+    facts: [
+      "Review proofs expire after ten minutes and bind the exact saved message and context. Later edits invalidate approval; unavailable or changed CRM context blocks delivery.",
+      "Local mailbox receipt, step transition and durable CRM event are atomic. Stable event IDs prevent duplicate history when a lost acknowledgement is retried.",
+      "89 checks passed on both SQLite and PostgreSQL in Linux CI at the README's 26 October checkpoint, including actual HTTP integration tests.",
+    ],
+    decisions: [
+      "Scoped CRM grants cannot create records or change stage, owner, estimate, next action or tasks.",
+      "Safety stops can survive a concurrent delivery. Pausing, stopping and recording outcomes stay available during a CRM outage.",
+    ],
+    limits: [
+      "Synthetic data and simulated delivery only: no real email, messages, calls or calendar invitations are sent.",
+      "CRM context is rechecked before delivery, but there is no atomic transaction across the applications. Scope freshness means the latest revision received by LoopDesk.",
+    ],
+    stack: ["Python", "Flask", "SQLite", "PostgreSQL", "Node.js", "cryptography"],
+    tags: ["automation", "outreach", "follow-up", "crm integration", "human review", "idempotency", "synthetic data"],
+    code: `${GH}/followdesk`,
+    live: { url: "https://followdesk-phi.vercel.app", frameable: false },
+    shots: [{ src: "/media/followdesk/overview.webp", alt: "FollowDesk's fictional-data landing page: review a follow-up, simulate delivery and keep CRM history, with demo and LoopDesk links." }],
+    icon: { glyph: "Send", from: "#0e7490", to: "#22d3ee" },
+    updated: "2026-10",
+    asOf: "2026-10-28",
+    sources: ["readme"],
+  },
+  {
+    id: "scopedesk",
+    name: "ScopeDesk",
+    aliases: ["scope desk", "itad", "enquiry qualification"],
+    kind: "flagship",
+    tagline: "Turn an IT asset-disposition enquiry and its inventory into a source-linked, reviewed handoff to LoopDesk.",
+    pitch:
+      "Preserves the enquiry and original CSV cells, lets a reviewer map inventory and confirm requirements, and checks counts, sites and restrictions before freezing a reviewed scope. Clarification drafts, printable briefs and a bounded JSON handoff retain source references and distinguish facts from assumptions.",
+    facts: [
+      "Equipment allocations and media actions are reviewed separately. Overall totals cannot hide per-site mismatches, and missing quantities remain unknown rather than zero.",
+      "Review freezes sources, state and findings; later edits invalidate it and historical briefs become Superseded.",
+      "100 checks passed on both SQLite and PostgreSQL in Linux CI at the README's 26 October checkpoint.",
+    ],
+    decisions: [
+      "No free-text AI extraction: a reviewer identifies the source lines that support each requirement, correction and assumption.",
+      "The 48 KiB handoff excludes original documents and full serial registers. Its SHA-256 check provides integrity, not authenticity.",
+    ],
+    limits: [
+      "Synthetic data only. No live AI, pricing, valuation, legal-compliance scoring, disposal guidance, PDF/OCR or XLSX ingestion.",
+      "A citation resolving does not prove it supports a claim; semantic review stays with the person. Offline handoff cannot detect a newer revision that was never exported.",
+    ],
+    stack: ["Python", "Flask", "Jinja", "SQL", "SQLite", "PostgreSQL", "JavaScript", "CSS"],
+    tags: ["automation", "inventory", "itad", "scope review", "source references", "csv", "crm handoff", "synthetic data"],
+    code: `${GH}/scopedesk`,
+    live: { url: "https://scopedesk-chi.vercel.app", frameable: false },
+    shots: [{ src: "/media/scopedesk/overview.webp", alt: "ScopeDesk's fictional-data landing page: review an enquiry and inventory, preserve sources, reconcile restrictions and hand off to LoopDesk." }],
+    icon: { glyph: "ClipboardCheck", from: "#6d28d9", to: "#c4b5fd" },
+    updated: "2026-10",
+    asOf: "2026-10-28",
+    sources: ["readme"],
+  },
+  {
+    id: "invoice-ready",
+    name: "Invoice Ready",
+    aliases: ["e-invoicing", "e invoicing", "einvoicing", "pint ae", "invoice readiness"],
+    kind: "flagship",
+    tagline: "Check UAE e-invoice readiness, fix shared customer data and write PINT AE XML that is read back and checked.",
+    pitch:
+      "Finance's next step after Order Desk: draft tax invoices are checked against a documented field list, codes and arithmetic, with each finding pointing to the invoice, customer or company record that needs fixing. The browser writes UBL XML and reads it back to verify field paths and totals.",
+    facts: [
+      "51 mandatory tax-invoice fields are mapped to PINT AE business terms and UBL elements in the project's documented checklist.",
+      "Order Desk's synthetic delivered orders supply 14 draft invoices. Customer corrections release every affected invoice and remain in the browser.",
+      "Amounts use whole fils and scaled integer arithmetic, with half-up rounding; XML read-back recomputes the documented Peppol sum rules.",
+      "71 unit tests and nine browser tests, including axe checks in both themes, as documented in the README.",
+    ],
+    decisions: [
+      "Fix master data first: a shared customer record can hold several invoices. Only changed fields are saved, with cross-tab correction and Undo updates.",
+      "Unsupported tax categories, transaction flags and non-AED currencies are held instead of exported as if supported.",
+    ],
+    limits: [
+      "Synthetic data only. Readiness checks and XML export are not accredited delivery; this is not a service provider.",
+      "Tax invoices only, with no credit notes, commercial invoices, document-level allowances or prepayments. The README lists unsupported tax handling and an identifier needing confirmation before production use.",
+    ],
+    stack: ["TypeScript", "React", "Vite", "UBL XML", "Playwright"],
+    tags: ["automation", "e-invoicing", "pint ae", "ubl", "xml", "master data", "validation", "synthetic data"],
+    code: `${GH}/invoice-ready`,
+    live: { url: "https://invoice-ready-ae.vercel.app", frameable: false },
+    shots: [{ src: "/media/invoice-ready/overview.webp", alt: "Invoice Ready's sample readiness page: customer records with missing city or invalid TRN above an invoice list and mandatory-field counts." }],
+    icon: { glyph: "Receipt", from: "#a16207", to: "#facc15" },
+    updated: "2026-10",
+    asOf: "2026-10-28",
+    sources: ["readme"],
+  },
+  {
+    id: "quote-desk",
+    name: "Quote Desk",
+    aliases: ["quote desk", "quotation desk", "quotations"],
+    kind: "flagship",
+    tagline: "Check a quotation's prices and terms, then write its PDF and Word files from one approved template.",
+    pitch:
+      "Builds quotations from a catalogue, checks price, margin, discounts, pack sizes and versioned clauses, and generates PDF and Word documents from shared company assets. Browser-held versions say what changed; blocked quotations carry DRAFT on every PDF page.",
+    facts: [
+      "Python validates and computes with Decimal, rounded half-up to the fils; the web editor shows amount, VAT and internal margin as the draft changes.",
+      "Checks block below-cost prices, excessive discounts without a recorded approver and invalid pack quantities; outdated clauses produce warnings.",
+      "90 Python tests, 17 web unit tests and 18 browser tests cover checks, downloads, document text, versions, conflicts and accessibility, as documented in the README.",
+    ],
+    decisions: [
+      "Reference data ships with a stateless Flask API; drafts and version history stay in the browser and retain identity when a quotation is renamed.",
+      "PDF glyph support is checked before download. Text the built-in fonts cannot draw is blocked for PDF and preserved in Word.",
+    ],
+    limits: [
+      "Synthetic company, products and prices. AED and a single VAT rate only.",
+      "No login or approval workflow: the approver is a typed name. Drafts live in one browser, and Arabic shaping and extra PDF fonts are not bundled.",
+    ],
+    stack: ["Python", "Flask", "Pydantic", "ReportLab", "python-docx", "React", "TypeScript", "Vite", "Playwright"],
+    tags: ["automation", "quotations", "pdf", "word", "commercial checks", "versioning", "synthetic data"],
+    code: `${GH}/quote-desk`,
+    live: { url: "https://quote-desk-ae.vercel.app", frameable: false },
+    shots: [{ src: "/media/quote-desk/overview.webp", alt: "Quote Desk's demo quotation editor with line prices and discounts, blocking commercial checks, totals and PDF and Word download buttons." }],
+    icon: { glyph: "FilePenLine", from: "#9d174d", to: "#f9a8d4" },
+    updated: "2026-10",
+    asOf: "2026-10-28",
+    sources: ["readme"],
+  },
+  {
+    id: "content-desk",
+    name: "Content Desk",
+    aliases: ["content desk", "publishing system", "editorial workflow"],
+    kind: "flagship",
+    tagline: "A publishing system with reviewed versions, asset ownership and a public site readable without JavaScript.",
+    pitch:
+      "Corporate pages, technical posts, documents and editorial decisions share a PostgreSQL record. Writers, reviewers and publishers work through immutable revisions; Jinja renders the public site while React handles admin. A health dashboard links missing metadata, expired assets and broken links to their fixes.",
+    facts: [
+      "The synthetic seed contains 32 content items, 24 assets and 30 canonical public pages, including eight posts.",
+      "The recorded live HTTP evaluation found usable HTML on 30 of 30 routes against zero of 30 for a controlled SPA shell. Its five-check score was 150 of 150 against 23 of 150; the baseline deliberately omits posts from its sitemap.",
+      "Database triggers enforce immutable revisions, workflow transitions and audited writes. Publishing switches the approved live pointer atomically while drafts keep their own pointer.",
+      "The README records CI running 500 Python tests, including 173 PostgreSQL tests, and 68 Vitest tests, plus offline and database browser suites with axe checks.",
+    ],
+    decisions: [
+      "Public HTML, metadata, JSON-LD and the sitemap come from published content. The readability comparison freezes its route denominator, even when a route is absent from the sitemap.",
+      "Health findings point to editor destinations; stale writes return a conflict and preserve unsaved text.",
+    ],
+    limits: [
+      "Synthetic company content, people and documents. Demo roles are shared controls, not authentication.",
+      "Readability is measured without JavaScript, with no search-ranking or AI-citation claim. Scheduled content publishes on the first eligible request, not through a background scheduler.",
+    ],
+    stack: ["Python", "Flask", "PostgreSQL", "SQL", "Jinja", "React", "TypeScript", "Vite", "Playwright"],
+    tags: ["automation", "publishing", "cms", "editorial", "asset management", "server rendering", "sitemap", "synthetic data"],
+    code: `${GH}/content-desk`,
+    live: { url: "https://content-desk-ae.vercel.app", frameable: false },
+    shots: [{ src: "/media/content-desk/overview.webp", alt: "Content Desk's synthetic Keystone Data Systems public homepage, with readable company text and links to solutions, services, partners and news." }],
+    icon: { glyph: "Newspaper", from: "#334155", to: "#94a3b8" },
+    updated: "2026-10",
+    asOf: "2026-10-28",
+    sources: ["readme"],
   },
   {
     id: "flowboard",
@@ -194,7 +480,7 @@ export const projects: Project[] = [
     id: "rx-market-pulse",
     name: "Rx Market Pulse",
     aliases: ["rx market pulse", "medicaid project", "medicaid dashboard", "drug spend", "rx pulse", "the medicaid one"],
-    kind: "flagship",
+    kind: "data",
     tagline: "What US Medicaid pays for prescription drugs, 2019 to 2025: 36.1M rows, a Power BI report and an AI analyst.",
     pitch:
       "A commercial-analytics case study on seven years of public US Medicaid pharmacy data. A tested Python and SQL pipeline cleans and joins 36.1 million rows to FDA records, and the same numbers feed a web report, a six-page Power BI project, an Excel territory model and an analyst that answers questions through typed tools.",
@@ -229,7 +515,7 @@ export const projects: Project[] = [
     id: "payer-access-intelligence",
     name: "Payer Access Intelligence",
     aliases: ["payer access", "formulary project", "belsomra", "medicare formulary", "payer project"],
-    kind: "flagship",
+    kind: "data",
     tagline: "Which Medicare drug plans list BELSOMRA and its rivals, from 2.24M CMS formulary records, in Excel and Power BI.",
     pitch:
       "A payer-access analysis comparing BELSOMRA with DAYVIGO and QUVIVIQ across 367 Medicare drug plans, from January and August 2026 CMS snapshots. Python and SQL turn 2.24 million formulary records into plan, strength and brand tables, a live-formula Excel workbook, a four-page Power BI project and a written report.",
@@ -262,7 +548,7 @@ export const projects: Project[] = [
     id: "field-force-planner",
     name: "Field Force Planner",
     aliases: ["field force", "territory planner", "sales territories", "territory alignment", "sales reps", "npi project"],
-    kind: "flagship",
+    kind: "data",
     tagline: "How many reps a US launch needs, and 3,143 counties cut into balanced, connected territories, from the NPI registry.",
     pitch:
       "Sizes a pharmaceutical field force from the public NPI registry, Census and CDC data, then cuts US counties into one connected territory per rep, balanced on workload. The same sizing logic runs in Python and in an Excel model a visitor can change.",
@@ -292,7 +578,7 @@ export const projects: Project[] = [
     id: "drug-price-watch",
     name: "Drug Price Watch",
     aliases: ["price watch", "nadac", "drug prices", "price index", "pricing project"],
-    kind: "flagship",
+    kind: "data",
     tagline: "14 years of weekly US pharmacy drug prices: a price index, price-change events and a weekly automated watch.",
     pitch:
       "A pipeline over 17.3 million weekly NADAC pharmacy acquisition prices builds a chained price index for brands and generics, finds when prices step, follows prices after generic entry and cross-checks the price effect in Rx Market Pulse against a second source. A GitHub Action re-runs the checks every week.",
@@ -322,7 +608,7 @@ export const projects: Project[] = [
     id: "trial-pipeline-benchmark",
     name: "Trial Pipeline Benchmark",
     aliases: ["trial pipeline", "clinical trials", "clinicaltrials.gov", "pipeline benchmark"],
-    kind: "flagship",
+    kind: "data",
     tagline: "MSD's clinical pipeline against 11 peers, from 36,612 ClinicalTrials.gov records.",
     pitch:
       "Pulls every trial for MSD and 11 peer companies from the ClinicalTrials.gov API, resolves sponsor names to companies, and compares pipeline size, phase mix and therapeutic focus, with an Excel scorecard whose weights a visitor can change.",
@@ -350,7 +636,7 @@ export const projects: Project[] = [
     id: "pharma-evidence",
     name: "PharmaEvidence",
     aliases: ["pharma evidence", "claim review", "evidence workbench", "nli project", "deberta"],
-    kind: "flagship",
+    kind: "data",
     tagline: "Checks a draft's claims against versioned drug labels, with retrieval, rules and an NLI model that runs in your browser.",
     pitch:
       "A claim-review workbench: paste a draft, and each claim is matched to passages from real, versioned DailyMed labels for KEYTRUDA and WINREVAIR. BM25 retrieval, explicit number and qualifier rules and a pretrained DeBERTa NLI model, running on the visitor's own device, each give a separate, labelled finding.",
@@ -381,7 +667,7 @@ export const projects: Project[] = [
     id: "signaldesk-ai",
     name: "SignalDesk AI",
     aliases: ["signaldesk", "signal desk", "oncology intelligence", "competitive intelligence agent"],
-    kind: "flagship",
+    kind: "data",
     tagline: "Oncology competitive intelligence tied to FDA evidence, with an honestly reported agent evaluation.",
     pitch:
       "Collects FDA oncology announcements for KEYTRUDA, OPDIVO, IMFINZI, TECENTRIQ and LIBTAYO, links them to product formulations and cited trials, and lets a bounded Gemini agent answer competitive questions through typed tools, with every claim cited and exportable as a brief.",
@@ -406,7 +692,7 @@ export const projects: Project[] = [
     id: "campaignops-digital-solutions",
     name: "CampaignOps",
     aliases: ["campaign ops", "campaignops digital solutions", "campaign analytics", "wordpress project", "digital data solutions"],
-    kind: "flagship",
+    kind: "data",
     tagline: "Campaign analytics and WordPress content operations: a reported drop traced from the data to a fixed sign-up path.",
     pitch:
       "A reported campaign performance drop becomes a traceable investigation: check the tracking data, review the content asset in a real WordPress editor, fix a mobile registration path and record a real test journey. SQL recomputes every rate from its numerator and denominator, and reports export as PDF, Excel and CSV.",
@@ -438,7 +724,7 @@ export const projects: Project[] = [
     id: "brand-forecast-studio",
     name: "Brand Forecast Studio",
     aliases: ["brand forecast", "forecast studio", "sales forecasting", "lightgbm forecast", "conformal", "what-if"],
-    kind: "flagship",
+    kind: "data",
     tagline: "Quarterly forecasts for 19 MSD brands in six business units, tested against baselines, with a calibrated range and a what-if.",
     pitch:
       "One LightGBM model, trained across 535 brands of public US Medicaid spend, forecasts 19 MSD brands four quarters ahead. A rolling backtest compares it with simple baselines, conformal calibration makes the P10 to P90 range honest, 14 health checks run after every refresh, and a page lets a visitor change price, volume or a generic launch, or ask a question that is routed to a typed tool.",
@@ -469,7 +755,7 @@ export const projects: Project[] = [
     id: "gcc-market-report",
     name: "GCC Market Report",
     aliases: ["gcc report", "gcc market", "saudi prices", "bahrain prices", "sfda", "nhra", "gulf"],
-    kind: "flagship",
+    kind: "data",
     tagline: "Saudi and Bahraini medicine price lists, validated into one database and compared for MSD's products.",
     pitch:
       "Two regulators' public price lists are checked before loading, put into one DuckDB database and harmonised onto one classification, then reported as an Excel pack with a quarterly forecast entry sheet, a Power BI report and a web page: who competes with MSD, what the same pack costs in each country, and what the US pays for the same tablet.",
@@ -499,7 +785,7 @@ export const projects: Project[] = [
     id: "digital-demand-pulse",
     name: "Digital Demand Pulse",
     aliases: ["demand pulse", "digital pulse", "wikipedia pageviews", "share of attention", "digital performance"],
-    kind: "flagship",
+    kind: "data",
     tagline: "A weekly digital performance report: public attention to MSD's medicines and their competitors, in English and Arabic.",
     pitch:
       "Daily Wikipedia readership for 22 articles (MSD's molecules, their competitors and the diseases they treat) in English and Arabic since 2016 becomes a weekly report: share of attention within each therapy group, the week's movers, attention spikes, the Arabic audience and data checks. A scheduled job refreshes it every Monday and stops if a check fails.",
@@ -527,7 +813,7 @@ export const projects: Project[] = [
     id: "site-health-monitor",
     name: "Site Health Monitor",
     aliases: ["site health", "lighthouse audit", "website audit", "core web vitals", "wordpress audit"],
-    kind: "flagship",
+    kind: "data",
     tagline: "Weekly Lighthouse audits of msd.com and nine peers, with a ranked fix backlog written for WordPress.",
     pitch:
       "Audits three pages of msd.com, which runs on WordPress, and the home pages of nine other pharmaceutical companies with Lighthouse on its mobile setting, reads each site's platform from its public markup, and turns every failing audit on MSD's pages into a ranked fix with the WordPress remedy. A scheduled job re-audits every week so a fix shows up as a better score.",
@@ -854,6 +1140,6 @@ export const kindLabels: Record<Project["kind"], string> = {
   apps: "AI apps",
   llm: "LLM and agents",
   quant: "Quant and markets",
-  data: "Data engineering",
+  data: "Data and analytics",
   play: "Games and play",
 };

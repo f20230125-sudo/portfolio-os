@@ -30,10 +30,10 @@ const rank = (p: Project) => (p.kind === "flagship" ? 0 : p.kind === "apps" ? 1 
 const order = (p: Project) => (p.kind === "flagship" ? projects.indexOf(p) : 0);
 
 /** A File Explorer: categories on the left, projects as rows, details on the right. */
-export default function ExplorerApp() {
+export default function ExplorerApp({ initialFilter = "all" }: { initialFilter?: Filter }) {
   const os = useOs();
-  const [filter, setFilter] = useState<Filter>("all");
-  const [selected, setSelected] = useState<string>("rx-market-pulse");
+  const [filter, setFilter] = useState<Filter>(initialFilter);
+  const [selected, setSelected] = useState<string>(initialFilter === "data" ? "rx-market-pulse" : "inbound");
   const listRef = useRef<HTMLUListElement>(null);
 
   const rows = useMemo(
