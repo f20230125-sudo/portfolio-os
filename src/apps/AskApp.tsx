@@ -6,7 +6,7 @@ import { STARTERS } from "@/ai/labels";
 import { preloadAssistant } from "@/ai/preload";
 import { AppIcon } from "@/os/icons";
 import { appDef } from "@/os/apps";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector, useAppStore } from "@/store/hooks";
 import { submitQuestion } from "@/store/askSlice";
 import { AnswerView } from "./AnswerView";
 
@@ -14,6 +14,7 @@ const ICON = appDef("ask")!.icon;
 
 export default function AskApp({ focusNonce }: { focusNonce: number }) {
   const dispatch = useAppDispatch();
+  const store = useAppStore();
   const messages = useAppSelector((s) => s.ask.messages);
   const pending = useAppSelector((s) => s.ask.pending);
   const [draft, setDraft] = useState("");
@@ -25,8 +26,10 @@ export default function AskApp({ focusNonce }: { focusNonce: number }) {
 
   // Ready to type whenever the window is brought up.
   useEffect(() => {
-    inputRef.current?.focus({ preventScroll: true });
-  }, [focusNonce]);
+    // A lazy mount may finish after the visitor has opened another window.
+    const frame = inputRef.current?.closest("[data-win]");
+    if (store.getState().windows.focusedId === "ask" && frame?.contains(document.activeElement)) inputRef.current?.focus({ preventScroll: true });
+  }, [focusNonce, store]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: "end" });

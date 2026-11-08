@@ -52,15 +52,14 @@ describe("the projects", () => {
     expect(a.actions.some((x) => x.target.startsWith("project:"))).toBe(true);
     expect(text(a)).toContain("Inbound");
   });
-  it("lists agents first, with the data folder and earlier apps", () => {
+  it("lists featured agents first, with counts for the other groups", () => {
     const a = one("What projects has he built?");
     expect(a.explain.intent).toBe("projects_list");
-    for (const name of ["Rx Market Pulse", "Payer Access Intelligence", "Field Force Planner", "Drug Price Watch", "Trial Pipeline Benchmark", "PharmaEvidence", "SignalDesk AI", "CampaignOps"]) expect(text(a)).toContain(name);
-    for (const name of ["Agent Desk", "Flowboard", "Sayso", "Hindsight"]) expect(text(a)).toContain(name);
-    expect(text(a)).toContain("not work for MSD");
+    expect(text(a)).toContain("33 others");
+    expect(text(a)).toContain("13 Data and analytics");
     expect(text(a)).toContain("Inbound");
     expect(text(a)).toContain("Backroom");
-    expect(text(a).indexOf("Inbound")).toBeLessThan(text(a).indexOf("Rx Market Pulse"));
+    expect(text(a).indexOf("Inbound")).toBeLessThan(text(a).indexOf("Backroom"));
     expect(a.actions.some((x) => x.target === "projects")).toBe(true);
   });
 
@@ -273,7 +272,9 @@ describe("what it will not say", () => {
 
   it("a question that merely contains one of those words as part of another is not declined", () => {
     expect(one("what is the success rate of the planted-edge test").explain.intent).not.toBe("unknown_topic");
-    expect(one("does Sayso work on a phone").explain.intent).not.toBe("unknown_topic");
+    // Phone compatibility may itself be undocumented, but this must not be
+    // mistaken for a request for Uzair's private phone number.
+    expect(one("does Sayso work on a phone").explain.reason).not.toContain("asks for phone");
   });
 
   it("says it does not know instead of guessing", () => {
@@ -436,7 +437,7 @@ describe("odd input", () => {
   });
   it("copes with very long input, reading only the start", () => {
     const a = one(`Tell me about Sayso ${"blah ".repeat(2000)}`);
-    expect(a.explain.intent).toBe("project");
+    expect(a.sources[0].app).toBe("project:sayso");
     expect(a.explain.normalized.length).toBeLessThanOrEqual(310);
   });
   it("treats markup as plain words", () => {

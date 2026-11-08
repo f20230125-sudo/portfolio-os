@@ -117,10 +117,10 @@ const windowsSlice = createSlice({
       delete s.byId[a.payload];
       s.order = s.order.filter((id) => id !== a.payload);
       if (s.focusedId === a.payload) s.focusedId = frontmost(s);
-      if (s.focusedId) s.byId[s.focusedId].focusNonce += 1;
+      // The shell restores the opener after unmount; do not steal its focus.
       s.announce = `Closed ${w.title}`;
     },
-    /** A click inside a window: bring it forward without taking keyboard focus from what was clicked. */
+    /** Pointer or keyboard focus inside a window: raise it without moving DOM focus. */
     focus(s, a: PayloadAction<string>) {
       const w = s.byId[a.payload];
       if (!w) return;

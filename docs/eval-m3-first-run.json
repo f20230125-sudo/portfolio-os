@@ -1,0 +1,88 @@
+{
+  "setA": {
+    "total": 166,
+    "passed": 164,
+    "failures": [
+      {
+        "q": "can the model in sayso change a price",
+        "intent": "project",
+        "said": "Sayso: Say what you need, and the screen builds itself: a service desk for a made-up airline. A typed or spoken request is answered with wor",
+        "ok": false,
+        "why": "missing \"never a number\""
+      },
+      {
+        "q": "udemy courses?",
+        "intent": "unsure",
+        "said": "I don't have that. It isn't something Uzair has told me, and I'd rather say so than guess. The closest things I do know about: Certification",
+        "ok": false,
+        "why": "declined, but should have answered"
+      }
+    ]
+  },
+  "setB": {
+    "total": 40,
+    "passed": 39,
+    "failures": [
+      {
+        "q": "which of his projects work offline",
+        "intent": "retrieval",
+        "said": "Everything is plain JavaScript in the browser, so it works offline after the first visit. Claude is an optional upgrade that never replaces ",
+        "ok": false,
+        "why": "none of \"Noodle\", \"no API key\", \"no key\""
+      }
+    ]
+  },
+  "setC": {
+    "total": 8,
+    "passed": 3,
+    "failures": [
+      {
+        "q": "How fast is his model on Raspberry Pi?",
+        "intent": "skill_usage",
+        "said": "Raspberry Pi is on his CV under Testing and DevOps. Deployed the IEEE model on a Raspberry Pi 4B.",
+        "ok": false,
+        "why": "missing \"250 ms\", \"3.6\", \"3.2 W\""
+      },
+      {
+        "q": "Does Inbound support Microsoft Exchange?",
+        "intent": "project",
+        "said": "Inbound: Scout, the inbox agent Uzair built for himself: read-only Gmail, a live journal, memory and a daily briefing. Scout triages mail, e",
+        "ok": false,
+        "why": "answered, but should have declined"
+      },
+      {
+        "q": "Does Backroom integrate with SAP?",
+        "intent": "project",
+        "said": "Backroom: An AI back-office agent for a fictional restaurant group: read documents, reconcile payouts and cite every number. Reads supplier ",
+        "ok": false,
+        "why": "answered, but should have declined"
+      },
+      {
+        "q": "Does Hindsight export PDF reports?",
+        "intent": "project",
+        "said": "Hindsight: What your agents did, after the fact: one timeline for every run of four apps. Hindsight reads runs from Uzair's other four apps ",
+        "ok": false,
+        "why": "answered, but should have declined"
+      },
+      {
+        "q": "What is Sayso's voice transcription latency?",
+        "intent": "project",
+        "said": "Sayso: Say what you need, and the screen builds itself: a service desk for a made-up airline. A typed or spoken request is answered with wor",
+        "ok": false,
+        "why": "answered, but should have declined"
+      }
+    ]
+  },
+  "broad": [
+    {
+      "q": "What projects has he built?",
+      "words": 342,
+      "text": "His 10 flagship projects lead with AI agents and automation. Each opens in its own window with the numbers and the decisions behind it: Inbound: Scout, the inbox agent Uzair built for himself: read-only Gmail, a live journal, memory and a daily briefing. Backroom: An AI back-office agent for a fictional restaurant group: read documents, reconcile payouts and cite every number. Agent Desk: Two AI agents on one site: Patch looks after a GitHub account, Pitch drafts LinkedIn posts. Order Desk: A customer order from PO to ready to invoice, with document reading, source boxes and line-by-line checks. LoopDesk: A recycling outreach CRM: keep the enquiry, the right person and the next action together. FollowDesk: Review an exact saved follow-up, simulate delivery and keep the outcome linked to LoopDesk. ScopeDesk: Turn an IT asset-disposition enquiry and its inventory into a source-linked, reviewed handoff to LoopDesk. Invoice Ready: Check UAE e-invoice readiness, fix shared customer data and write PINT AE XML that is read back and checked. Quote Desk: Check a quotation's prices and terms, then write its PDF and Word files from one approved template. Content Desk: A publishing system with reviewed versions, asset ownership and a public site readable without JavaScript. Three earlier AI apps are in the Projects folder too: Flowboard, Sayso, Hindsight, each live on the web. Flowboard: A visual workflow builder, a small n8n: connect blocks, press Run, watch each step's real data. Sayso: Say what you need, and the screen builds itself: a service desk for a made-up airline. Hindsight: What your agents did, after the fact: one timeline for every run of four apps. The Data and analytics folder includes twelve independent pharmaceutical studies, not work for MSD: Rx Market Pulse, Payer Access Intelligence, Field Force Planner, Drug Price Watch, Trial Pipeline Benchmark, PharmaEvidence, SignalDesk AI, CampaignOps, Brand Forecast Studio, GCC Market Report, Digital Demand Pulse, Site Health Monitor. And 23 builds beyond the AI apps, from Footnote's FinanceBench measurement and RAG services to a trading research desk, a data warehouse, a chatbot and a game."
+    },
+    {
+      "q": "Which project should I look at first?",
+      "words": 81,
+      "text": "For AI agents and automation, start with Inbound (Scout), the inbox agent Uzair built for himself, or Backroom, a restaurant back-office agent measured against rules. For front-end and agent interfaces, start with Sayso. For data visualisation and accessibility, Hindsight. For state management and an engine with real tests, Flowboard. For agents that are careful about cost and safety, Agent Desk. For statistics, Quant Copilot. Each one opens in a window here, with its demo, its numbers and the decisions behind it."
+    }
+  ]
+}

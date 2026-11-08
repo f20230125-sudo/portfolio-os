@@ -36,10 +36,8 @@ export function judge(spec: Spec): Verdict {
   const text = textOf(answer);
   const low = text.toLowerCase();
   const base = { q: spec.q, intent: answer.explain.intent, said: text.slice(0, 140) };
-  if (spec.decline) {
-    return answer.grounded ? { ...base, ok: false, why: "answered, but should have declined" } : { ...base, ok: true, why: "" };
-  }
-  if (!answer.grounded) return { ...base, ok: false, why: "declined, but should have answered" };
+  if (spec.decline && answer.grounded) return { ...base, ok: false, why: "answered, but should have declined" };
+  if (!spec.decline && !answer.grounded) return { ...base, ok: false, why: "declined, but should have answered" };
   const missing = (spec.all ?? []).filter((s) => !low.includes(s.toLowerCase()));
   if (missing.length > 0) return { ...base, ok: false, why: `missing ${missing.map((m) => `"${m}"`).join(", ")}` };
   if (spec.any && !spec.any.some((s) => low.includes(s.toLowerCase()))) return { ...base, ok: false, why: `none of ${spec.any.map((m) => `"${m}"`).join(", ")}` };

@@ -1028,6 +1028,16 @@ html[data-reduce-motion="true"] *::after {
   animation-iteration-count: 1 !important;
   transition-duration: 0.01ms !important;
 }
+/* A near-zero animation still paints its first frame once: a window would show at 96% for a
+   frame and then jump. With reduced motion, windows simply appear. */
+@media (prefers-reduced-motion: reduce) {
+  .win {
+    animation: none !important;
+  }
+}
+html[data-reduce-motion="true"] .win {
+  animation: none !important;
+}
 
 /* ------------------------------------------------------------ print / simple */
 

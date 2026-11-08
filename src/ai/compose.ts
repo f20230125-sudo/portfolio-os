@@ -1,6 +1,6 @@
 import { chunkById, type Chunk } from "@/knowledge/chunks";
 import { education, experience, person, research, skillGroups } from "@/knowledge/profile";
-import { flagship, olderProjects, projectById, projects, type Project } from "@/knowledge/projects";
+import { featured, kindLabels, projectById, projects, type Project } from "@/knowledge/projects";
 import { dayLabel } from "./labels";
 import { passageCount } from "./retrieve";
 import type { Action, Block, SourceChip } from "./types";
@@ -95,14 +95,12 @@ export function cvActions(): Action[] {
 }
 
 export function projectsListBlocks(): Block[] {
-  const apps = projects.filter((p) => p.kind === "apps");
+  const others = projects.filter((p) => !featured.some((f) => f.id === p.id));
+  const groups = Object.entries(kindLabels).map(([kind, label]) => `${others.filter((p) => p.kind === kind).length} ${kind === "flagship" ? "more agent and automation projects" : label}${kind === "apps" ? ` (${others.filter((p) => p.kind === kind).map((p) => p.name).join(", ")})` : ""}`);
   return [
-    para(`His ${flagship.length} flagship projects lead with AI agents and automation. Each opens in its own window with the numbers and the decisions behind it:`),
-    { type: "list", items: flagship.map((p) => `${p.name}: ${p.tagline}`) },
-    para(`Three earlier AI apps are in the Projects folder too: ${apps.map((p) => p.name).join(", ")}, each live on the web.`),
-    { type: "list", items: apps.map((p) => `${p.name}: ${p.tagline}`) },
-    para(`The Data and analytics folder includes twelve independent pharmaceutical studies, not work for MSD: ${projects.filter((p) => p.kind === "data" && p.id !== "property-data-warehouse").map((p) => p.name).join(", ")}.`),
-    para(`And ${olderProjects.length - apps.length} builds beyond the AI apps, from Footnote's FinanceBench measurement and RAG services to a trading research desk, a data warehouse, a chatbot and a game.`),
+    para(`His ${projects.length} projects include these flagship agents and automation tools. Start with these three:`),
+    { type: "list", items: featured.map((p) => `${p.name}: ${p.tagline}`) },
+    para(`${others.length} others: ${groups.join(", ")}.`),
   ];
 }
 

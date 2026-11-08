@@ -2,15 +2,9 @@
   "generated": "by src/ai/eval/eval.test.ts",
   "setA": {
     "total": 166,
-    "passed": 164,
-    "percent": 98.8,
+    "passed": 165,
+    "percent": 99.4,
     "failures": [
-      {
-        "q": "can the model in sayso change a price",
-        "why": "missing \"never a number\"",
-        "intent": "project",
-        "said": "Sayso: Say what you need, and the screen builds itself: a service desk for a made-up airline. A typed or spoken request is answered with wor"
-      },
       {
         "q": "udemy courses?",
         "why": "declined, but should have answered",
@@ -31,5 +25,31 @@
         "said": "Everything is plain JavaScript in the browser, so it works offline after the first visit. Claude is an optional upgrade that never replaces "
       }
     ]
-  }
+  },
+  "setC": {
+    "total": 8,
+    "passed": 8,
+    "percent": 100,
+    "failures": [],
+    "independent": false
+  },
+  "setD": {
+    "total": 6,
+    "passed": 6,
+    "percent": 100,
+    "failures": [],
+    "independent": false
+  },
+  "broad": [
+    {
+      "q": "What projects has he built?",
+      "words": 99,
+      "text": "His 36 projects include these flagship agents and automation tools. Start with these three: Inbound: Scout, the inbox agent Uzair built for himself: read-only Gmail, a live journal, memory and a daily briefing. Backroom: An AI back-office agent for a fictional restaurant group: read documents, reconcile payouts and cite every number. Agent Desk: Two AI agents on one site: Patch looks after a GitHub account, Pitch drafts LinkedIn posts. 33 others: 7 more agent and automation projects, 3 AI apps (Flowboard, Sayso, Hindsight), 5 LLM and agents, 3 Quant and markets, 13 Data and analytics, 2 Games and play."
+    },
+    {
+      "q": "Which project should I look at first?",
+      "words": 68,
+      "text": "Start with Inbound: Scout, the inbox agent Uzair built for himself: read-only Gmail, a live journal, memory and a daily briefing. Alternatively, Backroom: An AI back-office agent for a fictional restaurant group: read documents, reconcile payouts and cite every number. Alternatively, Agent Desk: Two AI agents on one site: Patch looks after a GitHub account, Pitch drafts LinkedIn posts. For front-end work, the Projects folder also includes Sayso."
+    }
+  ]
 }
