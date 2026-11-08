@@ -2,6 +2,7 @@
 
 import { Moon, Search, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
+import { preloadAssistant } from "@/ai/preload";
 import { useTheme } from "@/components/theme";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { uiActions } from "@/store/uiSlice";
@@ -59,7 +60,7 @@ export function Taskbar() {
           }}
         >
           <Search size={15} aria-hidden="true" />
-          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Ask anything about Uzair" aria-label="Ask anything about Uzair" maxLength={300} autoComplete="off" />
+          <input value={query} onChange={(e) => setQuery(e.target.value)} onFocus={preloadAssistant} placeholder="Ask anything about Uzair" aria-label="Ask anything about Uzair" maxLength={300} autoComplete="off" />
         </form>
         {ids.map((id) => {
           const def = appDef(id);

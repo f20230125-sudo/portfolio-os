@@ -458,7 +458,7 @@ describe("odd input", () => {
       expect(Array.isArray(a.blocks)).toBe(true);
       expect(a.blocks.length).toBeGreaterThan(0);
     }
-  });
+  }, 15_000); // The full 3,000-input fuzz run can exceed five seconds on slower hosts.
 });
 
 describe("every answer", () => {

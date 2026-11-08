@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { dayLabel } from "@/ai/compose";
+import { dayLabel } from "@/ai/labels";
 import { certifications, education, experience, person, research, skillGroups } from "@/knowledge/profile";
 import { flagship, kindLabels, olderProjects, type Project } from "@/knowledge/projects";
 
@@ -31,6 +31,7 @@ function ProjectBlock({ p }: { p: Project }) {
           </a>
         )}
         <a className="link" href={p.code} rel="noopener noreferrer">Code on GitHub</a>
+        <Link className="link" href={`/projects/${p.id}`}>Share link</Link>
       </p>
     </article>
   );
