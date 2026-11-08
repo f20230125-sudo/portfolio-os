@@ -1132,6 +1132,14 @@ export const projects: Project[] = [
 
 export const projectById = (id: string): Project | undefined => projects.find((p) => p.id === id);
 
+/** The desktop's featured selection, in display order. Change this list to curate it. */
+export const FEATURED_IDS = ["inbound", "backroom", "agent-desk"] as const;
+export const featured: Project[] = FEATURED_IDS.map((id) => {
+  const p = projectById(id);
+  if (!p) throw new Error(`Unknown featured project: ${id}`);
+  return p;
+});
+
 export const flagship = projects.filter((p) => p.kind === "flagship");
 export const olderProjects = projects.filter((p) => p.kind !== "flagship");
 

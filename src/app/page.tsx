@@ -1,5 +1,7 @@
 import { person } from "@/knowledge/profile";
 import { Os } from "@/os/Os";
+import { FeaturedPanel } from "@/os/FeaturedPanel";
+import { ProfileCard } from "@/os/ProfileCard";
 
 // Who this page is about, in the form search engines read.
 const personJsonLd = {
@@ -18,7 +20,10 @@ export default function Home() {
   return (
     <main>
       <h1 className="sr-only">{person.name}, {person.role.toLowerCase()}. This page is a desktop: open the icons to see his projects.</h1>
-      <Os />
+      <Os>
+        <ProfileCard />
+        <FeaturedPanel />
+      </Os>
       <noscript>
         <p style={{ position: "fixed", inset: "auto 0 56px 0", textAlign: "center", color: "#fff", background: "rgba(0,0,0,.7)", padding: 12 }}>
           This desktop needs JavaScript. <a href="/simple" style={{ color: "#9ad1ff" }}>Open the simple view</a> instead.
