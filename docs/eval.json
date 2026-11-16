@@ -43,8 +43,8 @@
   "broad": [
     {
       "q": "What projects has he built?",
-      "words": 99,
-      "text": "His 36 projects include these flagship agents and automation tools. Start with these three: Inbound: Scout, the inbox agent Uzair built for himself: read-only Gmail, a live journal, memory and a daily briefing. Backroom: An AI back-office agent for a fictional restaurant group: read documents, reconcile payouts and cite every number. Agent Desk: Two AI agents on one site: Patch looks after a GitHub account, Pitch drafts LinkedIn posts. 33 others: 7 more agent and automation projects, 3 AI apps (Flowboard, Sayso, Hindsight), 5 LLM and agents, 3 Quant and markets, 13 Data and analytics, 2 Games and play."
+      "words": 103,
+      "text": "His 38 projects include these flagship agents and automation tools. Start with these three: Inbound: Scout, the inbox agent Uzair built for himself: read-only Gmail, a live journal, memory and a daily briefing. Backroom: An AI back-office agent for a fictional restaurant group: read documents, reconcile payouts and cite every number. Agent Desk: Two AI agents on one site: Patch looks after a GitHub account, Pitch drafts LinkedIn posts. 35 others: 7 more agent and automation projects, 3 AI apps (Flowboard, Sayso, Hindsight), 5 LLM and agents, 3 Quant and markets, 13 Data and analytics, 2 Games and play, 2 New on GitHub."
     },
     {
       "q": "Which project should I look at first?",

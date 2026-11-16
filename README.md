@@ -92,6 +92,18 @@ Set D was written and first scored before a follow-up fix for over-eager decline
 
 Read set B's first score, not the later ones: it is the honest guide to a question the assistant has not been shaped to, about one in three of a harder, more indirect kind missing. The later numbers show how much fixing the general causes helped (possessives, filler words, a spelling correction that turned "trades" into "grades", prepared answers losing to looser matches, project questions answered with the whole overview), and flatter it, because set B stopped being a hold-out the moment it was used to find them. Both first runs are in [`docs/eval-first-run.json`](docs/eval-first-run.json); `npm run eval` rescores all four sets into [`docs/eval.json`](docs/eval.json), and a test fails if any set falls below its floor. What it still misses is listed there, in plain words. (On 8 October 2026 set B's later figure went from 38 to 39: prepared answers added for questions a recruiter asks, such as the CV, teamwork, open source and "does he have a portfolio", happened to answer one of its questions. The first scores did not change. On 18 October 2026 adding eight data projects first cost three answers, A 162 and B 38: the alias "reps" caught "repos", and the new word "launch" pulled in "lunch". After removing the alias and declining small talk, the scores are back to 164 and 39. On 19 October 2026 four more projects first cost two answers: the weather rule treated "forecast" as weather, so "Tell me about Brand Forecast Studio" was declined, and the phrase "share of voice" weakened "does sayso support voice". The rule now needs "weather" itself and the phrase became "share of attention"; the scores are 164 and 39 again, with the same misses as before. On 28 October 2026 adding the agent and automation projects first scored A 163 and B 38: a fuzzy spelling match took “securely” away from its known security synonyms, and a request for runnable work matched the portfolio description. Known synonyms now take priority over fuzzy spelling, and requests to try live work return project links. Unit tests also caught PINT consuming “print” and Vite consuming “vitae”; five-letter words are no longer shortened to four-letter correction candidates. Scores are back to A 164 and B 39, with the same misses; both first-run records are unchanged.)
 
+## New repositories add themselves
+
+Every hour a workflow ([sync-github.yml](.github/workflows/sync-github.yml)) lists the owner's public repositories. One that is not already written up by hand in `src/knowledge/projects.ts` gets an entry made by [scripts/sync-github.mjs](scripts/sync-github.mjs): its name, GitHub description, topics, languages and website, and sentences taken from its README (opening paragraphs, and the list items under headings such as "How it works" and "Limits"). No model writes any of it. If the repository has a website on `vercel.app` or `github.io`, a screenshot is taken. The entry appears in the Projects folder under **New on GitHub**, in Start's search, in the simple view, as its own page, and in what the assistant can answer.
+
+- The site's own checks (lint, types, unit tests, build, end-to-end tests) run with the new entry in place before anything is committed. If they fail, the entry is held back and not tried again until that repository changes.
+- Text that holds a phone number, an email address, a link or a key is never published; the same rules the tests apply to hand-written entries.
+- Left out: forks, archived, template and empty repositories, a README under 300 characters, any name in `ignore` in [github-sync.config.json](github-sync.config.json), and any repository with the `no-portfolio` topic.
+- An entry is made again only when the README, description, website or topics change, not on every push.
+- To write a project up properly, add it to `projects.ts`; the sync then drops its automatic entry. The desktop icons and the featured three stay chosen by hand.
+
+Run it by hand with `node scripts/sync-github.mjs` (`--check` to see what would change, `--dry` to print the entries).
+
 ## Run it
 
 ```
@@ -112,11 +124,11 @@ npm run dev        # http://localhost:3050
 
 ## Tests
 
-401 unit tests and 168 end-to-end tests, as of 8 November 2026. CI runs all of it on every push.
+401 unit tests and 179 end-to-end tests, as of 15 November 2026. Eleven of the end-to-end tests run with animations on (the rest run with reduced motion, so nothing moves while they measure): a window that animates away must still end up closed, hidden or back where it was. CI runs all of it on every push.
 
 - **Unit tests** cover the window maths (clamping, resizing from every handle, snapping, restoring), the windows reducer (stacking, focus, minimise, maximise, snap, a changing screen), the knowledge data against its schema and against what must never be public, every step of the assistant, and its evaluation.
 - **End-to-end tests** drive the production build in CI and the development server locally in a real browser: every icon, dragging, resizing, snapping and stacking with the mouse and with the keyboard alone, menus, Start and search, twenty-odd questions to the assistant (including injection and markup), the phone layout, the security headers, that no request leaves the site, and axe accessibility scans in both themes on the desktop, every window, an answer, menus and a phone. Keyboard tests also cover Tab into a background window, focus restoration to desktop/featured/taskbar openers with window/desktop fallbacks, and roving project tabs with wrapping arrows and Home/End, all with reduced motion. The Live tab is tested against stand-ins for the four original framed apps, so the tests never depend on the internet.
-- The end-to-end tests found real faults while this was built: windows flew in from the corner because the open animation replaced their position; the Projects folder's arrow keys started from the selected row instead of the focused one.
+- The end-to-end tests found real faults while this was built: windows flew in from the corner because the open animation replaced their position; the Projects folder's arrow keys started from the selected row instead of the focused one. Resizing a window from its left edge over a picture stopped part-way, because once the edge had left the pointer the browser began dragging the picture underneath.
 
 ## Limits
 

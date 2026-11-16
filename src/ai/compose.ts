@@ -96,7 +96,7 @@ export function cvActions(): Action[] {
 
 export function projectsListBlocks(): Block[] {
   const others = projects.filter((p) => !featured.some((f) => f.id === p.id));
-  const groups = Object.entries(kindLabels).map(([kind, label]) => `${others.filter((p) => p.kind === kind).length} ${kind === "flagship" ? "more agent and automation projects" : label}${kind === "apps" ? ` (${others.filter((p) => p.kind === kind).map((p) => p.name).join(", ")})` : ""}`);
+  const groups = Object.entries(kindLabels).filter(([kind]) => others.some((p) => p.kind === kind)).map(([kind, label]) => `${others.filter((p) => p.kind === kind).length} ${kind === "flagship" ? "more agent and automation projects" : label}${kind === "apps" ? ` (${others.filter((p) => p.kind === kind).map((p) => p.name).join(", ")})` : ""}`);
   return [
     para(`His ${projects.length} projects include these flagship agents and automation tools. Start with these three:`),
     { type: "list", items: featured.map((p) => `${p.name}: ${p.tagline}`) },

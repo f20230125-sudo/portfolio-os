@@ -1,3 +1,5 @@
+// The extension is written out because the scripts import this file with Node itself, which does not guess it.
+import { githubProjects } from "./github-projects.ts";
 import type { Project } from "./schema";
 
 export type { Project, ProjectKind } from "./schema";
@@ -10,7 +12,7 @@ export type { Project, ProjectKind } from "./schema";
 
 const GH = "https://github.com/f20230125-sudo";
 
-export const projects: Project[] = [
+const written: Project[] = [
   {
     id: "inbound",
     name: "Inbound",
@@ -1130,6 +1132,9 @@ export const projects: Project[] = [
   },
 ];
 
+/** Everything: the projects written up by hand above, then the ones the GitHub sync found by itself. */
+export const projects: Project[] = [...written, ...githubProjects];
+
 export const projectById = (id: string): Project | undefined => projects.find((p) => p.id === id);
 
 /** The desktop's featured selection, in display order. Change this list to curate it. */
@@ -1150,4 +1155,5 @@ export const kindLabels: Record<Project["kind"], string> = {
   quant: "Quant and markets",
   data: "Data and analytics",
   play: "Games and play",
+  recent: "New on GitHub",
 };

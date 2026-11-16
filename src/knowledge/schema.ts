@@ -9,7 +9,8 @@ import { z } from "zod";
 export const sourceKind = z.enum(["cv", "readme", "linkedin", "github", "told"]);
 export type SourceKind = z.infer<typeof sourceKind>;
 
-export const projectKind = z.enum(["flagship", "apps", "llm", "quant", "data", "play"]);
+// "recent" is for entries made by scripts/sync-github.mjs from a repository nobody has written up by hand yet.
+export const projectKind = z.enum(["flagship", "apps", "llm", "quant", "data", "play", "recent"]);
 export type ProjectKind = z.infer<typeof projectKind>;
 
 /** The picture on a project's icon tile: a lucide icon name and two colours. */

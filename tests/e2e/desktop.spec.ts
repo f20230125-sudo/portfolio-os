@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { projects } from "../../src/knowledge/projects";
 import { boxOf, DESKTOP_ICONS, drag, gotoDesktop, icon, openIcon, watchConsole, win } from "./helpers";
 
 test.describe("the desktop", () => {
@@ -360,17 +361,18 @@ test.describe("the simple view", () => {
   test("lists exactly the projects the desktop can open", async ({ page, browser }) => {
     await page.goto("/simple");
     const simple = await page.getByRole("heading", { level: 3 }).allTextContents();
-    const fromSimple = simple.filter((t) => !["Earlier builds", "Data and analytics", "AI apps", "Certifications"].includes(t) && !/^(Lightweight|Backend Developer|BITS)/.test(t));
+    const fromSimple = simple.filter((t) => !["Earlier builds", "Data and analytics", "AI apps", "New on GitHub", "Certifications"].includes(t) && !/^(Lightweight|Backend Developer|BITS)/.test(t));
     const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
     const desk = await ctx.newPage();
     await gotoDesktop(desk);
     await openIcon(desk, "Projects");
     const projectRows = win(desk, "Projects").getByRole("list", { name: "Projects" }).getByRole("button");
-    await expect(projectRows).toHaveCount(36);
+    // As many as the data holds: the GitHub sync adds projects by itself.
+    await expect(projectRows).toHaveCount(projects.length);
     const rows = await projectRows.evaluateAll((els) => els.map((e) => e.querySelector("span.font-medium")?.textContent ?? ""));
     await ctx.close();
     expect([...rows].sort()).toEqual([...fromSimple].sort());
-    expect(rows).toHaveLength(36);
+    expect(rows).toHaveLength(projects.length);
   });
 
   test("works with scripts off, and the desktop says where to go instead", async ({ browser, request }) => {

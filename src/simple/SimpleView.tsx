@@ -38,6 +38,7 @@ function ProjectBlock({ p }: { p: Project }) {
 }
 
 export function SimpleView() {
+  const recent = olderProjects.filter((p) => p.kind === "recent");
   const u = education.university;
   const e = experience[0];
   return (
@@ -74,9 +75,18 @@ export function SimpleView() {
             <ProjectBlock key={p.id} p={p} />
           ))}
           <h3 className="mt-4 text-[17px] font-semibold text-muted">Earlier builds</h3>
-          {olderProjects.filter((p) => p.kind !== "apps" && p.kind !== "data").map((p) => (
+          {olderProjects.filter((p) => p.kind !== "apps" && p.kind !== "data" && p.kind !== "recent").map((p) => (
             <ProjectBlock key={p.id} p={p} />
           ))}
+          {recent.length > 0 && (
+            <>
+              <h3 className="mt-4 text-[17px] font-semibold text-muted">{kindLabels.recent}</h3>
+              <p className="text-[14px] text-muted">Added automatically from his public repositories; the words are each repository&apos;s own README.</p>
+              {recent.map((p) => (
+                <ProjectBlock key={p.id} p={p} />
+              ))}
+            </>
+          )}
         </section>
 
         <section aria-labelledby="s-research" className="border-t border-line py-6">

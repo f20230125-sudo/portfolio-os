@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { projects } from "../../src/knowledge/projects";
 import { gotoDesktop, openIcon, watchConsole, win } from "./helpers";
 
 test.describe("project windows", () => {
@@ -92,11 +93,11 @@ test.describe("the Projects folder", () => {
     await rows.filter({ hasText: "Rx Market Pulse" }).dblclick();
     await expect(win(page, "Rx Market Pulse")).toBeVisible();
   });
-  test("lists all thirty-six, filters by folder, and opens one by double-click or Enter", async ({ page }) => {
+  test("lists every project, filters by folder, and opens one by double-click or Enter", async ({ page }) => {
     await gotoDesktop(page);
     const w = await openIcon(page, "Projects");
     const rows = w.getByRole("list", { name: "Projects" }).getByRole("button");
-    await expect(rows).toHaveCount(36);
+    await expect(rows).toHaveCount(projects.length);
     const folders = w.getByRole("navigation", { name: "Project folders" });
     await folders.getByRole("button", { name: "AI apps" }).click();
     await expect(rows).toHaveCount(3);

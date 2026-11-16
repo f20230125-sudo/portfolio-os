@@ -18,6 +18,8 @@ const FILTERS: { id: Filter; label: string }[] = [
   { id: "quant", label: kindLabels.quant },
   { id: "data", label: kindLabels.data },
   { id: "play", label: kindLabels.play },
+  // Only once the GitHub sync has found something.
+  ...(projects.some((p) => p.kind === "recent") ? [{ id: "recent" as const, label: kindLabels.recent }] : []),
 ];
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];

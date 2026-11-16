@@ -1,0 +1,87 @@
+name: Sync projects from GitHub
+
+# Every hour, and whenever it is started by hand: look at the owner's public
+# repositories and give each one that is not yet in the portfolio an entry made
+# from its README (scripts/sync-github.mjs). If anything changed, the site's
+# own checks run with the new entries in place, and only then is the change
+# committed to main, which redeploys the site.
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-github
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # One call to GitHub. Most hours nothing has changed and the run ends here.
+      - name: Has anything changed on GitHub?
+        id: check
+        run: node scripts/sync-github.mjs --check
+
+      - name: Install the browser (for screenshots and the end-to-end tests)
+        if: steps.check.outputs.changed == 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Write the entries and take the pictures
+        id: sync
+        if: steps.check.outputs.changed == 'true'
+        run: node scripts/sync-github.mjs
+
+      # A push made by this workflow does not start the CI workflow, so the same checks run here first.
+      # If they fail with the new entries in place, the entries are taken back out (and not tried again
+      # until that repository changes), and the checks must then pass without them.
+      - name: Check the site with the new entries
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          checks() { npm run lint && npm run typecheck && npm test && npm run build && npm run e2e; }
+          if ! checks; then
+            echo "::warning::The site's checks failed with the new entries; holding them back."
+            node scripts/sync-github.mjs --hold
+            checks
+          fi
+
+      - name: Keep the traces of failed end-to-end tests
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sync-playwright-traces
+          path: test-results/
+          retention-days: 7
+
+      - name: Commit and push
+        if: steps.check.outputs.changed == 'true'
+        env:
+          SUMMARY: ${{ steps.sync.outputs.summary }}
+        run: |
+          git add src/knowledge/github-projects.ts src/knowledge/github-sync.json public/media docs/eval.json
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Sync projects from GitHub${SUMMARY:+: $SUMMARY}"
+          git push

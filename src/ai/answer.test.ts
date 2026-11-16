@@ -55,7 +55,8 @@ describe("the projects", () => {
   it("lists featured agents first, with counts for the other groups", () => {
     const a = one("What projects has he built?");
     expect(a.explain.intent).toBe("projects_list");
-    expect(text(a)).toContain("33 others");
+    // Counted, not typed: the GitHub sync adds projects by itself, and the featured three are named first.
+    expect(text(a)).toContain(`${projects.length - 3} others`);
     expect(text(a)).toContain("13 Data and analytics");
     expect(text(a)).toContain("Inbound");
     expect(text(a)).toContain("Backroom");

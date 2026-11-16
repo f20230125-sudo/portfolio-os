@@ -1,0 +1,5 @@
+{
+  "ignore": ["portfolio-os"],
+  "optOutTopic": "no-portfolio",
+  "minReadmeChars": 300
+}
