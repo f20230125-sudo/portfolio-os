@@ -66,7 +66,7 @@ export default function ProjectApp({ projectId, tab, nonce }: { projectId: strin
         </div>
       </header>
       {tabs.map((t) => (
-        <div key={t.id} hidden={current !== t.id} className="min-h-0 flex-1 overflow-auto" role="tabpanel" tabIndex={0} id={`${p.id}-panel-${t.id}`} aria-labelledby={`${p.id}-tab-${t.id}`}>
+        <div key={t.id} hidden={current !== t.id} className="tab-in min-h-0 flex-1 overflow-auto" role="tabpanel" tabIndex={0} id={`${p.id}-panel-${t.id}`} aria-labelledby={`${p.id}-tab-${t.id}`}>
           {current === t.id && <>
             {t.id === "overview" && <Overview p={p} goLive={() => focusTab("live")} ask={() => os.ask(`Tell me about ${p.name}`)} />}
             {t.id === "live" && p.live && <LiveFrame name={p.name} live={p.live} preview={p.gif?.src ?? p.shots[0]?.src} />}

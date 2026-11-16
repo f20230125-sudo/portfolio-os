@@ -1,21 +1,24 @@
 "use client";
 
 import { Copy, Minus, Square, X } from "lucide-react";
-import { memo, useEffect, useRef } from "react";
+import { memo, useEffect, useLayoutEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector, useAppStore } from "@/store/hooks";
 import { uiActions } from "@/store/uiSlice";
 import { windowsActions } from "@/store/windowsSlice";
 import { appDef } from "./apps";
 import { AppView } from "./AppView";
-import { closeApp } from "./actions";
+import { closeApp, minimizeApp } from "./actions";
 import { clampRect, resizeRect, restoreUnderPointer, snapRect, snapZone, type Handle, type Rect, type SnapSide } from "./geometry";
 import { AppIcon } from "./icons";
+import { playRestore } from "./motion";
 import { PHONE_WIDTH } from "./useViewport";
 
 const HANDLES: Handle[] = ["n", "s", "e", "w", "ne", "nw", "se", "sw"];
 const KEY_STEP = 24;
 
-const frame = (r: Rect) => `translate(${r.x}px, ${r.y}px)`;
+// The position is the `translate` property, not `transform`, so the opening and closing
+// animations can scale a window about its own centre wherever it stands.
+const frame = (r: Rect) => `${r.x}px ${r.y}px`;
 
 /**
  * One window. While it is dragged or resized the new rectangle is written
@@ -40,6 +43,13 @@ function WindowImpl({ id }: { id: string }) {
     if (!el || minimized || store.getState().windows.focusedId !== id) return;
     if (!el.contains(document.activeElement)) el.focus({ preventScroll: true });
   }, [focusNonce, minimized, id, store]);
+
+  // Coming back from the taskbar: rise out of the button it went into.
+  const wasMinimized = useRef(minimized);
+  useLayoutEffect(() => {
+    if (wasMinimized.current && minimized === false && ref.current) playRestore(ref.current, id);
+    wasMinimized.current = minimized;
+  }, [minimized, id]);
 
   if (!win) return null;
   const def = appDef(id);
@@ -77,7 +87,7 @@ function WindowImpl({ id }: { id: string }) {
         if (win.mode !== "normal") base = restoreUnderPointer(win.restore ?? startRect, startRect, start, vp);
       }
       current = clampRect({ ...base, x: base.x + dx, y: base.y + dy }, vp);
-      el.style.transform = frame(current);
+      el.style.translate = frame(current);
       el.style.width = `${current.w}px`;
       el.style.height = `${current.h}px`;
       const next = snapZone({ x: ev.clientX, y: ev.clientY }, vp);
@@ -115,7 +125,7 @@ function WindowImpl({ id }: { id: string }) {
     document.body.dataset.dragging = "1";
     const onMove = (ev: PointerEvent) => {
       current = resizeRect(startRect, handleName, ev.clientX - start.x, ev.clientY - start.y, vp);
-      el.style.transform = frame(current);
+      el.style.translate = frame(current);
       el.style.width = `${current.w}px`;
       el.style.height = `${current.h}px`;
     };
@@ -149,7 +159,7 @@ function WindowImpl({ id }: { id: string }) {
     }
   };
 
-  const style: React.CSSProperties = mobile ? { zIndex: win.z } : { transform: frame(win.rect), width: win.rect.w, height: win.rect.h, zIndex: win.z };
+  const style: React.CSSProperties = mobile ? { zIndex: win.z } : { translate: frame(win.rect), width: win.rect.w, height: win.rect.h, zIndex: win.z };
 
   return (
     <div
@@ -172,7 +182,7 @@ function WindowImpl({ id }: { id: string }) {
         <span className="win-title-text">{win.title}</span>
         <div className="win-controls">
           {!mobile && (
-            <button type="button" aria-label={`Minimise ${win.title}`} onClick={() => dispatch(windowsActions.minimize(id))}>
+            <button type="button" aria-label={`Minimise ${win.title}`} onClick={() => dispatch(minimizeApp(id))}>
               <Minus size={15} />
             </button>
           )}

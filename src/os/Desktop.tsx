@@ -7,8 +7,7 @@ import { useTheme } from "@/components/theme";
 import { projectById } from "@/knowledge/projects";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { uiActions } from "@/store/uiSlice";
-import { windowsActions } from "@/store/windowsSlice";
-import { openApp } from "./actions";
+import { openApp, toggleDesktop } from "./actions";
 import { appDef, DESKTOP_ORDER, type AppDef } from "./apps";
 import { useContextMenu, type MenuItem } from "./ContextMenu";
 import { GithubGlyph, AppIcon } from "./icons";
@@ -83,8 +82,8 @@ export function Desktop() {
     { label: "Ask Uzair", icon: <MessageCircle size={14} />, onSelect: () => os.open("ask") },
     { label: "Open Projects", icon: <FolderOpen size={14} />, onSelect: () => os.open("projects") },
     { separator: true },
-    { label: theme === "dark" ? "Switch to light theme" : "Switch to dark theme", icon: theme === "dark" ? <Sun size={14} /> : <Moon size={14} />, onSelect: toggleTheme },
-    { label: "Show or hide windows", icon: <EyeOff size={14} />, onSelect: () => dispatch(windowsActions.toggleDesktop()) },
+    { label: theme === "dark" ? "Switch to light theme" : "Switch to dark theme", icon: theme === "dark" ? <Sun size={14} /> : <Moon size={14} />, onSelect: () => toggleTheme() },
+    { label: "Show or hide windows", icon: <EyeOff size={14} />, onSelect: () => dispatch(toggleDesktop()) },
     { label: "Switch to simple view", icon: <LayoutList size={14} />, onSelect: () => router.push("/simple") },
     { label: "Settings", icon: <SettingsIcon size={14} />, onSelect: () => dispatch(openApp("settings")) },
   ];
@@ -114,6 +113,7 @@ export function Desktop() {
           data-icon={d.id}
           tabIndex={selected === d.id || (selected === null && i === 0) ? 0 : -1}
           className="dicon"
+          style={{ "--i": i } as React.CSSProperties}
           onFocus={() => dispatch(uiActions.selectIcon(d.id))}
           onClick={(e) => {
             dispatch(uiActions.selectIcon(d.id));

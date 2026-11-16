@@ -10,6 +10,7 @@ import { windowsActions } from "@/store/windowsSlice";
 import { askAbout, openApp } from "./actions";
 import { ALL_APPS, appDef, PINNED, type AppDef } from "./apps";
 import { AppIcon, Mark } from "./icons";
+import { usePresence } from "./usePresence";
 
 /** How well an app matches what was typed: every word typed must match something, and the average counts. */
 function score(def: AppDef, q: string): number {
@@ -38,6 +39,7 @@ export function StartMenu() {
   const open = useAppSelector((s) => s.ui.startOpen);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
+  const presence = usePresence(open, 130);
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -74,7 +76,7 @@ export function StartMenu() {
     };
   }, [open, dispatch]);
 
-  if (!open) return null;
+  if (presence === "gone") return null;
 
   const run = (index: number) => {
     if (index < results.length) dispatch(openApp(results[index].id));
@@ -95,7 +97,7 @@ export function StartMenu() {
   };
 
   return (
-    <div ref={ref} id="start-menu" className="start" role="dialog" aria-label="Start menu" onKeyDown={onKeyDown}>
+    <div ref={ref} id="start-menu" className="start" role="dialog" aria-label="Start menu" data-closing={presence === "out" || undefined} inert={presence === "out"} onKeyDown={onKeyDown}>
       <form
         className="start-search"
         role="search"
@@ -146,12 +148,12 @@ export function StartMenu() {
         ) : (
           <>
             <h2 className="eyebrow px-1 pb-1 pt-2">Pinned</h2>
-            <ul className="start-grid">
-              {PINNED.map((id) => {
+            <ul className="start-grid start-stagger">
+              {PINNED.map((id, i) => {
                 const d = appDef(id);
                 if (!d) return null;
                 return (
-                  <li key={id}>
+                  <li key={id} style={{ "--i": i } as React.CSSProperties}>
                     <button type="button" className="start-item w-full" onClick={() => dispatch(openApp(id))}>
                       <AppIcon icon={d.icon} size={38} />
                       <span>{d.title}</span>
@@ -161,9 +163,9 @@ export function StartMenu() {
               })}
             </ul>
             <h2 className="eyebrow px-1 pb-1 pt-4">Recommended</h2>
-            <ul className="grid gap-0.5 sm:grid-cols-2">
-              {flagship.map((p) => (
-                <li key={p.id}>
+            <ul className="start-stagger grid gap-0.5 sm:grid-cols-2">
+              {flagship.map((p, i) => (
+                <li key={p.id} style={{ "--i": PINNED.length + i } as React.CSSProperties}>
                   <button type="button" className="start-row" onClick={() => dispatch(openApp(`project:${p.id}`))}>
                     <AppIcon icon={p.icon} size={30} />
                     <span className="min-w-0">

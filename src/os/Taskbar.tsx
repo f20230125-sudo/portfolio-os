@@ -6,8 +6,7 @@ import { preloadAssistant } from "@/ai/preload";
 import { useTheme } from "@/components/theme";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { uiActions } from "@/store/uiSlice";
-import { windowsActions } from "@/store/windowsSlice";
-import { activateApp, askAbout, openApp } from "./actions";
+import { activateApp, askAbout, openApp, toggleDesktop } from "./actions";
 import { appDef, TASKBAR_PINNED } from "./apps";
 import { AppIcon, Mark } from "./icons";
 
@@ -76,7 +75,7 @@ export function Taskbar() {
               data-task={id}
               aria-pressed={isFront}
               aria-label={`${def.title}${win ? (win.minimized ? ", minimised" : ", open") : ""}`}
-              title={def.title}
+              data-tip={def.title}
               onClick={() => dispatch(win ? activateApp(id) : openApp(id))}
             >
               <AppIcon icon={def.icon} size={26} />
@@ -85,11 +84,15 @@ export function Taskbar() {
         })}
       </div>
       <div className="tb-tray">
-        <button type="button" className="tb-btn" aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"} onClick={toggleTheme}>
+        <button type="button" className="tb-btn" aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"} onClick={(e) => {
+            // From the button's centre, so a key press starts the reveal in the same place as a click.
+            const r = e.currentTarget.getBoundingClientRect();
+            toggleTheme({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
+          }}>
           {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
         </button>
         <Clock />
-        <button type="button" className="tb-show" aria-label="Show desktop" title="Show desktop" onClick={() => dispatch(windowsActions.toggleDesktop())} />
+        <button type="button" className="tb-show" aria-label="Show desktop" title="Show desktop" onClick={() => dispatch(toggleDesktop())} />
       </div>
     </nav>
   );

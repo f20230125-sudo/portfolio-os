@@ -55,8 +55,20 @@ export function Os({ children }: { children: ReactNode }) {
 
   return (
     <ContextMenuProvider>
-      <div className="os" data-mobile={mobile}>
-        <div className="wallpaper" aria-hidden="true" />
+      <div
+        className="os"
+        data-mobile={mobile}
+        // While a window is moved or resized its edge leaves the pointer behind, and the browser may then
+        // decide the press was on a picture or link underneath and start dragging that, ending the resize.
+        onDragStart={(e) => {
+          if (document.body.dataset.dragging) e.preventDefault();
+        }}
+      >
+        <div className="wallpaper" aria-hidden="true">
+          <i className="bloom bloom-a" />
+          <i className="bloom bloom-b" />
+          <i className="bloom bloom-c" />
+        </div>
         <div className="desktop-content">
           <div className="desktop-intro">{children}</div>
           <Desktop />
