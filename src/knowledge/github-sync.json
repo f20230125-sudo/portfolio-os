@@ -1,15 +1,15 @@
 {
   "repos": {
     "intern-radar": {
-      "fingerprint": "b352bb509f427e8e6c1d4b667fe4edf6eb735f7d|Student roles at UAE employers, read every hour from the employers' own career systems.|https://intern-radar-lake.vercel.app||v2",
+      "fingerprint": "b352bb509f427e8e6c1d4b667fe4edf6eb735f7d|Student roles at UAE employers, read every hour from the employers' own career systems.|https://intern-radar-lake.vercel.app||v3",
       "id": "intern-radar"
     },
     "rate-truth": {
-      "fingerprint": "f82e14a315694b1d16d21857ce8d3dd0ddf20b47|MCP gateway for Dubai hotels: shopper tools (search, itemised all-in prices, availability, RAG) and Google Hotels partner side (feeds valid against Google's XSDs, price-accuracy audit). Synthetic rates on real OSM hotels.|||v2",
+      "fingerprint": "f82e14a315694b1d16d21857ce8d3dd0ddf20b47|MCP gateway for Dubai hotels: shopper tools (search, itemised all-in prices, availability, RAG) and Google Hotels partner side (feeds valid against Google's XSDs, price-accuracy audit). Synthetic rates on real OSM hotels.|||v3",
       "id": "rate-truth"
     },
     "test": {
-      "fingerprint": "83c831f0b085c70509b1fbb0a0131a9a32e691ac||||v2",
+      "fingerprint": "83c831f0b085c70509b1fbb0a0131a9a32e691ac||||v3",
       "skipped": "README is too short (6 characters; 300 needed)"
     }
   }

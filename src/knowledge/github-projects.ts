@@ -20,9 +20,9 @@ export const githubProjects: Project[] = [
     "decisions": [],
     "limits": [
       "Synthetic prices and inventory do not establish bookable offers.",
-      "Retrieval is imperfect; the table includes weak results.",
       "Live evaluation adds quota wait allowance to the production agent deadline and does not measure interactive latency.",
-      "Holds, throttling, replay protection and local SQLite budgets are per instance."
+      "Holds, throttling, replay protection and local SQLite budgets are per instance.",
+      "Further details: architecture, agent boundaries, API contract, MCP tools."
     ],
     "stack": [
       "Python",
@@ -55,7 +55,7 @@ export const githubProjects: Project[] = [
     "aliases": [],
     "kind": "recent",
     "tagline": "Student roles at UAE employers, read every hour from the employers' own career systems.",
-    "pitch": "Internships, graduate programmes and first jobs are listed newest first. Open a role and each fact (who can apply, start, length, pay, stage of study, where you work, closing date) sits beside the sentence it was read from, with the deciding words underlined. A fact the posting does not state is shown as \"not stated\", never guessed. Numbers below are from a run on 11 Nov 2026.",
+    "pitch": "Internships, graduate programmes and first jobs are listed newest first. Open a role and each fact (who can apply, start, length, pay, stage of study, where you work, closing date) sits beside the sentence it was read from, with the deciding words underlined. A fact the posting does not state is shown as \"not stated\", never guessed.",
     "facts": [
       "Written mainly in Python: 52% of the code, by GitHub's count.",
       "Public on GitHub since November 2026."
