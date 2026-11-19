@@ -7,9 +7,19 @@ name: Sync projects from GitHub
 # committed to main, which redeploys the site.
 
 on:
+  # GitHub runs scheduled workflows on a best-effort basis: on a quiet repository "hourly" is
+  # often every several hours. A new repository can be brought in sooner with "Run workflow".
   schedule:
     - cron: "17 * * * *"
   workflow_dispatch:
+  # Also when the sync's own rules change (a name added to the ignore list, a new generator
+  # version), so the change shows at once. The bot's own commits never touch these files.
+  push:
+    branches: [main]
+    paths:
+      - scripts/sync-github.mjs
+      - github-sync.config.json
+      - .github/workflows/sync-github.yml
 
 permissions:
   contents: write
