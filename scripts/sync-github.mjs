@@ -28,7 +28,7 @@ const RESULT = join(ROOT, ".local", "sync-result.json");
 const config = JSON.parse(readFileSync(join(ROOT, "github-sync.config.json"), "utf8"));
 
 /** Bump when the way entries are written changes, so every entry is made again. */
-const GENERATOR = 2;
+const GENERATOR = 3;
 const KIND = "recent";
 const mode = process.argv.includes("--check") ? "check" : process.argv.includes("--hold") ? "hold" : process.argv.includes("--dry") ? "dry" : "write";
 
@@ -134,6 +134,11 @@ const ALLOWED_HOSTS = ["vercel.app", "github.io"];
 
 const sentences = (s) => s.split(/(?<=[.!?])\s+(?=[A-Z0-9"'(])/).map((x) => x.trim()).filter(Boolean);
 
+// A sentence that points at another part of the README ("numbers below", "see the table") means nothing on its own.
+const pointsElsewhere = (s) => /\b(below|above|the following|this (readme|section|page|table|repo(sitory)?)|see the|the table)\b/i.test(s);
+/** A paragraph without the sentences that only make sense inside the README. */
+const standalone = (p) => sentences(p).filter((x) => !pointsElsewhere(x)).join(" ");
+
 /** As much of the text as fits, ending at the end of a sentence where it can. */
 function fit(text, max) {
   if (text.length <= max) return text;
@@ -156,7 +161,7 @@ function pick(doc, pattern, max, proseToo = pattern) {
   const aboutFiles = /\b[\w/-]+\.(py|json|ts|tsx|js|mjs|md|ya?ml|sh|csv|sql|toml)\b|\bscripts\//i;
   const add = (text) => {
     const t = endStop(fit(text, 260));
-    if (out.length < max && text.length >= 25 && publishable(text) && !aboutFiles.test(text) && !out.includes(t)) out.push(t);
+    if (out.length < max && text.length >= 25 && publishable(text) && !pointsElsewhere(text) && !aboutFiles.test(text) && !out.includes(t)) out.push(t);
   };
   const matching = doc.sections.filter((s) => pattern.test(s.heading));
   for (const s of matching) for (const b of s.bullets) add(b);
@@ -269,7 +274,7 @@ function liveUrl(homepage) {
 /** One portfolio entry from one repository, or the reason there cannot be one. */
 function makeEntry(repo, readme, languages, takenIds) {
   const doc = readReadme(readme);
-  const prose = [...doc.intro, ...doc.sections.flatMap((s) => s.paragraphs)].filter((p) => p.length >= 30 && publishable(p));
+  const prose = [...doc.intro, ...doc.sections.flatMap((s) => s.paragraphs)].map(standalone).filter((p) => p.length >= 30 && publishable(p));
   const description = plain(repo.description ?? "");
   const words = plain(readme).length;
   if (words < config.minReadmeChars) return { skip: `README is too short (${words} characters; ${config.minReadmeChars} needed)` };
