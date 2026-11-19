@@ -95,7 +95,7 @@ export const githubProjects: Project[] = [
       "to": "#2dd4bf"
     },
     "updated": "2026-11",
-    "asOf": "2026-11-16",
+    "asOf": "2026-11-19",
     "sources": [
       "github",
       "readme"
