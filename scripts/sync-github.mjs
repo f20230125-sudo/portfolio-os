@@ -28,7 +28,7 @@ const RESULT = join(ROOT, ".local", "sync-result.json");
 const config = JSON.parse(readFileSync(join(ROOT, "github-sync.config.json"), "utf8"));
 
 /** Bump when the way entries are written changes, so every entry is made again. */
-const GENERATOR = 1;
+const GENERATOR = 2;
 const KIND = "recent";
 const mode = process.argv.includes("--check") ? "check" : process.argv.includes("--hold") ? "hold" : process.argv.includes("--dry") ? "dry" : "write";
 
